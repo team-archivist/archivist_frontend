@@ -47,7 +47,29 @@ pnpm run dev
 
 ---
 
-### Docs
+### 패키지 구조
+
+- 전체 패키지 구조는 다음과 같습니다
+
+````
+archivist_frontent/
+|
+|– apps/
+|   |
+|   |- web/                         # webApp 작업 패키지입니다       
+|   |
+|   |- chromExtension/              # 크롬 익스텐션 작업 패키지입니다   
+|
+|– packages/
+    |
+    |– config/                      # esconfig, tsconfig 등 공용 설정파일이 들어갑니다
+    |
+    |– types/                       # 각 패키지에서 export 할 type 들을 묶어두었습니다
+    |
+    |– ui/                          # 공용 ui 컴포넌트 들이 들어갑니다
+    
+````
+
 
 - 각 패키지별 자세한 설명은 패키지란에 설명해두었습니다
 
