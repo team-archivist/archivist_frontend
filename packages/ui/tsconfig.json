@@ -1,3 +1,20 @@
 {
-  "extends": "@archivist/config/react.tsconfig.json"
+  "extends": "@archivist/config/react.tsconfig.json",
+  "compilerOptions" : {
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src/components",
+    "src/index.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

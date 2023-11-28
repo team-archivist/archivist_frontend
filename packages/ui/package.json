@@ -1,17 +1,47 @@
 {
   "name": "@archivist/ui",
   "version": "0.0.0",
-  "main" : "index.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build" : "vite build",
+    "dev" : "vite"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/*": "./dist/*"
+  },
   "dependencies": {
-    "next": "^14.0.2",
     "react": "^18.2.0",
-    "react-hook-form": "^7.48.2",
-    "tailwind-merge": "^2.0.0"
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.0.0",
+    "@babel/runtime": "^7.22.15",
+    "@radix-ui/react-accordion": "^1.1.0",
+    "@radix-ui/react-avatar": "^1.0.1",
+    "@radix-ui/react-collapsible": "^1.0.1",
+    "@radix-ui/react-dialog": "^1.0.2",
+    "@radix-ui/react-dropdown-menu": "^2.0.2",
+    "@radix-ui/react-hover-card": "^1.0.3",
+    "@radix-ui/react-popover": "^1.0.2",
+    "@radix-ui/react-separator": "^1.0.1",
+    "@radix-ui/react-tabs": "^1.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.15",
     "@archivist/config" : "0.0.0",
+    "@types/node": "^20.9.0",
     "@types/react": "^18.2.37",
+    "@types/react-dom": "18.2.15",
+    "@vitejs/plugin-react": "^4.0.4",
     "tailwindcss": "^3.3.5",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vite": "^4.4.0",
+    "vite-plugin-dts": "^3.3.0",
+    "vitest": "^0.33.0"
   }
 }
