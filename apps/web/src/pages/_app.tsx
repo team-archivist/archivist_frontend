@@ -1,7 +1,11 @@
+import {Theme} from "@radix-ui/themes";
+
 const App = ( { Component, pageProps } ) : JSX.Element => {
     return (
         <div>
-            <Component />
+            <Theme>
+                <Component />
+            </Theme>
         </div>
     )
 }
