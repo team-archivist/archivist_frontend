@@ -1,6 +1,19 @@
-/** lint 공용설정을 사용합니다 */
 module.exports = {
-    extends: [
-        require.resolve('@archivist/config/eslint/react.js')
-    ],
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [require.resolve('@archivist/config/eslint/react.js')],
+  overrides: [
+    {
+      env: {
+        node: true,
+      },
+      files: ['.eslintrc.{js,cjs}'],
+      parserOptions: {
+        sourceType: 'script',
+      },
+    },
+  ],
+  rules: {},
 };
