@@ -5,8 +5,8 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build" : "vite build",
-    "dev" : "vite"
+    "build": "vite build",
+    "dev": "vite"
   },
   "exports": {
     ".": {
@@ -17,24 +17,25 @@
     "./dist/*": "./dist/*"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.0.0",
     "@babel/runtime": "^7.22.15",
     "@radix-ui/react-accordion": "^1.1.0",
     "@radix-ui/react-avatar": "^1.0.1",
     "@radix-ui/react-collapsible": "^1.0.1",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-dropdown-menu": "^2.0.2",
+    "@radix-ui/react-form": "^0.0.3",
     "@radix-ui/react-hover-card": "^1.0.3",
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-separator": "^1.0.1",
     "@radix-ui/react-tabs": "^1.0.2",
-    "@radix-ui/themes": "2.0.0"
+    "@radix-ui/themes": "2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
+    "@archivist/config": "0.0.0",
     "@babel/core": "^7.22.15",
-    "@archivist/config" : "0.0.0",
     "@types/node": "^20.9.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "18.2.15",

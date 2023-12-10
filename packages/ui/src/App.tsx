@@ -1,4 +1,4 @@
-import { LoginView } from "./index.ts";
+import { LoginView , SignupView } from "./index.ts";
 import { Flex, Theme} from "@radix-ui/themes";
 
 /**
@@ -8,11 +8,10 @@ export default function App() : JSX.Element {
     return (
             <Theme style={ { height : '100vh' } }>
                 <Flex justify="center"
-                      align="center"
                       style={ { backgroundColor : "#DBDBDB" } }
                       width="100%"
                       height="100%">
-                    <LoginView />
+                    <SignupView />
                 </Flex>
             </Theme>
     );
