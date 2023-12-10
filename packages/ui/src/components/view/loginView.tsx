@@ -9,7 +9,7 @@ import {BaseButtonMain} from "../base/button";
  * - Login 관련 View 입니다
  * @param onLoginClick
  */
-export const LoginView = ({ onLoginClick } ) : React.JSX.Element => {
+export const LoginView = ( { onLoginClick } = { onLoginClick : () => {} } ) : React.JSX.Element => {
     return (
         <Flex
             direction="column"
@@ -24,7 +24,7 @@ export const LoginView = ({ onLoginClick } ) : React.JSX.Element => {
             </Text>
             <Text as="p" align="center" size="5"
                   style={ { color : "#595959" } }>
-                관심가는 순간들을 모아, <br/> 내 취향으로 만들어주는 아케이브
+                관심가는 순간 조각조각 모음, 아케이브
             </Text>
             {/* button */}
             <Flex justify="center">

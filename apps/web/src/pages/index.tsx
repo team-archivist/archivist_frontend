@@ -2,18 +2,19 @@
  * - Next 의 Home 컴포넌트입니다
  */
 import {NextPage} from "next";
-import { BaseSample } from "@archivist/ui";
+import { LoginView } from "@archivist/ui";
+import { Flex } from "@radix-ui/themes";
 
-console.log( '<< BaseSample >>' , BaseSample );
 const Home : NextPage = () => {
-
+    console.log( '<< LoginView >>' , LoginView )
     return (
-        <>
-            <div>
-                안뇽 안뇽 방가웡하잇~
-                <BaseSample />
-            </div>
-        </>
+        <Flex justify="center"
+              align="center"
+              style={ { backgroundColor : "#DBDBDB" } }
+              width="100%"
+              height="100%">
+            <LoginView onLoginClick={ () => {} } />
+        </Flex>
     )
 }
 

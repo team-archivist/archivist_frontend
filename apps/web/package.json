@@ -14,6 +14,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-virtuoso": "^4.6.2",
+    "autoprefixer": "^10.4.14",
     "@radix-ui/themes": "2.0.0"
   },
   "devDependencies": {
