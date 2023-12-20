@@ -6,7 +6,7 @@ import { Button } from '@radix-ui/themes';
  */
 export const BaseButtonMain = ( { children , onClick } ) => {
     return (
-        <Button size={"4"} variant="solid"
+        <Button size={"2"} variant="solid"
                 radius="full"
                 style={ { backgroundColor : `#FF6625` , cursor: 'pointer' } }
                 onClick={ onClick }>

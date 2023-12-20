@@ -1,37 +1,38 @@
 /**
  * - LoginView Component 입니다
  */
-import React from "react";
-import {Flex, Text} from "@radix-ui/themes";
-import {BaseButtonMain} from "../base/button";
+import React, {useState} from "react";
+import {Cross2Icon} from '@radix-ui/react-icons';
+import * as Dialog from '@radix-ui/react-dialog';
+import './styles/loginView.css';
 
 /**
  * - Login 관련 View 입니다
- * @param onLoginClick
  */
-export const LoginView = ( { onLoginClick } = { onLoginClick : () => {} } ) : React.JSX.Element => {
-    return (
-        <Flex
-            direction="column"
-            justify="center"
-            align="center"
-            gap="4"
-            style={{ backgroundColor : "#fff", width : 480 , height : 453 , borderRadius : 12 }}>
-            {/* title */}
-            <Text as="h1" align="center"
-                  style={{ color : "#222222" , fontSize : '40px' }}>
-                시작하기
-            </Text>
-            <Text as="p" align="center" size="5"
-                  style={ { color : "#595959" } }>
-                관심가는 순간 조각조각 모음, 아케이브
-            </Text>
-            {/* button */}
-            <Flex justify="center">
-                <BaseButtonMain size='md' onClick={ onLoginClick }>
-                    카카오톡 계정으로 시작하기
-                </BaseButtonMain>
-            </Flex>
-        </Flex>
-    )
+export const LoginView = ( { onLoginClick } = { onLoginClick : () => {} } ): React.JSX.Element => {
+  const [open, setOpen] = useState( true );
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      {/*<Dialog.Trigger onClick={() => setOpen( true )}>Open</Dialog.Trigger>*/}
+      <Dialog.Portal>
+        <Dialog.Overlay className="DialogOverlay"/>
+        <Dialog.Content className="DialogContent">
+          <Dialog.Title className="DialogTitle" align="center">
+            시작하기
+          </Dialog.Title>
+          <Dialog.Description className="DialogDescription" align="center">
+            관심가는 순간 조각조각 모음, 아케이브
+          </Dialog.Description>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
+            <button className="Button primary">카카오톡 계정으로 시작하기</button>
+          </div>
+          <Dialog.Close asChild>
+            <button onClick={ onLoginClick } className="IconButton" aria-label="Close">
+              <Cross2Icon/>
+            </button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
 }

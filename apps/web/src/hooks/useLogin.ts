@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { LoginView } from "@archivist/ui";
 
 /**
  * - Login 관련 기능을 제공해주는 Hook 입니다
@@ -17,7 +16,6 @@ const useLogin = () => {
 
     return {
         // login 관련 view 입니다
-        LoginView,
         // login 관련 기능
         onLoginClick,
     }
