@@ -6,6 +6,22 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'pretendard': ['Pretendard-Regular','Noto Sans KR'],
+      },
+      fontSize: {
+        'display-36': '48px',
+        'headline1-28': '38px',
+        'headline2-24': '32px',
+        'title1-20': '26px',
+        'title2-17': '24px',
+        'body1-16': '26px',
+        'body2-15': '24px',
+        'label1-16': '24px',
+        'label2-14': '20px',
+        'caption1-12': '16px',
+        'caption2-11': '14px',
+      },
       colors: {
         /** << Primary >> */
         'primary-default': '#FF6625',
