@@ -6,4 +6,6 @@ export * from "./components/base/button";
 export * from "./components/view/LoginView";
 export * from "./components/view/SignupView";
 
-export { default } from "./components/view/NavigationBar";
+export * from "./utils/color";
+
+export * from "./components/view/NavigationBar";

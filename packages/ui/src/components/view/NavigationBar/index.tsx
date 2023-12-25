@@ -1,8 +1,8 @@
 import { Box, Flex } from "@radix-ui/themes";
 
-const NavigationBar = (props: Props) => {
+export const NavigationBar = (props: Props) => {
   return (
-    <Flex className="h-14 w-full justify-between px-32 bg-gray-800 text-white">
+    <Flex className="h-14 w-full justify-between bg-gray-800 px-8 text-white">
       <ul>
         <Flex gap="4">
           <li>로고</li>
@@ -19,5 +19,3 @@ const NavigationBar = (props: Props) => {
     </Flex>
   );
 };
-
-export default NavigationBar;
