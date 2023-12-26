@@ -5,7 +5,8 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext", "webworker"],
     "paths": {
       "@components*": ["src/components*"],
-      "@lib*": ["src/lib*"]
+      "@lib*": ["src/lib*"],
+      "@assets*": ["src/assets*"]
     },
     "types": ["@emotion/react/types/css-prop"]
   },
