@@ -9,7 +9,7 @@ export const NavigationBar = ({ leftItems, rightItems, currentPath }) => {
     >
       <ul>
         <Flex gap="4">
-          {Object.entries(leftItems).map(([path, component]) => {
+          { leftItems && Object.entries(leftItems).map(([path, component]) => {
             const isCurrentPath = currentPath === path;
             return (
               <li
