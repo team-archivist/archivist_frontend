@@ -2,19 +2,20 @@
  * - Next 의 Home 컴포넌트입니다
  */
 import {NextPage} from "next";
-import { BaseSample } from "@archivist/ui";
+import useLogin from "../hooks/useLogin";
+import {Flex} from "@radix-ui/themes";
+import { LoginView } from "@archivist/ui";
+import { useEffect , useState } from "react";
 
-console.log( '<< BaseSample >>' , BaseSample );
-const Home : NextPage = () => {
+const Home = () => {
+  const { onLoginClick} = useLogin();
+  const [mounted, setMounted] = useState<boolean>(false);
 
-    return (
-        <>
-            <div>
-                안뇽 안뇽 방가웡하잇~
-                <BaseSample />
-            </div>
-        </>
-    )
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (mounted && <LoginView />)
 }
 
 export default Home;

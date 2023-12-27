@@ -7,11 +7,11 @@ import { Theme } from "@radix-ui/themes";
 import { AppProps } from "next/app";
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
-  return (
-    <Theme style={{ height: "100vh" }}>
-      <Component {...pageProps} />
-    </Theme>
-  );
+    return (
+        <Theme style={{ height: "100vh" }}>
+            <Component {...pageProps} />
+        </Theme>
+    );
 };
 
 export default App;
