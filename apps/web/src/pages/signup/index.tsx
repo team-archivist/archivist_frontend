@@ -24,7 +24,9 @@ const SignupPage = ( props ) => {
     setMountedByLoginView(true);
   }, []);
 
+
   /** 회원가입 관련 로직입니다 */
+  const [ signupStep , setSignupStep ] = useState<number>( 1 );
 
   return (
     <>
@@ -49,7 +51,7 @@ const SignupPage = ( props ) => {
         className="mt-2"
       >
         { mountedByLoginView && <LoginView /> }
-        <SignupView step={1} />
+        <SignupView step={signupStep} setStep={setSignupStep} />
       </SignupLayout>
     </>
   )
