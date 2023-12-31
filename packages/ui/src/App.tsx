@@ -15,7 +15,7 @@ export default function App(): JSX.Element {
     <Theme style={{height: '100vh'}}>
       <NavigationBar />
       <Flex direction="column" align="center" height="100%">
-        <SignupView step={ step } />
+        <SignupView step={ step } setStep={ setStep } />
         <LoginView/>
         {/*<SignupView.Modal open={ open } setOpen={setOpen} />*/}
       </Flex>

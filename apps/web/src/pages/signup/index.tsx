@@ -8,7 +8,7 @@ import {css} from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import React,{useState,useEffect} from "react";
 import styled from "@emotion/styled";
-import Layout from "@components/Layout";
+import HStack from "@components/Stack/HStack";
 
 enum NavigationBarLeftItem {
   LOGO = "logo",
@@ -44,7 +44,10 @@ const SignupPage = ( props ) => {
           ),
         } }
       />
-      <SignupLayout>
+      <SignupLayout
+        justify="center"
+        className="mt-2"
+      >
         { mountedByLoginView && <LoginView /> }
         <SignupView step={1} />
       </SignupLayout>
@@ -53,4 +56,4 @@ const SignupPage = ( props ) => {
 }
 export default SignupPage;
 
-const SignupLayout = styled(Layout)``;
+const SignupLayout = styled(HStack)``;

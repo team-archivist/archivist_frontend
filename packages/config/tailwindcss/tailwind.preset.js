@@ -2,17 +2,17 @@ module.exports = {
   theme: {
     extend: {
       lineHeight : {
-        'display-36': '4.8',
-        'headline1-28': '3.8',
-        'headline2-24': '3.2',
-        'title1-20': '2.6',
-        'title2-17': '2.4',
-        'body1-16': '2.6',
-        'body2-15': '2.4',
-        'label1-16': '2.4',
-        'label2-14': '2.0',
-        'caption1-12': '1.6',
-        'caption2-11': '1.4',
+        'display-36': '48px',
+        'headline1-28': '38px',
+        'headline2-24': '32px',
+        'title1-20': '26px',
+        'title2-17': '24px',
+        'body1-16': '26px',
+        'body2-15': '24px',
+        'label1-16': '24px',
+        'label2-14': '20px',
+        'caption1-12': '16px',
+        'caption2-11': '14px',
       },
       fontFamily: {
         'pretendard': ['Pretendard-Regular','Noto Sans KR'],
