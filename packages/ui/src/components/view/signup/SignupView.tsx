@@ -8,7 +8,6 @@ import { SignupModal } from "./SignupModal";
  * - 회원가입 관련 view 입니다
  */
 export const SignupView = ({ step }) => {
-  console.log( step );
   const [ chipList , setChipList ] = useState( [
     {
       name : '외국어',

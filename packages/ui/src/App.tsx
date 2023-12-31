@@ -1,5 +1,5 @@
-import { LoginView, SignupView, BaseButtonMain } from "./index.ts";
-import NavigationBar from "./components/view/NavigationBar/index.tsx";
+import { LoginView, SignupView, BaseButtonMain , NavigationBar } from "./index.ts";
+// import NavigationBar from "./components/view/NavigationBar/index.tsx";
 import { Flex, Theme } from "@radix-ui/themes";
 import { useState } from 'react';
 
@@ -16,8 +16,8 @@ export default function App(): JSX.Element {
       <NavigationBar />
       <Flex direction="column" align="center" height="100%">
         <SignupView step={ step } />
-        {/*<LoginView/>*/}
-        <SignupView.Modal open={ open } setOpen={setOpen} />
+        <LoginView/>
+        {/*<SignupView.Modal open={ open } setOpen={setOpen} />*/}
       </Flex>
     </Theme>
   );
