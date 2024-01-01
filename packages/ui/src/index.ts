@@ -4,7 +4,7 @@ import "@radix-ui/themes/styles.css";
 
 export * from './components/base/button';
 export * from './components/view/LoginView';
-export * from './components/view/signup/SignupView';
+export * from './components/view/Signup/SignupView';
 
 export * from "./utils/color";
 

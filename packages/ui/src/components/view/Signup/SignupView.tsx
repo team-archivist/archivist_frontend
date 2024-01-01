@@ -4,11 +4,12 @@ import React, {useState, useEffect} from 'react';
 import { SignupModal } from "./SignupModal";
 import {SignupViewStep1} from "./SignupViewStep1";
 import {SignupViewStep2} from "./SignupViewStep2";
+import CommonUtils from  "@/utils/commonUtils";
 
 /**
  * - 회원가입 관련 view 입니다
  */
-export const SignupView = ({ step , setStep }) => {
+export const SignupView = ({ step , setStep , onSignup }) => {
   // 사용자들이 선택한 chipList 상태값입니다
   const [ chipListByActive , setChipListByActive ] = useState( [] );
   // 닉네임 상태값입니다
@@ -25,7 +26,6 @@ export const SignupView = ({ step , setStep }) => {
     else {
       _chipListByUpdated.push( name );
     }
-
     setChipListByActive( _chipListByUpdated );
   }
 
@@ -33,9 +33,11 @@ export const SignupView = ({ step , setStep }) => {
   const onClickByNext = ( e ) => {
     e.preventDefault();
     if ( step > 1 ){
-      console.log( '회원가입 가입프로세스를 탑니다');
-      console.log( '현재 설정된 값' , nickName , chipListByActive);
-
+      /** 다음단계로 진행할 경우 회원가입 프로세스를 진행합니다 */
+      if ( CommonUtils.isNotFunction( onSignup ) ){
+        return;
+      }
+      onSignup( { nickName, chipListByActive } );
       return;
     }
     setStep( step + 1 );

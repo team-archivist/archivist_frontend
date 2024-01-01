@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from "vitest/config";
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
@@ -10,6 +11,18 @@ import path from 'path';
 export default defineConfig( {
     server: {
         port: 2300,
+    },
+    resolve: {
+        alias: [
+            {
+                find: '@',
+                replacement: fileURLToPath(new URL('./src', import.meta.url)),
+            },
+            {
+                find: '~',
+                replacement: fileURLToPath(new URL('./src', import.meta.url)),
+            },
+        ],
     },
     build : {
         lib : {
