@@ -6,9 +6,9 @@
     "paths": {
       "@components*": ["src/components*"],
       "@lib*": ["src/lib*"],
-      "@assets*": ["src/assets*"]
-    },
-    "types": ["@emotion/react/types/css-prop"]
+      "@assets*": ["src/assets*"],
+      "@archivist/ui": ["packages/ui/src"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
