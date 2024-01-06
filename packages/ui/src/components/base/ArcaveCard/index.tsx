@@ -16,9 +16,6 @@ export const ArcaveCard = ({
   description = "Description",
   groupTitle = "GroupTitle",
 }: Props) => {
-  console.log(css`
-    background-color: ${PaletteColor.Gray[300]};
-  `);
   return (
     <VStack gap={"2"}>
       <Box

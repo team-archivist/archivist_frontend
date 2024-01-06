@@ -1,5 +1,4 @@
 import { Box, Flex } from "@radix-ui/themes";
-import { PropsWithChildren } from "react";
 
 export const NavigationBar = ({ leftItems, rightItems, currentPath }) => {
   return (
@@ -9,17 +8,20 @@ export const NavigationBar = ({ leftItems, rightItems, currentPath }) => {
     >
       <ul>
         <Flex gap="4">
-          { leftItems && Object.entries(leftItems).map(([path, component]) => {
-            const isCurrentPath = currentPath === path;
-            return (
-              <li
-                key={path}
-                className={`${isCurrentPath ? "text-white" : "text-gray-600"}`}
-              >
-                {component}
-              </li>
-            );
-          })}
+          {leftItems &&
+            Object.entries(leftItems).map(([path, component]) => {
+              const isCurrentPath = currentPath === path;
+              return (
+                <li
+                  key={path}
+                  className={`${
+                    isCurrentPath ? "text-white" : "text-gray-600"
+                  }`}
+                >
+                  {component}
+                </li>
+              );
+            })}
         </Flex>
       </ul>
       <Box>

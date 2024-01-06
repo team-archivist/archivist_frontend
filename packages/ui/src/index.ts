@@ -9,8 +9,7 @@ export * from "./components/base/Stack/VStack";
 
 export * from "./components/view/LoginView";
 export * from "./components/view/Signup/SignupView";
+export * from "./components/view/NavigationBar";
 
 export * from "./utils/color";
 export * from "./utils/typography";
-
-export * from "./components/view/NavigationBar";
