@@ -6,6 +6,7 @@ import {
   VStack,
 } from "@archivist/ui";
 import React from "react";
+
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
 import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
@@ -21,6 +22,8 @@ import { css } from "@emotion/react";
 
 import Chip from "@components/Chip";
 
+import useCurrentUser from "src/hooks/useCurrentUser";
+
 enum BookmarkTab {
   ALL = "전체",
   GROUP = "북마크 모음",
@@ -33,9 +36,14 @@ enum NavigationBarLeftItem {
   MYCAVE = "mycave",
 }
 
-const MycavePage = (props) => {
+const MycavePage = () => {
   const bookmarkAddModal = useBookmarkAddModal();
   const currentPathname = usePathname();
+  const { currentUser } = useCurrentUser();
+
+  if (!currentUser) {
+    return "로딩 중";
+  }
 
   return (
     <>
@@ -63,17 +71,20 @@ const MycavePage = (props) => {
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
           <Avatar
-            src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop"
+            src={
+              currentUser.imgUrl ??
+              `https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop`
+            }
             fallback="A"
             radius="full"
             size="7"
           />
           <VStack className={"my-4"} gap="1">
-            <Heading size="5">세봉</Heading>
+            <Heading size="5">{currentUser.nickname}</Heading>
             <HStack gap="2">
-              <Chip>외국어</Chip>
-              <Chip>자기계발</Chip>
-              <Chip>취미</Chip>
+              {currentUser.categories.map((category) => (
+                <Chip key={category}>{category}</Chip>
+              ))}
             </HStack>
           </VStack>
         </Flex>
