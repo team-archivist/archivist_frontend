@@ -12,7 +12,6 @@ export const SignupModal = ({ open, setOpen , onClickByStart } ) => {
           backgroundColor: `var(--black-a9)`,
           position: `fixed`,
           inset: 0,
-          animation: `overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
         }} />
         <Dialog.Content
           className="DialogContent focus:outline-none"
@@ -28,7 +27,6 @@ export const SignupModal = ({ open, setOpen , onClickByStart } ) => {
             maxWidth: `408px`,
             maxHeight: `85vh`,
             padding: `40px`,
-            animation: `contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
           }}
           onPointerDownOutside={ e => e.preventDefault() }
         >
