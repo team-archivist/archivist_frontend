@@ -2,13 +2,31 @@
   "extends": "@archivist/config/react.tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "lib": ["DOM", "DOM.Iterable", "ESNext", "webworker"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext",
+      "webworker"
+    ],
     "paths": {
-      "@components*": ["src/components*"],
-      "@lib*": ["src/lib*"],
-      "@assets*": ["src/assets*"],
-      "@archivist/ui": ["packages/ui/src"]
-    }
+      "@components*": [
+        "src/components*"
+      ],
+      "@lib*": [
+        "src/lib*"
+      ],
+      "@assets*": [
+        "src/assets*"
+      ],
+      "@archivist/ui": [
+        "packages/ui/src"
+      ]
+    },
+    "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

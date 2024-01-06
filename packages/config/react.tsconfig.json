@@ -5,7 +5,7 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["@emotion/react/types/css-prop"]
   },
