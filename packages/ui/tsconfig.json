@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
+    "jsxImportSource": "@emotion/react",
     "jsx": "react-jsx",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
