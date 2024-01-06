@@ -1,12 +1,13 @@
 {
   "display": "React",
-  "extends" : "./base.tsconfig.json",
-  "compilerOptions" : {
+  "extends": "./base.tsconfig.json",
+  "compilerOptions": {
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "jsx": "preserve",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["@emotion/react/types/css-prop"]
   },
   "exclude": [".next", ".turbo"]
 }

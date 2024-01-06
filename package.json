@@ -1,15 +1,16 @@
 {
   "name": "archivist_frontend",
   "version": "0.0.0",
-  "private" : true,
+  "private": true,
   "devDependencies": {
-    "turbo": "^1.10.16"
+    "turbo": "^1.11.3"
   },
   "scripts": {
-    "build" : "turbo run build --parallel",
-    "dev" : "pnpm run build:ui && turbo run dev --parallel",
-    "build:ui" : "pnpm run -F @archivist/ui build",
-    "dev:ui":"pnpm run -F @archivist/ui dev"
+    "build": "turbo run build --parallel",
+    "dev": "pnpm run build:ui && turbo run dev --parallel",
+    "build:ui": "pnpm run -F @archivist/ui build",
+    "watch:ui": "pnpm run -F @archivist/ui watch",
+    "dev:ui": "pnpm run -F @archivist/ui dev"
   },
   "packageManager": "pnpm@8.10.2",
   "eslintConfig": {
@@ -17,6 +18,6 @@
   },
   "engines": {
     "node": ">=18.17.0",
-    "pnpm" : ">=8.10.2"
+    "pnpm": ">=8.10.2"
   }
 }

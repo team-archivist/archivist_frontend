@@ -2,16 +2,43 @@
   "extends": "@archivist/config/react.tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "lib": ["DOM", "DOM.Iterable", "ESNext", "webworker"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext",
+      "webworker"
+    ],
     "paths": {
-      "@components*": ["src/components*"],
-      "@lib*": ["src/lib*"],
-      "@assets*": ["src/assets*"],
-      "@constants*" : ["src/constants*"],
-      "@store*" : ["src/store*"],
-      "@model*" : ["src/model*"]
+      "@components*": [
+        "src/components*"
+      ],
+      "@lib*": [
+        "src/lib*"
+      ],
+      "@assets*": [
+        "src/assets*"
+      ],
+      "@archivist/ui": [
+        "packages/ui/src"
+      ],
+      "@constants*" : [
+        "src/constants*"
+      ],
+      "@store*" : [
+        "src/store*"
+      ],
+      "@model*" : [
+        "src/model*"
+      ]
     },
-    "types": ["@emotion/react/types/css-prop"]
+    "types": [
+      "@emotion/react/types/css-prop"
+    ],
+    "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

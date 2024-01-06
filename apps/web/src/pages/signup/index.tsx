@@ -1,12 +1,12 @@
 /**
  * - 회원가입 관련 페이지입니다
  */
-import {NavigationBar,SignupView} from "@archivist/ui";
-import {usePathname} from "next/navigation";
+import { NavigationBar, LoginView, SignupView, HStack } from "@archivist/ui";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import {css} from "@emotion/react";
+import { css } from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
-import React,{useState,useEffect} from "react";
+import React,{ useState , useEffect } from "react";
 import styled from "@emotion/styled";
 import HStack from "@components/Stack/HStack";
 import axios from "axios";
@@ -113,7 +113,7 @@ const SignupPage = ( props ) => {
               <ARCAVE_LOGO />
             </Link>
           ),
-        } }
+        }}
       />
       <SignupLayout
         justify="center"
@@ -122,17 +122,17 @@ const SignupPage = ( props ) => {
         <SignupView
           step={signupStep}
           setStep={setSignupStep}
-          onSignup={ signupProcess.onSignup }
-          validateNickName={ signupProcess.onValidateNickname }
+          onSignup={signupProcess.onSignup}
+          validateNickName={signupProcess.onValidateNickname}
         />
         <SignupView.Modal
-          open={ openBySignupEnd }
-          setOpen={ setOpenBySignupEnd }
-          onClickByStart={ signupProcess.onStart } />
+          open={openBySignupEnd}
+          setOpen={setOpenBySignupEnd}
+          onClickByStart={signupProcess.onStart} />
       </SignupLayout>
     </>
-  )
-}
+  );
+};
 export default SignupPage;
 
 const SignupLayout = styled(HStack)``;
