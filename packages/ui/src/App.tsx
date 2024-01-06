@@ -1,5 +1,4 @@
-import { LoginView, SignupView, BaseButtonMain } from "./index.ts";
-import NavigationBar from "./components/view/NavigationBar/index.tsx";
+import { LoginView, SignupView, BaseButtonMain , NavigationBar } from "./index.ts";
 import { Flex, Theme } from "@radix-ui/themes";
 import { useState } from 'react';
 
