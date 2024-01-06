@@ -3,10 +3,12 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
+    "jsxImportSource": "@emotion/react",
     "jsx": "react-jsx",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": ["@emotion/react/types/css-prop"]
   },
   "include": ["src/components", "src/index.ts", "src"],
   "references": [

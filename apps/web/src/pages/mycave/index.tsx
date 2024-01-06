@@ -1,22 +1,18 @@
-import { BaseButtonMain, NavigationBar } from "@archivist/ui";
+import {
+  BaseButtonMain,
+  ArcaveCard,
+  HStack,
+  NavigationBar,
+  VStack,
+} from "@archivist/ui";
 import React from "react";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Tabs,
-  Text,
-} from "@radix-ui/themes";
-import VStack from "@components/Stack/VStack";
+import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
+
 import ACTabs from "@components/Tabs/ACTabs";
 import { PlusIcon } from "@radix-ui/react-icons";
 import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
-import BookmarkCard from "@components/BookmarkCard";
-import HStack from "@components/Stack/HStack";
 
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import Link from "next/link";
@@ -38,7 +34,7 @@ enum NavigationBarLeftItem {
   MYCAVE = "mycave",
 }
 
-const MycavePage = (props: Props) => {
+const MycavePage = (props) => {
   const bookmarkAddModal = useBookmarkAddModal();
   const currentPathname = usePathname();
   return (
@@ -96,11 +92,11 @@ const MycavePage = (props: Props) => {
                 북마크 추가하기 {<PlusIcon />}
               </BaseButtonMain>
             </Flex>
-            <HStack>
-              <BookmarkCard />
-              <BookmarkCard />
-              <BookmarkCard />
-              <BookmarkCard />
+            <HStack gap={"5"}>
+              <ArcaveCard />
+              <ArcaveCard />
+              <ArcaveCard />
+              <ArcaveCard />
             </HStack>
           </Tabs.Content>
           <Tabs.Content value={BookmarkTab.GROUP}>
