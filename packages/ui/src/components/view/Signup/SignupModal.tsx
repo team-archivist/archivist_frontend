@@ -1,28 +1,18 @@
-/**
- * - LoginView Component 입니다
- */
-import React, {useState} from "react";
-import {Cross2Icon} from '@radix-ui/react-icons';
+import React from "react";
 import * as Dialog from '@radix-ui/react-dialog';
 
 /**
- * - Login 관련 View 입니다
+ * - 회원가입 모달입니다
  */
-export const LoginView = ( { onClickByLogin , onClickByClose } = { onClickByLogin : () => {} } ): React.JSX.Element => {
-  const [open, setOpen] = useState( true );
+export const SignupModal = ({ open, setOpen , onClickByStart } ) => {
   return (
-    <Dialog.Root
-      open={open}
-      onOpenChange={setOpen}
-    >
-      {/*<Dialog.Trigger onClick={() => setOpen( true )}>Open</Dialog.Trigger>*/}
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Portal>
         <Dialog.Overlay className="DialogOverlay" style={{
-            backgroundColor: `var(--black-a9)`,
-            position: `fixed`,
-            inset: 0,
-          }}
-        />
+          backgroundColor: `var(--black-a9)`,
+          position: `fixed`,
+          inset: 0,
+        }} />
         <Dialog.Content
           className="DialogContent focus:outline-none"
           style={{
@@ -50,7 +40,7 @@ export const LoginView = ( { onClickByLogin , onClickByClose } = { onClickByLogi
               fontSize: `24px`,
             }}
           >
-            시작하기
+            회원가입 완료
           </Dialog.Title>
           <Dialog.Description
             className="DialogDescription"
@@ -62,7 +52,8 @@ export const LoginView = ( { onClickByLogin , onClickByClose } = { onClickByLogi
               lineHeight: `2.6`,
             }}
           >
-            관심가는 순간 조각조각 모음, 아케이브
+            회원가입이 완료되었습니다! <br/>
+            북마크를 모으고 나의 취향을 찾아보세요.
           </Dialog.Description>
           <div style={{display: 'flex', justifyContent: 'center'}}>
             <button
@@ -78,31 +69,9 @@ export const LoginView = ( { onClickByLogin , onClickByClose } = { onClickByLogi
                 borderRadius: `24px`,
                 height: `45px`,
               }}
-              onClick={ onClickByLogin || function(){} }
-            >카카오톡 계정으로 시작하기</button>
+              onClick={ onClickByStart || function(){} }
+            >시작하기</button>
           </div>
-          <Dialog.Close asChild>
-            <button
-              className="IconButton hover:bg-primary-lighten-300"
-              aria-label="Close"
-              style={{
-                fontFamily: `inherit`,
-                borderRadius: `100%`,
-                height: `25px`,
-                width: `25px`,
-                display: `inline-flex`,
-                alignItems: `center`,
-                justifyContent: `center`,
-                color: `#1A1A1A`,
-                position: `absolute`,
-                top: `10px`,
-                right: `10px`,
-              }}
-              onClick={ onClickByClose || function(){} }
-            >
-              <Cross2Icon/>
-            </button>
-          </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

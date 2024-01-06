@@ -8,14 +8,11 @@ import { LoginView } from "@archivist/ui";
 import { useEffect , useState } from "react";
 
 const Home = () => {
-  const { onLoginClick} = useLogin();
-  const [mounted, setMounted] = useState<boolean>(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return (mounted && <LoginView />)
+  return (
+    <div>
+      index 페이지
+    </div>)
 }
 
 export default Home;

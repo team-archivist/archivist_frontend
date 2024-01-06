@@ -2,6 +2,9 @@
 
 const path = require("path");
 
+const archivistUi = path.dirname(require.resolve("@archivist/ui"));
+console.log( 'archivistUi :' , archivistUi );
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -10,8 +13,8 @@ module.exports = {
       "**/*.{js,jsx,ts,tsx}"
     ),
   ],
-  theme: {
-    extend: {},
-  },
+  presets : [
+    require( '@archivist/config/tailwindcss/tailwind.preset.js' ),
+  ],
   plugins: [],
 };
