@@ -6,7 +6,10 @@
     "paths": {
       "@components*": ["src/components*"],
       "@lib*": ["src/lib*"],
-      "@assets*": ["src/assets*"]
+      "@assets*": ["src/assets*"],
+      "@constants*" : ["src/constants*"],
+      "@store*" : ["src/store*"],
+      "@model*" : ["src/model*"]
     },
     "types": ["@emotion/react/types/css-prop"]
   },

@@ -6,7 +6,11 @@
     "jsx": "react-jsx",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "@utils*" : [ "src/utils*" ]
+    }
   },
   "include": ["src/components", "src/index.ts", "src"],
   "references": [

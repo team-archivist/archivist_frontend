@@ -21,7 +21,6 @@ import HStack from "@components/Stack/HStack";
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import { css } from "@emotion/react";
 
 import Chip from "@components/Chip";
@@ -41,6 +40,7 @@ enum NavigationBarLeftItem {
 const MycavePage = (props: Props) => {
   const bookmarkAddModal = useBookmarkAddModal();
   const currentPathname = usePathname();
+
   return (
     <>
       <NavigationBar

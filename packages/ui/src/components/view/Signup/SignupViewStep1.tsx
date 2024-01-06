@@ -2,11 +2,12 @@ import * as Form from "@radix-ui/react-form";
 import React, {useState} from "react";
 import SIGNUP_CONSTANTS from "./SignupConstants";
 import {Text} from "@radix-ui/themes";
+import CommonUtils from  "@utils/commonUtils";
 
 /** 회원가입관련 validation check 입니다 */
-const validateSignup = ({statusByValidate, setStatusByValidate, setIsEnableNextStep,setNickName}) => {
+const validateSignup = ({statusByValidate, setStatusByValidate, setIsEnableNextStep,setNickName , validateNickName}) => {
   return {
-    matchNickname( inputValue : string, formData : FormData ) {
+    async matchNickname( inputValue : string, formData : FormData ) {
       let isValid = false;
       // 글이 없을시
       if ( 0 === inputValue.length ){
@@ -44,7 +45,17 @@ const validateSignup = ({statusByValidate, setStatusByValidate, setIsEnableNextS
         } );
         isValid = true;
       }
-      // @todo 이미 등록된 닉네임( 서버를 갓다와야함 )
+      // 외부에서 nickName 체크를 합니다
+      if ( CommonUtils.isFunction( validateNickName ) ){
+        const nickNameValid = !await validateNickName( inputValue );
+
+        isValid = nickNameValid?.isValid || false;
+        setStatusByValidate( {
+          ...statusByValidate,
+          className : SIGNUP_CONSTANTS.VALIDATE.NICKNAME_BLANK.CLASS_NAME,
+          message : nickNameValid?.message || '',
+        } );
+      }
 
       // 다음단계로 넘어갈 수 있다는 사항을 전달합니다
       setIsEnableNextStep( !isValid );
@@ -67,8 +78,12 @@ const validateSignup = ({statusByValidate, setStatusByValidate, setIsEnableNextS
  * - Step1 content  입니다
  *
  * --> Step1 JSX.Element 입니다
+ *
+ * setNickName : nickName 을 저장할지 여부를 설정하는 setter 입니다
+ * setIsEnableNextStep : 다음 step 으로 넘어갈지 여부를 설정하는 setter 입니다
+ * validateNickName : nickName 을 validate 하는
  */
-export const SignupViewStep1 = ( { setNickName , setIsEnableNextStep } ) : React.JSX.Element => {
+export const SignupViewStep1 = ( { setNickName , setIsEnableNextStep , validateNickName } ) : React.JSX.Element => {
   const [statusByValidate,setStatusByValidate] = useState( {
     message : '',
     className : '',
@@ -78,7 +93,8 @@ export const SignupViewStep1 = ( { setNickName , setIsEnableNextStep } ) : React
     statusByValidate,
     setStatusByValidate,
     setIsEnableNextStep,
-    setNickName
+    setNickName,
+    validateNickName
   });
 
   return (
