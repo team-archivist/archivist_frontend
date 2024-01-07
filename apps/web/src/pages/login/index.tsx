@@ -38,6 +38,7 @@ const LoginPage = ( props ) => {
   const onEndKakaoLogin = ( storageEvent : StorageEvent ) => {
 
     let routerLink = '/';
+    let removeStorageKey = '';  // storage 에서 제거할 key
     const isSignupUser = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID === storageEvent.key;
     const isNotSignupUser = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL === storageEvent.key;
 
@@ -45,21 +46,22 @@ const LoginPage = ( props ) => {
     if ( isNotSignupUser ){
       loginUser.email = localStorage.getItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL );
       routerLink = '/signup';
-      setLoginUser( loginUser );
-      localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL);
+      removeStorageKey = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL;
     }
     // 회원가입한 사용자일 경우
     else if ( isSignupUser ){
       loginUser.userId = localStorage.getItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID );
-      loginUser.token = localStorage.getItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
       routerLink = '/mycave';
-      setLoginUser( loginUser );
-      localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID);
-      localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
+      removeStorageKey = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID;
     }
     else {
       return;
     }
+    loginUser.token = localStorage.getItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
+    setLoginUser( loginUser );
+    console.log( 'loginUser' , loginUser );
+    localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
+    localStorage.removeItem(removeStorageKey);
     router.push( routerLink );
   }
 
