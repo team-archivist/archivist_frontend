@@ -1,27 +1,52 @@
-import { useParams } from "next/navigation";
-import { useEffect } from "react";
-import axios from "axios";
+import { useRouter } from 'next/router';
+import {useEffect} from "react";
+import axios from 'axios';
+import USER_CONSTANTS from '@constants/userStorageConstants';
 
-const SigninCallbackPage = () => {
-  const params = useParams<{ code?: string }>();
+/**
+ * - 카카오 로그인 callback 페이지
+ */
+const SigninCallback = () => {
 
-  useEffect(() => {
-    (async () => {
-      if (params?.code) {
-        // TODO : token을 회원가입으로 추가
-        try {
-          const response = await axios.post("/api/TBD", {
-            token: params.code,
-          });
-          // TODO : 성공 액션에 대한 UI 처리
-        } catch (error) {
-          throw error;
+  const router = useRouter();
+
+  useEffect( () => {
+    if ( !router.query?.code ){
+      return;
+    }
+    ( async () => {
+      const sessionItem = {
+        key : '',
+        value : '',
+      }
+      try {
+        const res = await axios.post( `/login/kakao` , { code : router.query.code } ,
+          {
+            headers : {
+              'Content-Type' : 'multipart/form-data;',
+              'Accept' : '*/*'
+            }
+          }
+        );
+        sessionItem.key = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID;
+        sessionItem.value = res?.data?.userId || '';
+        localStorage.setItem( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN , res?.data?.token );
+      }
+      catch(e){
+        const data = e.response?.data;
+        if ( 404 === data.statusCode ){
+          sessionItem.key = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL;
+          sessionItem.value = e.response?.data?.message || '';
         }
       }
-    })();
-  }, []);
+      localStorage.setItem(sessionItem.key , sessionItem.value );
+      window.close();
 
-  return <div>회원가입 중입니다</div>;
-};
+    } )();
+  } , [ router.query ] );
 
-export default SigninCallbackPage;
+  return (
+    <div>카카오톡 로그인 콜백</div>
+  )
+}
+export default SigninCallback;
