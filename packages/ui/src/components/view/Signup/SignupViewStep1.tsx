@@ -47,9 +47,9 @@ const validateSignup = ({statusByValidate, setStatusByValidate, setIsEnableNextS
       }
       // 외부에서 nickName 체크를 합니다
       if ( CommonUtils.isFunction( validateNickName ) ){
-        const nickNameValid = !await validateNickName( inputValue );
+        const nickNameValid = await validateNickName( inputValue );
 
-        isValid = nickNameValid?.isValid || false;
+        isValid = !nickNameValid?.isValid;
         setStatusByValidate( {
           ...statusByValidate,
           className : SIGNUP_CONSTANTS.VALIDATE.NICKNAME_BLANK.CLASS_NAME,

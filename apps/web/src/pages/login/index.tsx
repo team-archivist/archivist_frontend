@@ -59,7 +59,6 @@ const LoginPage = ( props ) => {
     }
     loginUser.token = localStorage.getItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
     setLoginUser( loginUser );
-    console.log( 'loginUser' , loginUser );
     localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
     localStorage.removeItem(removeStorageKey);
     router.push( routerLink );

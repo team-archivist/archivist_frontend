@@ -30,6 +30,7 @@ const SignupPage = ( props ) => {
   const [ signupStep , setSignupStep ] = useState<number>( 1 );
   const [ openBySignupEnd , setOpenBySignupEnd ] = useState( false );
   const [ categories , setCategories ] = useState<{name : string}[]>( [] );
+  const [ nicknamesBySaved , setNicknamesBySaved ] = useState( [] );
   const router = useRouter();
 
   useEffect( () => {
@@ -40,9 +41,17 @@ const SignupPage = ( props ) => {
 
     ( async () => {
       try {
-        const res = await axios.get( '/categories' );
-        const categoryModel = new CategoriesModel( res?.data || [] );
+        const categoriesRes = await axios.get( '/categories' );
+        const categoryModel = new CategoriesModel( categoriesRes?.data || [] );
         setCategories( categoryModel.categories.map( c => ( { name : c } ) ) );
+
+        const nicknameRes = await axios.get( `/nicknames` , {
+          headers: {
+            Authorization: `Bearer ${loginUser.token}`
+          }
+        } );
+        setNicknamesBySaved( nicknameRes?.data || [] );
+
       }
       catch( e ){
         console.log( '<< categories >> 목록을 가져오는데 실패했습니다' );
@@ -96,20 +105,9 @@ const SignupPage = ( props ) => {
      * @todo 이부분에서 토큰을 발급받으면 해당 토큰을 이용해 인증하도록 구현해야 합니다( backend 와 상의합니다 )
      */
     async onValidateNickname( inputValue : string ){
-
-      try {
-        const res = await axios.get( `/user/${ loginUser.email }` , {
-          headers: {
-            Authorization: `Bearer ${loginUser.token}`
-          }
-        } );
-      }
-      catch( e ){
-        console.log( '<< onValidateNickname >> 토큰을 발급받지 않아 조회하지 않습니다' , e );
-      }
       return {
-        message : '!',
-        isVaild : false,
+        message : '이미 등록된 닉네임입니다',
+        isValid : !nicknamesBySaved.includes( inputValue ),
       };
     },
   }
