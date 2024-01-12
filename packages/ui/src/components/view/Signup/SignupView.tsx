@@ -13,8 +13,9 @@ import CommonUtils from  "@utils/commonUtils";
  * @param { ()=> void } setStep - 회원가입 단계 설정 setter 입니다
  * @param { ( { nickName , chipListByActive } ) => void } onSignup - 가입하기 버튼 클릭시 실행되는 callback 입니다
  * @param { ( inputValue : string )=> unknown } validateNickName? - 회원가입시 nickName 벨리데이션 체크함수입니다
+ * @param { { name : string }[] } chipList? - 내부에 뿌려줄 카테고리 리스트( 이름을 초반에 chipList 로 지어 카테고리로 짓지 않았습ㄴ디ㅏ )
  */
-export const SignupView = ({ step , setStep , onSignup , validateNickName }) => {
+export const SignupView = ({ step , setStep , onSignup , validateNickName , chipList }) => {
   // 사용자들이 선택한 chipList 상태값입니다
   const [ chipListByActive , setChipListByActive ] = useState( [] );
   // 닉네임 상태값입니다
@@ -60,9 +61,11 @@ export const SignupView = ({ step , setStep , onSignup , validateNickName }) => 
           setIsEnableNextStep={ setIsEnableNextStep }
           validateNickName={ validateNickName } /> :
         <SignupViewStep2
+          chipList={ chipList }
           chipListByActive={ chipListByActive }
           onClickByChip={ onClickByChip }
-          setIsEnableNextStep={ setIsEnableNextStep } />
+          setIsEnableNextStep={ setIsEnableNextStep }
+        />
       }
       <Form.Submit asChild>
         <button

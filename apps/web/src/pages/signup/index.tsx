@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import {useRouter} from "next/router";
 import LoginUserModel from "@model/LoginUserModel";
+import CategoriesModel from "@model/CategoriesModel";
 import { useSetAtom , useAtom } from "jotai";
 import loginUserAtom from "@store/loginUserAtom";
 
@@ -28,7 +29,8 @@ const SignupPage = ( props ) => {
   const [ _ , currentPath ] = usePathname();
   const [ signupStep , setSignupStep ] = useState<number>( 1 );
   const [ openBySignupEnd , setOpenBySignupEnd ] = useState( false );
-  const [ userEmail , setUserEmail ] = useState( '' )
+  const [ categories , setCategories ] = useState<{name : string}[]>( [] );
+  const [ nicknamesBySaved , setNicknamesBySaved ] = useState( [] );
   const router = useRouter();
 
   useEffect( () => {
@@ -36,7 +38,27 @@ const SignupPage = ( props ) => {
       window.alert( '먼저 카카오 로그인해주세요' );
       router.push( '/login' );
     }
-    setUserEmail( loginUser.email as string );
+
+    ( async () => {
+      try {
+        const categoriesRes = await axios.get( '/categories' );
+        const categoryModel = new CategoriesModel( categoriesRes?.data || [] );
+        setCategories( categoryModel.categories.map( c => ( { name : c } ) ) );
+
+        const nicknameRes = await axios.get( `/nicknames` , {
+          headers: {
+            Authorization: `Bearer ${loginUser.token}`
+          }
+        } );
+        setNicknamesBySaved( nicknameRes?.data || [] );
+
+      }
+      catch( e ){
+        console.log( '<< categories >> 목록을 가져오는데 실패했습니다' );
+      }
+
+    } )();
+
   } , [] );
 
   // ( 회원가입 프로세스 )
@@ -44,15 +66,16 @@ const SignupPage = ( props ) => {
     /** 가입하기 클릭시 */
     async onSignup( { nickName , chipListByActive } ){
       const param = {
-        email : userEmail,
+        email : loginUser.email,
         nickname: nickName,
         categories: chipListByActive,
       }
       try {
         const res = await axios.post( `/user` , param , {
           headers : {
+            Authorization: `Bearer ${loginUser.token}`,
             'Content-Type' : 'application/json',
-            'Accept' : '*/*'
+            'Accept' : '*/*',
           }
         } );
         // store 저장
@@ -82,16 +105,9 @@ const SignupPage = ( props ) => {
      * @todo 이부분에서 토큰을 발급받으면 해당 토큰을 이용해 인증하도록 구현해야 합니다( backend 와 상의합니다 )
      */
     async onValidateNickname( inputValue : string ){
-      console.log( 'inputValue' , inputValue );
-      try {
-        const res = await axios.get( `/user/${ userEmail }` );
-      }
-      catch( e ){
-        console.log( '<< onValidateNickname >> 토큰을 발급받지 않아 조회하지 않습니다' , e );
-      }
       return {
-        message : '!',
-        isVaild : false,
+        message : '이미 등록된 닉네임입니다',
+        isValid : !nicknamesBySaved.includes( inputValue ),
       };
     },
   }
@@ -120,6 +136,7 @@ const SignupPage = ( props ) => {
       >
         <SignupView
           step={signupStep}
+          chipList={ categories }
           setStep={setSignupStep}
           onSignup={signupProcess.onSignup}
           validateNickName={signupProcess.onValidateNickname}

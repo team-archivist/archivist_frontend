@@ -42,6 +42,7 @@ const LoginPage = (props) => {
   /** 카카오 로그인이 완료되었을때 */
   const onEndKakaoLogin = (storageEvent: StorageEvent) => {
     let routerLink = "/";
+    let removeStorageKey = ""; // storage 에서 제거할 key
     const isSignupUser =
       USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID === storageEvent.key;
     const isNotSignupUser =
@@ -53,29 +54,29 @@ const LoginPage = (props) => {
         USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL
       );
       routerLink = "/signup";
-      setLoginUser(loginUser);
-      localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL);
+      removeStorageKey = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL;
     }
     // 회원가입한 사용자일 경우
     else if (isSignupUser) {
       loginUser.userId = localStorage.getItem(
         USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID
       );
-      loginUser.token = localStorage.getItem(
-        USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN
-      );
-      routerLink = "/mycave";
-      setLoginUser(loginUser);
-      localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID);
       // NOTE: SSR을 위해 cookie 활용 필요함
       setCookie(
         USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN,
         localStorage.getItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN)
       );
+      routerLink = "/mycave";
+      removeStorageKey = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID;
     } else {
       return;
     }
-
+    loginUser.token = localStorage.getItem(
+      USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN
+    );
+    setLoginUser(loginUser);
+    localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
+    localStorage.removeItem(removeStorageKey);
     router.push(routerLink);
   };
 
