@@ -26,7 +26,7 @@ const useCurrentUser = () => {
     const AuthorizationToken = `Bearer ${token}`;
 
     const fetchUser = async () => {
-      const response = await axios.get(`/user`, {
+      const response = await axios.get(`/api/user`, {
         headers: {
           Authorization: AuthorizationToken,
         },
