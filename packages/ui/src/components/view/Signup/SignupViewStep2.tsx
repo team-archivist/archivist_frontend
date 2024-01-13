@@ -3,25 +3,12 @@ import React, {useEffect} from "react";
 import {SignupView} from "./SignupView";
 import {Cross2Icon, PlusIcon} from "@radix-ui/react-icons";
 
-const chipList = [
-  { name : '외국어', },
-  { name : '자기개발', },
-  { name : '문화생활', },
-  { name : '사진', },
-  { name : '운동', },
-  { name : '재테크', },
-  { name : '취미' },
-  { name : '여행', },
-  { name : '드로잉', },
-  { name : '커리어', },
-]
-
 /**
  * - Step2 content  입니다
  *
  * --> Step1 JSX.Element 입니다
  */
-export const SignupViewStep2 = ( { chipListByActive , onClickByChip , setIsEnableNextStep } ) : React.JSX.Element => {
+export const SignupViewStep2 = ( { chipListByActive , onClickByChip , setIsEnableNextStep , chipList } ) : React.JSX.Element => {
   /** 가입하기의 상태를 관리합니다 */
   useEffect( () => {
     let _isEnableNextStep = false;
@@ -30,6 +17,8 @@ export const SignupViewStep2 = ( { chipListByActive , onClickByChip , setIsEnabl
     }
     setIsEnableNextStep( _isEnableNextStep );
   } , [ chipListByActive ] );
+
+  const renderChipList = chipList || [];
 
   return (
     <>
@@ -46,7 +35,7 @@ export const SignupViewStep2 = ( { chipListByActive , onClickByChip , setIsEnabl
         관심 카테고리
       </span>
         <Flex gap="3" align="center" wrap="wrap" className="mt-2">
-          { chipList && chipList.map( ( chip , chipIndex ) => (
+          { renderChipList && renderChipList.map( ( chip , chipIndex ) => (
             <CategoryChip
               key={ chipIndex }
               isActive={ chipListByActive.includes( chip.name ) }
