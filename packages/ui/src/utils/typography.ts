@@ -1,14 +1,18 @@
 export const Typography = {
   Title1: {
-    ["20"]: {
-      Regular: {
-        fontSize: "20px",
-        fontStyle: "normal",
-        fontWeight: 400,
-        lineHeight: "26px" /* 130% */,
-        letterSpacing: "-0.24px",
-      },
-    },
+    get ["20"](){
+      const Default = {
+          fontSize : "20px",
+          fontStyle: "normal",
+          fontWeight: 400,
+          lineHeight: "26px" /* 130% */,
+          letterSpacing: "-0.24px",
+        };
+      return {
+        Regular: {...Default },
+        SemiBold: {...Default ,fontWeight : 500 }
+      }
+    }
   },
   Title2: {
     ["17"]: {
@@ -21,6 +25,17 @@ export const Typography = {
       },
     },
   },
+  Body1 : {
+    ["16"]: {
+      Regular : {
+        fontSize : "16px",
+        fontStyle : "normal",
+        fontWeight : 400,
+        lineHeight : "26px",
+        letterSpacing : "-0.1px",
+      }
+    }
+  },
   Body2: {
     ["15"]: {
       Regular: {
@@ -31,6 +46,17 @@ export const Typography = {
         letterSpacing: "0.15px",
       },
     },
+  },
+  Label2: {
+    ["14"]: {
+      Regular: {
+        fontSize: "14px",
+        fontStyle: "normal",
+        fontWeight: 400,
+        lineHeight: "20px",
+        letterSpacing: "0.14px",
+      }
+    }
   },
   Caption1: {
     ["12"]: {

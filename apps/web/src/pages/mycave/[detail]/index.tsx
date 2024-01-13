@@ -4,14 +4,11 @@ import {css} from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
-import {BaseButtonMain, NavigationBar} from "@archivist/ui";
+import {BaseButtonMain, NavigationBar , VStack , HStack , ArcaveCard} from "@archivist/ui";
 import {usePathname} from "next/navigation";
 import {Avatar, Flex, Heading, Tabs, Text} from "@radix-ui/themes";
-import VStack from "@components/Stack/VStack";
-import HStack from "@components/Stack/HStack";
 import Chip from "@components/Chip";
 import {PlusIcon} from "@radix-ui/react-icons";
-import BookmarkCard from "@components/BookmarkCard";
 import ACTabs from "@components/Tabs/ACTabs";
 
 enum BookmarkTab {
@@ -70,17 +67,14 @@ export const CategoryDetailPage = () => {
               </BaseButtonMain>
             </Flex>
             <HStack>
-              <BookmarkCard />
-              <BookmarkCard />
-              <BookmarkCard />
-              <BookmarkCard />
+              <ArcaveCard />
+              <ArcaveCard />
+              <ArcaveCard />
+              <ArcaveCard />
             </HStack>
           </Tabs.Content>
-          <Tabs.Content value={BookmarkTab.GROUP}>
-            {BookmarkTab.GROUP}
-          </Tabs.Content>
-          <Tabs.Content value={BookmarkTab.SAVED}>
-            {BookmarkTab.SAVED}
+          <Tabs.Content value={BookmarkTab.ALL}>
+            {BookmarkTab.ALL}
           </Tabs.Content>
         </ACTabs>
       </BookmarkLayout>

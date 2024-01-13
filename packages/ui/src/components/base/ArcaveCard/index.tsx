@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Box, Text } from "@radix-ui/themes";
-import { PaletteColor, SemanticColor } from "../../../utils/color";
-import { Typography } from "../../../utils/typography";
+import { PaletteColor, SemanticColor } from "@utils/color";
+import { Typography } from "@utils/typography";
 import { VStack } from "../Stack/VStack";
 
 type Props = {
@@ -18,12 +18,7 @@ export const ArcaveCard = ({
 }: Props) => {
   return (
     <VStack gap={"2"}>
-      <Box
-        className="h-52 w-72 rounded-lg"
-        css={css`
-          background-color: ${PaletteColor.Gray[300]};
-        `}
-      />
+      <Thumbnail className="h-52 w-72 rounded-lg" />
       <VStack>
         <Title>{title}</Title>
         <Description>{description}</Description>
@@ -33,6 +28,12 @@ export const ArcaveCard = ({
   );
 };
 
+// thumbnail
+const Thumbnail = styled(Box)`
+  background-color: ${PaletteColor.Gray[300]};
+`;
+
+// title
 const Title = styled(Text)`
   ${Typography.Title1[20].Regular}
   color: ${SemanticColor.Text.Normal};
