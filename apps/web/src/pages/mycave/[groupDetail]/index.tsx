@@ -1,30 +1,21 @@
-import {
-  BaseButtonMain,
-  ArcaveCard,
-  HStack,
-  NavigationBar,
-  VStack,
-} from "@archivist/ui";
+import Link from "next/link";
 import React from "react";
+import {css} from "@emotion/react";
+import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
-import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
-
-import ACTabs from "@components/Tabs/ACTabs";
-import { PlusIcon } from "@radix-ui/react-icons";
-import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
-
-import ARCAVE_LOGO from "@assets/icons/logo.svg";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { css } from "@emotion/react";
-
+import {BaseButtonMain, NavigationBar} from "@archivist/ui";
+import {usePathname} from "next/navigation";
+import {Avatar, Flex, Heading, Tabs, Text} from "@radix-ui/themes";
+import VStack from "@components/Stack/VStack";
+import HStack from "@components/Stack/HStack";
 import Chip from "@components/Chip";
+import {PlusIcon} from "@radix-ui/react-icons";
+import BookmarkCard from "@components/BookmarkCard";
+import ACTabs from "@components/Tabs/ACTabs";
 
 enum BookmarkTab {
   ALL = "전체",
-  GROUP = "북마크 모음",
-  SAVED = "저장",
 }
 
 enum NavigationBarLeftItem {
@@ -33,14 +24,15 @@ enum NavigationBarLeftItem {
   MYCAVE = "mycave",
 }
 
-const MycavePage = (props) => {
-  const bookmarkAddModal = useBookmarkAddModal();
+/**
+ * - 그룹 상세 페이지 입니다
+ */
+export const CategoryDetailPage = () => {
   const currentPathname = usePathname();
-
   return (
     <>
       <NavigationBar
-        currentPath={currentPathname.slice(1)}
+        currentPath={currentPathname?.split( '/' )[1]}
         leftItems={{
           [NavigationBarLeftItem.LOGO]: (
             <Link
@@ -61,21 +53,9 @@ const MycavePage = (props) => {
         rightItems={{}}
       />
       <BookmarkLayout>
+
         <Flex gap="4" className="my-8">
-          <Avatar
-            src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop"
-            fallback="A"
-            radius="full"
-            size="7"
-          />
-          <VStack className={"my-4"} gap="1">
-            <Heading size="5">세봉</Heading>
-            <HStack gap="2">
-              <Chip>외국어</Chip>
-              <Chip>자기계발</Chip>
-              <Chip>취미</Chip>
-            </HStack>
-          </VStack>
+          <BookmarkCard />
         </Flex>
         <ACTabs
           tabsList={Object.values(BookmarkTab)}
@@ -83,20 +63,19 @@ const MycavePage = (props) => {
         >
           <Tabs.Content value={BookmarkTab.ALL}>
             <Flex width="100%" justify={"between"}>
-              <Text>총 n개의 북마크</Text>
+              <Text>총 링크의 수 개의 링크</Text>
               <BaseButtonMain
                 size={"2"}
                 className="w-fit"
-                onClick={bookmarkAddModal.show}
               >
-                북마크 추가하기 {<PlusIcon />}
+                링크 담기 {<PlusIcon />}
               </BaseButtonMain>
             </Flex>
-            <HStack gap={"5"}>
-              <ArcaveCard />
-              <ArcaveCard />
-              <ArcaveCard />
-              <ArcaveCard />
+            <HStack>
+              <BookmarkCard />
+              <BookmarkCard />
+              <BookmarkCard />
+              <BookmarkCard />
             </HStack>
           </Tabs.Content>
           <Tabs.Content value={BookmarkTab.GROUP}>
@@ -107,11 +86,9 @@ const MycavePage = (props) => {
           </Tabs.Content>
         </ACTabs>
       </BookmarkLayout>
-      {bookmarkAddModal.render()}
     </>
-  );
-};
-
-export default MycavePage;
+  )
+}
+export default CategoryDetailPage;
 
 const BookmarkLayout = styled(Layout)``;
