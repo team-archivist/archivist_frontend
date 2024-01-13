@@ -49,7 +49,7 @@ const SignupPage = ( props ) => {
         categories: chipListByActive,
       }
       try {
-        const res = await axios.post( `/user` , param , {
+        const res = await axios.post( `/api/user` , param , {
           headers : {
             'Content-Type' : 'application/json',
             'Accept' : '*/*'
@@ -84,7 +84,7 @@ const SignupPage = ( props ) => {
     async onValidateNickname( inputValue : string ){
       console.log( 'inputValue' , inputValue );
       try {
-        const res = await axios.get( `/user/${ userEmail }` );
+        const res = await axios.get( `/api/user/${ userEmail }` );
       }
       catch( e ){
         console.log( '<< onValidateNickname >> 토큰을 발급받지 않아 조회하지 않습니다' , e );
