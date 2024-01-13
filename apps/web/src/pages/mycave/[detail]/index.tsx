@@ -4,7 +4,14 @@ import {css} from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
-import {BaseButtonMain, NavigationBar , VStack , HStack , ArcaveCard} from "@archivist/ui";
+import {
+  BaseButtonMain,
+  NavigationBar,
+  VStack,
+  HStack,
+  ArcaveCard,
+  ArcaveCardDetail,
+} from "@archivist/ui";
 import {usePathname} from "next/navigation";
 import {Avatar, Flex, Heading, Tabs, Text} from "@radix-ui/themes";
 import Chip from "@components/Chip";
@@ -51,6 +58,7 @@ export const CategoryDetailPage = () => {
       />
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
+          <ArcaveCardDetail />
         </Flex>
         <ACTabs
           tabsList={Object.values(BookmarkTab)}

@@ -117,6 +117,7 @@ const ThumbnailIcon = styled(Box)`
   height: 32px;
   color: ${SemanticColor.Text.Normal};
   background-color: ${SemanticColor.GRAY[200]};
+  cursor : pointer;
 `;
 
 const Title = styled(Text)`
