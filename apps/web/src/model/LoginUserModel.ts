@@ -9,11 +9,11 @@ export default class LoginUserModel {
   public imageUrl : string; // 프로필 이미지 url
   public token : string | null; // jwt token
 
-  constructor( { nickname , email , categories , userid , imageUrl , token } : unknown = {} ) {
+  constructor( { nickname , email , categories , userId , imageUrl , token } : unknown = {} ) {
     this.nickname = nickname || null;
     this.email = email || null;
     this.categories = categories || null;
-    this.userId = userid || null;
+    this.userId = userId || null;
     this.imageUrl = imageUrl || null;
     this.token = token || null;
   }

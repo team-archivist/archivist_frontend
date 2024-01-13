@@ -20,6 +20,7 @@ const SigninCallback = () => {
         key: USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID,
         value: "",
       };
+      let token = ''; // jwt token
       try {
         const res = await axios.post(
           `/api/login/kakao`,
@@ -32,17 +33,20 @@ const SigninCallback = () => {
             },
           }
         );
+        sessionItem.key = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID;
         sessionItem.value = res?.data?.userId || "";
-        localStorage.setItem(
-          USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN,
-          res?.data?.token
-        );
-      } catch (e) {
-        sessionItem.key = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL;
-        sessionItem.value = e.response?.data?.message || "";
+        token = res?.data?.token;
       }
-
-      localStorage.setItem(sessionItem.key, sessionItem.value);
+      catch(e){
+        const data = e.response?.data;
+        if ( 404 === data.statusCode ){
+          sessionItem.key = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL;
+          sessionItem.value = data?.email || '';
+          token = data.token;
+        }
+      }
+      localStorage.setItem( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN , token );
+      localStorage.setItem(sessionItem.key , sessionItem.value );
       window.close();
     })();
   }, [router.query]);

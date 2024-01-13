@@ -14,6 +14,8 @@ import LoginUserModel from "@model/LoginUserModel";
 import CategoriesModel from "@model/CategoriesModel";
 import { useSetAtom , useAtom } from "jotai";
 import loginUserAtom from "@store/loginUserAtom";
+import { getCookie } from "cookies-next";
+import USER_CONSTANTS from "@constants/userStorageConstants";
 
 /** NavigationBar 위치 관련 */
 enum NavigationBarLeftItem {
@@ -34,6 +36,7 @@ const SignupPage = ( props ) => {
   const router = useRouter();
 
   useEffect( () => {
+    console.log( 'loginUser' , loginUser );
     if ( !loginUser.email ){
       window.alert( '먼저 카카오 로그인해주세요' );
       router.push( '/login' );
@@ -41,13 +44,15 @@ const SignupPage = ( props ) => {
 
     ( async () => {
       try {
-        const categoriesRes = await axios.get( '/categories' );
+        const categoriesRes = await axios.get( '/api/categories' );
         const categoryModel = new CategoriesModel( categoriesRes?.data || [] );
         setCategories( categoryModel.categories.map( c => ( { name : c } ) ) );
 
-        const nicknameRes = await axios.get( `/nicknames` , {
+        const token = getCookie( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
+
+        const nicknameRes = await axios.get( `/api/nicknames` , {
           headers: {
-            Authorization: `Bearer ${loginUser.token}`
+            Authorization: `Bearer ${token}`
           }
         } );
         setNicknamesBySaved( nicknameRes?.data || [] );
@@ -71,19 +76,21 @@ const SignupPage = ( props ) => {
         categories: chipListByActive,
       }
       try {
+        const token = getCookie( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
         const res = await axios.post( `/api/user` , param , {
           headers : {
-            Authorization: `Bearer ${loginUser.token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type' : 'application/json',
             'Accept' : '*/*',
           }
         } );
         // store 저장
-        setLoginUser( new LoginUserModel( res?.data ) );
+        setLoginUser( new LoginUserModel( { ...res?.data , token } ) );
 
         setOpenBySignupEnd( true );
       }
       catch( e ){
+        console.log( '<error>' , e );
         const errorData = e.response?.data;
         // 이미 등록된 회원인 경우
         if ( 409 === errorData?.statusCode ){
@@ -101,8 +108,6 @@ const SignupPage = ( props ) => {
     },
     /**
      * - nickName validate 체크시
-     *
-     * @todo 이부분에서 토큰을 발급받으면 해당 토큰을 이용해 인증하도록 구현해야 합니다( backend 와 상의합니다 )
      */
     async onValidateNickname( inputValue : string ){
       return {
