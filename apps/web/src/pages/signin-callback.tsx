@@ -22,7 +22,7 @@ const SigninCallback = () => {
       };
       try {
         const res = await axios.post(
-          `/login/kakao`,
+          `/api/login/kakao`,
           { code: router.query.code },
           {
             headers: {

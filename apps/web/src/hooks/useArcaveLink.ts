@@ -26,7 +26,7 @@ const useArcaveLink = ({ isUser, userId, linkId }: Props) => {
 
     const fetchLink = async () => {
       const response = await axios.get(
-        isUser ? `/user/link/${userId}` : `link/${linkId}`,
+        isUser ? `/api/user/link/${userId}` : `/api/link/${linkId}`,
         {
           headers: {
             Authorization: AuthorizationToken,

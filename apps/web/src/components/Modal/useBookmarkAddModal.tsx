@@ -114,7 +114,7 @@ const useBookmarkAddDetailModal = () => {
       const formData = new FormData();
       formData.append("linkDto", linkDTO);
       const response = await axios.post(
-        `/link`,
+        `/api/link`,
         { linkDto: linkDTO, linkImgFile: fileImage },
         {
           headers: {
