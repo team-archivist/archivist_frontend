@@ -126,7 +126,13 @@ const MycavePage = () => {
               </BaseButtonMain>
             </HStack>
             {hasLink ? (
-              <HStack gap={"5"}>
+              <HStack
+                gap={"5"}
+                className={"flex-wrap"}
+                css={css`
+                  width: 1224px;
+                `}
+              >
                 {links?.map(
                   ({ linkId, linkUrl, linkName, linkDesc, imgUrl }) => (
                     <ArcaveCard
