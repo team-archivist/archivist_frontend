@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import path from "path";
 import PackageJson from "./package.json";
+import svgr from "vite-plugin-svgr";
 
 /**
  * Vite configuration
@@ -16,8 +17,8 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: '@utils',
-        replacement: fileURLToPath(new URL('./src/utils', import.meta.url)),
+        find: "@utils",
+        replacement: fileURLToPath(new URL("./src/utils", import.meta.url)),
       },
     ],
   },
@@ -50,6 +51,9 @@ export default defineConfig({
         presets: ["@emotion/babel-preset-css-prop"],
         plugins: ["@emotion/babel-plugin"],
       },
+    }),
+    svgr({
+      svgrOptions: {},
     }),
     dts(),
   ],
