@@ -127,7 +127,17 @@ const MycavePage = () => {
             </HStack>
             {hasLink ? (
               <HStack gap={"5"}>
-                {links?.map((link, idx) => <ArcaveCard key={idx} />)}
+                {links?.map(
+                  ({ linkId, linkUrl, linkName, linkDesc, imgUrl }) => (
+                    <ArcaveCard
+                      key={linkId}
+                      title={linkName}
+                      description={linkDesc}
+                      url={linkUrl}
+                      imgSrc={imgUrl}
+                    />
+                  )
+                )}
               </HStack>
             ) : (
               <VStack

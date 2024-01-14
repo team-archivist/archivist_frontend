@@ -1,25 +1,25 @@
 import USER_CONSTANTS from "@constants/userStorageConstants";
+import axios from "axios";
 import { getCookie } from "cookies-next";
+import { RefObject } from "react";
 
 type Props = {
   linkDto: string;
   fileImageBlob: any;
   previewImageExtension: string;
-  imgElement: HTMLImageElement | null;
 };
 
 const useAPILink = ({
   linkDto,
   fileImageBlob,
   previewImageExtension,
-  imgElement,
 }: Props) => {
-  const executeFetch = async () => {
+  const executeFetch = async (imgElement: HTMLImageElement) => {
     const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
     const AuthorizationToken = `Bearer ${token}`;
 
     const formData = new FormData();
-    const linkDtoBlob = new Blob([JSON.stringify(linkDto)], {
+    const linkDtoBlob = new Blob([linkDto], {
       type: "application/json",
     });
     formData.append("linkDto", linkDtoBlob);

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Box, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import { PaletteColor, SemanticColor } from "../../../utils/color";
 import { Typography } from "../../../utils/typography";
 import { VStack } from "../Stack/VStack";
@@ -9,19 +9,36 @@ type Props = {
   title?: string;
   description?: string;
   groupTitle?: string;
+  url?: string;
+  imgSrc?: string;
 };
 
 export const ArcaveCard = ({
   title = "BookmarkTitle",
   description = "Description",
   groupTitle = "GroupTitle",
+  url,
+  imgSrc,
 }: Props) => {
+  const handleClickCard = () => {
+    if (url) {
+      window.open(url);
+    }
+  };
+
   return (
-    <VStack gap={"2"}>
+    <VStack gap={"2"} onClick={handleClickCard} className="w-72">
       <Box
         className="h-52 w-72 rounded-lg"
         css={css`
           background-color: ${PaletteColor.Gray[300]};
+          ${imgSrc &&
+          css`
+            background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+          `};
         `}
       />
       <VStack>

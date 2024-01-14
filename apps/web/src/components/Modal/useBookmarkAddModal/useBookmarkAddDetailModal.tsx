@@ -41,10 +41,9 @@ const useBookmarkAddDetailModal = () => {
     linkDto: JSON.stringify(linkDTO),
     fileImageBlob,
     previewImageExtension: previewImageUrl.split(".").at(-1) as string,
-    imgElement: imgRef.current,
   });
 
-  const { executeFetch: executeFetchScrape } = useAPIScrape(linkDTO.linkUrl);
+  const { executeFetch: executeFetchScrape } = useAPIScrape(linkDTO?.linkUrl);
 
   const handleChangeDescription = (value: string) => {
     setCount(value.length);
@@ -66,7 +65,7 @@ const useBookmarkAddDetailModal = () => {
   };
 
   const handleSubmit = () => {
-    executeFetchLink();
+    executeFetchLink(imgRef.current);
   };
 
   useEffect(() => {

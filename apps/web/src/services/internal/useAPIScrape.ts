@@ -1,8 +1,4 @@
-type Response = {
-  title: string;
-  ogDescription: string;
-  ogImage: string;
-};
+import axios from "axios";
 
 const useAPIScrape = (linkUrl?: string) => {
   const executeFetch = async () => {
