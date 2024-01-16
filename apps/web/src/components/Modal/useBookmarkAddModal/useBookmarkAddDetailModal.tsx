@@ -17,6 +17,8 @@ import useUploadImage from "./useUploadImage";
 import useAPILink from "src/services/external/useAPILink";
 import useAPIScrape from "src/services/internal/useAPIScrape";
 
+import ACSelect from "@components/Select";
+
 const useBookmarkAddDetailModal = () => {
   const [linkDTO, setLinkDTO] = useAtom(LinkModalAtom);
 
@@ -26,6 +28,7 @@ const useBookmarkAddDetailModal = () => {
   const [initialLinkInformation, setInitialLinkInformation] = useState();
 
   const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [count, setCount] = useState(0);
 
   const {
@@ -137,6 +140,7 @@ const useBookmarkAddDetailModal = () => {
                           }
                         />
                       </Form.Field>
+                      <ACSelect />
                     </Flex>
                     <Flex direction="column" gap="3">
                       <Text>링크 이름</Text>
