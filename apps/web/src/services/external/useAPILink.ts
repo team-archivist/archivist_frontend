@@ -2,6 +2,7 @@ import USER_CONSTANTS from "@constants/userStorageConstants";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { RefObject } from "react";
+import axiosInstance from "../requests";
 
 type Props = {
   linkDto: string;
@@ -37,11 +38,8 @@ const useAPILink = ({
       formData.append("linkImgFile", fileImageBlob);
     }
 
-    const response = await axios.post(`/api/link`, formData, {
-      headers: {
-        Authorization: AuthorizationToken,
-        "Content-Type": "multipart/form-data",
-      },
+    const response = await axiosInstance.post(`/api/link`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
   };
 

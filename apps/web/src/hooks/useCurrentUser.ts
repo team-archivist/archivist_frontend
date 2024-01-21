@@ -1,9 +1,9 @@
 import USER_CONSTANTS from "@constants/userStorageConstants";
 
-import axios from "axios";
 import { getCookie } from "cookies-next";
 
 import { useEffect, useState } from "react";
+import axiosInstance from "src/services/requests";
 
 type User = {
   userId: number;
@@ -23,14 +23,9 @@ const useCurrentUser = () => {
       alert("로그인을 다시 진행해야합니다.");
       return;
     }
-    const AuthorizationToken = `Bearer ${token}`;
 
     const fetchUser = async () => {
-      const response = await axios.get(`/api/user`, {
-        headers: {
-          Authorization: AuthorizationToken,
-        },
-      });
+      const response = await axiosInstance.get(`/api/user`);
 
       setCurrentUser(response.data);
     };
