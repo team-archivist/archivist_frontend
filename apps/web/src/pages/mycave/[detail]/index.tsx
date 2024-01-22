@@ -10,13 +10,16 @@ import {
   VStack,
   HStack,
   ArcaveCard,
-  ArcaveCardDetail,
+  ArcaveCardDetail, SemanticColor, Typography,
 } from "@archivist/ui";
 import {usePathname} from "next/navigation";
 import {Avatar, Flex, Heading, Tabs, Text} from "@radix-ui/themes";
 import Chip from "@components/Chip";
 import {PlusIcon} from "@radix-ui/react-icons";
 import ACTabs from "@components/Tabs/ACTabs";
+import useCurrentUser from "../../../hooks/useCurrentUser";
+import useArcaveGroup from "../../../hooks/useArcaveGroup";
+import useArcaveGroupLink from "../../../hooks/useArcaveGroupLink";
 
 enum BookmarkTab {
   ALL = "전체",
@@ -33,6 +36,19 @@ enum NavigationBarLeftItem {
  */
 export const CategoryDetailPage = () => {
   const currentPathname = usePathname();
+  const { currentUser } = useCurrentUser();
+
+  const { group , hasGroup } = useArcaveGroup( {
+    isUser : false,
+    groupId : 1,
+  } );
+  const { links , hasLink } = useArcaveGroupLink ( {
+    groupId : 1,
+  } )
+
+  console.log( 'group' ,  group );
+  console.log( 'links' ,  links );
+
   return (
     <>
       <NavigationBar
@@ -58,15 +74,33 @@ export const CategoryDetailPage = () => {
       />
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
-          <ArcaveCardDetail />
+          <ArcaveCardDetail
+            title={group?.groupName||''}
+            groupTitle={group?.categories.join( ' ' )}
+            description={group?.groupDesc||''}
+          />
         </Flex>
         <ACTabs
           tabsList={Object.values(BookmarkTab)}
           defaultValue={BookmarkTab.ALL}
         >
           <Tabs.Content value={BookmarkTab.ALL}>
-            <Flex width="100%" justify={"between"}>
-              <Text>총 링크의 수 개의 링크</Text>
+            <Flex width="100%" justify={"between"} className="my-5">
+              <div
+                css={css`
+                  ${Typography.Title2[17].Regular}
+                `}
+              >
+                총
+                <Text
+                  css={css`
+                    color: ${SemanticColor.Primary.Default};
+                  `}
+                >
+                  {`${hasLink ? links?.length : 0}`}
+                </Text>
+                개의 링크
+              </div>
               <BaseButtonMain
                 size={"2"}
                 className="w-fit"
@@ -74,15 +108,29 @@ export const CategoryDetailPage = () => {
                 링크 담기 {<PlusIcon />}
               </BaseButtonMain>
             </Flex>
-            <HStack>
-              <ArcaveCard />
-              <ArcaveCard />
-              <ArcaveCard />
-              <ArcaveCard />
-            </HStack>
-          </Tabs.Content>
-          <Tabs.Content value={BookmarkTab.ALL}>
-            {BookmarkTab.ALL}
+            {hasLink ? (
+              <HStack gap={"5"}>
+                {links?.map((link, idx) => <ArcaveCard key={idx} />)}
+              </HStack>
+            ) : (
+              <VStack
+                width={"100%"}
+                align={"center"}
+                justify={"center"}
+                className="h-60"
+              >
+                <Text
+                  css={css`
+                    ${Typography.Title1[20].Regular}
+                  `}
+                  align={"center"}
+                >
+                  링크가 없습니다. <br />
+                  우측 버튼을 눌러서 추가하세요
+                </Text>
+              </VStack>
+            ) }
+
           </Tabs.Content>
         </ACTabs>
       </BookmarkLayout>
