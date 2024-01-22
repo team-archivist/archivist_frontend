@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React ,{useEffect,useState} from "react";
 import {css} from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import styled from "@emotion/styled";
@@ -38,21 +38,32 @@ export const CategoryDetailPage = () => {
   const currentPathname = usePathname();
   const { currentUser } = useCurrentUser();
 
-  const { group , hasGroup } = useArcaveGroup( {
+  const [groupId ,setGroupId ] = useState<number>();
+
+  const {group ,hasGroup } = useArcaveGroup( {
     isUser : false,
-    groupId : 1,
+    groupId,
   } );
   const { links , hasLink } = useArcaveGroupLink ( {
-    groupId : 1,
-  } )
+    groupId,
+  } );
 
-  console.log( 'group' ,  group );
-  console.log( 'links' ,  links );
+  useEffect( () => {
+    if (!currentPathname){
+      return;
+    }
+    const [_ ,pathName ,groupId ] = currentPathname.split('/');
+    setGroupId( Number( groupId ) );
+  } , [currentPathname] );
+
+  if (!currentUser) {
+    return "로딩 중";
+  }
 
   return (
     <>
       <NavigationBar
-        currentPath={currentPathname?.split( '/' )[1]}
+        currentPath={"mycave"}
         leftItems={{
           [NavigationBarLeftItem.LOGO]: (
             <Link
@@ -75,9 +86,15 @@ export const CategoryDetailPage = () => {
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
           <ArcaveCardDetail
-            title={group?.groupName||''}
-            groupTitle={group?.categories.join( ' ' )}
-            description={group?.groupDesc||''}
+            title={group?.groupName||""}
+            groupTitle={group?.categories.join( " " )}
+            description={group?.groupDesc||""}
+            avatar={ { isVisible : false } }
+            button={ {
+              text : "그룹 수정하기" ,
+              isOutline : true,
+              onClick : () => {}
+          } }
           />
         </Flex>
         <ACTabs
@@ -105,12 +122,16 @@ export const CategoryDetailPage = () => {
                 size={"2"}
                 className="w-fit"
               >
-                링크 담기 {<PlusIcon />}
+                링크 추가하기 {<PlusIcon />}
               </BaseButtonMain>
             </Flex>
             {hasLink ? (
               <HStack gap={"5"}>
-                {links?.map((link, idx) => <ArcaveCard key={idx} />)}
+                {links?.map((link, idx) => <ArcaveCard
+                  title={ link.linkName || '' }
+                  description={ link.linkDesc || '' }
+                  groupTitle={ '' }
+                  key={idx} />)}
               </HStack>
             ) : (
               <VStack

@@ -28,6 +28,7 @@ const useArcaveGroupLink = ({ groupId }: Props) => {
           },
         }
       );
+      console.log('response' , response );
       setLinks(response.data);
     };
 
