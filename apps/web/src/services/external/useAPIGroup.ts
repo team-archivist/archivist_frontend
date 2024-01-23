@@ -20,4 +20,20 @@ const useAPIGroup = () => {
   return { groups };
 };
 
+export const executeGroupFetch = async ({ groupDto, fileImageBlob }) => {
+  const formData = new FormData();
+  const groupDtoBlob = new Blob([JSON.stringify(groupDto)], {
+    type: "application/json",
+  });
+  formData.append("groupDto", groupDtoBlob);
+
+  if (fileImageBlob) {
+    formData.append("groupImgFile", fileImageBlob);
+  }
+
+  const response = await axiosInstance.post(`/api/group`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
 export default useAPIGroup;

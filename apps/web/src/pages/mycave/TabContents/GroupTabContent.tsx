@@ -1,8 +1,10 @@
 import {
+  ArcaveCard,
   BaseButtonMain,
   HStack,
   SemanticColor,
   Typography,
+  VStack,
 } from "@archivist/ui";
 import useGroupAddModal from "@components/Modal/useGroupAddModal";
 
@@ -50,6 +52,41 @@ const GroupTabContent = ({ currentUser }: Props) => {
           그룹 추가하기 {<PlusIcon />}
         </BaseButtonMain>
       </HStack>
+      {hasGroups ? (
+        <HStack
+          gap={"5"}
+          className={"flex-wrap"}
+          css={css`
+            width: 1224px;
+          `}
+        >
+          {groups?.map(({ groupId, groupName, groupDesc, imgUrl }) => (
+            <ArcaveCard
+              key={groupId}
+              title={groupName}
+              description={groupDesc}
+              imgSrc={imgUrl}
+            />
+          ))}
+        </HStack>
+      ) : (
+        <VStack
+          width={"100%"}
+          align={"center"}
+          justify={"center"}
+          className="h-60"
+        >
+          <Text
+            css={css`
+              ${Typography.Title1[20].Regular}
+            `}
+            align={"center"}
+          >
+            그룹이 없습니다. <br />
+            우측 버튼을 눌러서 추가하세요
+          </Text>
+        </VStack>
+      )}
       {groupAddModal.render()}
     </>
   );

@@ -25,6 +25,7 @@ import DropdownCheckbox from "./DropdownCheckbox";
 import ACCheckbox from "@components/ACCheckbox";
 import Chip from "@components/Chip";
 import useUploadImage from "../common/useUploadImage";
+import { executeGroupFetch } from "src/services/external/useAPIGroup";
 
 const useGroupAddModal = () => {
   const [open, setOpen] = useState(false);
@@ -75,6 +76,18 @@ const useGroupAddModal = () => {
 
   const handleClickUploadPanel = () => {
     fileInputRef.current?.click();
+  };
+
+  const save = () => {
+    executeGroupFetch({
+      groupDto: {
+        groupName: name,
+        groupDesc: description,
+        isGroupPublic: !isPrivate,
+        categories: selectedCategories,
+      },
+      fileImageBlob,
+    });
   };
 
   return {
@@ -162,7 +175,7 @@ const useGroupAddModal = () => {
                 <BaseButtonMain
                   size={"2"}
                   className="w-fit"
-                  onClick={() => {}}
+                  onClick={() => save()}
                   backgroundColor={SemanticColor.Primary.Default}
                 >
                   확인
