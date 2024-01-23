@@ -6,7 +6,15 @@ import {
   VStack,
 } from "@archivist/ui";
 
-import { Box, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import {
+  Box,
+  Dialog,
+  Flex,
+  Text,
+  TextArea,
+  TextField,
+  TextFieldInput,
+} from "@radix-ui/themes";
 
 import { useState } from "react";
 
@@ -21,6 +29,17 @@ import useUploadImage from "../common/useUploadImage";
 const useGroupAddModal = () => {
   const [open, setOpen] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
+
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+
+  const handleChangeDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleChangeName = (e) => {
+    setName(e.target.value);
+  };
 
   const { categories } = useAPICategory();
   const [selectedCategories, setSelectedCategories] =
@@ -77,7 +96,7 @@ const useGroupAddModal = () => {
                 `}
                 onClick={handleClickUploadPanel}
               />
-              <Flex direction="column" gap="3">
+              <VStack gap="1">
                 <Text>카테고리</Text>
                 <HStack gap="2" wrap={"wrap"}>
                   {selectedCategories.map((category) => (
@@ -91,7 +110,24 @@ const useGroupAddModal = () => {
                     onChange={handleSelectCategories}
                   />
                 </Form.Field>
-              </Flex>
+              </VStack>
+              <VStack gap="1">
+                <Text>그룹 이름</Text>
+                <TextField.Input
+                  size="3"
+                  placeholder="그룹 이름을 입력해주세요"
+                  onChange={handleChangeName}
+                />
+              </VStack>
+              <VStack gap="1">
+                <Text>그룹 설명</Text>
+                <TextArea
+                  size="3"
+                  placeholder="그룹 설명을 입력해주세요"
+                  onChange={handleChangeDescription}
+                />
+                {description.length}/400
+              </VStack>
               <VStack>
                 <HStack gap={"2"} align={"center"}>
                   <ACCheckbox
@@ -129,13 +165,12 @@ const useGroupAddModal = () => {
                   onClick={() => {}}
                   backgroundColor={SemanticColor.Primary.Default}
                 >
-                  다음
+                  확인
                 </BaseButtonMain>
               </Dialog.Close>
             </Flex>
           </Form.Root>
         </Dialog.Content>
-        {/* {detailModal.render()} */}
       </Dialog.Root>
     ),
   };

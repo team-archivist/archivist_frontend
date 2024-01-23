@@ -62,7 +62,9 @@ const DropdownCheckbox = ({
 };
 
 const DropdownLayout = styled.div`
-  position: relative;
+  position: absolute;
+  z-index: 2;
+  transform: translateY(60px);
 
   width: 300px;
   height: 232px;
