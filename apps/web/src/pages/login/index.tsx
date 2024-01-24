@@ -1,16 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {useRouter} from "next/router";
-import {LoginView} from "@archivist/ui";
-import USER_CONSTANTS from '@constants/userStorageConstants';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { LoginView } from "@archivist/ui";
+import USER_CONSTANTS from "@constants/userStorageConstants";
 import axios from "axios";
-import { useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import loginUserAtom from "@store/loginUserAtom";
-import LoginUserModel from '@model/loginUserModel';
 import { setCookie } from "cookies-next";
 
 /** 카카오 로그인 관련 페이지입니다 */
-const LoginPage = ( props ) => {
-  const setLoginUser = useSetAtom( loginUserAtom );
+const LoginPage = (props) => {
+  const [loginUser, setLoginUser] = useAtom(loginUserAtom);
   const router = useRouter();
 
   /** loginView 관련 로직입니다 */
@@ -41,21 +40,21 @@ const LoginPage = ( props ) => {
   };
 
   /** 카카오 로그인이 완료되었을때 */
-  const onEndKakaoLogin =  async (storageEvent: StorageEvent) => {
+  const onEndKakaoLogin = (storageEvent: StorageEvent) => {
     let routerLink = "/";
-    let removeStorageKey = '';  // storage 에서 제거할 key
+    let removeStorageKey = ""; // storage 에서 제거할 key
     const isSignupUser =
       USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID === storageEvent.key;
     const isNotSignupUser =
       USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL === storageEvent.key;
-    let loginUserModel = new LoginUserModel();
+
+    alert(
+      `"isSignupUser", ${isSignupUser}, "isNotSignupUser", ${isNotSignupUser}`
+    );
 
     // 회원가입하지 않은 사용자일 경우
     if (isNotSignupUser) {
-      loginUserModel.token = localStorage.getItem(
-        USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN
-      );
-      loginUserModel.email = localStorage.getItem(
+      loginUser.email = localStorage.getItem(
         USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL
       );
       routerLink = "/signup";
@@ -63,45 +62,29 @@ const LoginPage = ( props ) => {
     }
     // 회원가입한 사용자일 경우
     else if (isSignupUser) {
-      loginUserModel.token = localStorage.getItem(
-        USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN
-      );
-      loginUserModel.userId = localStorage.getItem(
+      loginUser.userId = localStorage.getItem(
         USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID
+      );
+      // NOTE: SSR을 위해 cookie 활용 필요함
+      setCookie(
+        USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN,
+        localStorage.getItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN)
       );
       routerLink = "/mycave";
       removeStorageKey = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID;
-      try {
-        loginUserModel = await getLoginUserModel( loginUserModel );
-      }
-      catch ( e ){
-        localStorage.removeItem(removeStorageKey);
-        localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-        router.push("/");
-      }
-    }
-    else {
+    } else {
       return;
     }
-    setLoginUser(loginUserModel);
-    // NOTE: SSR을 위해 cookie 활용 필요함
-    setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN,loginUserModel.token);
-    localStorage.removeItem(removeStorageKey);
+    loginUser.token = localStorage.getItem(
+      USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN
+    );
+    setLoginUser(loginUser);
     localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
+    localStorage.removeItem(removeStorageKey);
+    console.log({ routerLink });
+    alert(`routerLink, ${routerLink}`);
     router.push(routerLink);
   };
-
-  // 서버에서 loginUserModel 정보를 가져옵니다
-  const getLoginUserModel = async ( loginUserModel : LoginUserModel ) : Promise<LoginUserModel> => {
-    const AuthorizationToken = `Bearer ${loginUserModel.token}`;
-    const res = await axios.get(`/api/user` , {
-      headers : { Authorization: AuthorizationToken }
-    } );
-    if ( !res.data ){
-      throw new Error( '잘못된 응답값입니다' );
-    }
-    return new LoginUserModel( { ...loginUserModel , ...res.data } );
-  }
 
   return (
     <>
