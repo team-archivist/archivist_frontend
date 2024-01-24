@@ -2,22 +2,37 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Select } from "@radix-ui/themes";
 import React from "react";
-
-type Props = {};
+import useAPIGroup from "../../services/external/useAPIGroup";
+import { GROUP_VALUE } from "./types";
 
 const GroupSelectItem = styled(Select.Item)`
   height: 48px;
   margin: 8px 0;
 `;
 
-const ACSelect = (props: Props) => {
+const ACSelect = ({ onChange }) => {
+  const { groups } = useAPIGroup();
   return (
-    <Select.Root size="3" defaultValue="모든 그룹">
-      <Select.Trigger />
+    <Select.Root
+      size="3"
+      defaultValue={GROUP_VALUE.UNDESIGNATED}
+      onValueChange={onChange}
+    >
+      <Select.Trigger
+        css={css`
+          width: 100%;
+        `}
+      />
       <Select.Content position="popper">
-        <GroupSelectItem value="orange">모든 그룹</GroupSelectItem>
-        <GroupSelectItem value="apple">그룹1</GroupSelectItem>
-        <GroupSelectItem value="grape">그룹2</GroupSelectItem>
+        <GroupSelectItem value={GROUP_VALUE.UNDESIGNATED}>
+          그룹 미지정
+        </GroupSelectItem>
+        {groups.map((group) => (
+          <GroupSelectItem key={group?.groupName} value={group?.groupId}>
+            <img src={group?.imgUrl} />
+            {group?.groupName}
+          </GroupSelectItem>
+        ))}
       </Select.Content>
     </Select.Root>
   );

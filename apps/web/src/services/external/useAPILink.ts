@@ -1,7 +1,5 @@
-import USER_CONSTANTS from "@constants/userStorageConstants";
-import axios from "axios";
-import { getCookie } from "cookies-next";
-import { RefObject } from "react";
+import axiosInstance from "../requests";
+import { imageToBlob } from "../utils";
 
 type Props = {
   linkDto: string;
@@ -15,9 +13,6 @@ const useAPILink = ({
   previewImageExtension,
 }: Props) => {
   const executeFetch = async (imgElement: HTMLImageElement) => {
-    const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-    const AuthorizationToken = `Bearer ${token}`;
-
     const formData = new FormData();
     const linkDtoBlob = new Blob([linkDto], {
       type: "application/json",
@@ -37,34 +32,12 @@ const useAPILink = ({
       formData.append("linkImgFile", fileImageBlob);
     }
 
-    const response = await axios.post(`/api/link`, formData, {
-      headers: {
-        Authorization: AuthorizationToken,
-        "Content-Type": "multipart/form-data",
-      },
+    const response = await axiosInstance.post(`/api/link`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
   };
 
   return { executeFetch };
-};
-
-const imageToBlob = (imgElement: HTMLImageElement) => {
-  return new Promise((resolve) => {
-    const canvas = document.createElement("canvas");
-    const canvasContext = canvas.getContext("2d");
-
-    // 이미지의 크기에 맞게 Canvas 크기 설정
-    canvas.width = imgElement.naturalWidth;
-    canvas.height = imgElement.naturalHeight;
-
-    // Canvas에 이미지 그리기
-    canvasContext?.drawImage(imgElement, 0, 0);
-
-    // Canvas의 이미지를 Blob으로 변환
-    canvas.toBlob((blob) => {
-      resolve(blob);
-    });
-  });
 };
 
 export default useAPILink;

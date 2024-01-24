@@ -14,6 +14,7 @@ import LoginUserModel from "@model/LoginUserModel";
 import CategoriesModel from "@model/CategoriesModel";
 import { useSetAtom, useAtom } from "jotai";
 import loginUserAtom from "@store/loginUserAtom";
+import axiosInstance from "src/services/requests";
 
 /** NavigationBar 위치 관련 */
 enum NavigationBarLeftItem {
@@ -41,11 +42,11 @@ const SignupPage = (props) => {
 
     (async () => {
       try {
-        const categoriesRes = await axios.get("/categories");
+        const categoriesRes = await axiosInstance.get("/api/categories");
         const categoryModel = new CategoriesModel(categoriesRes?.data || []);
         setCategories(categoryModel.categories.map((c) => ({ name: c })));
 
-        const nicknameRes = await axios.get(`/nicknames`, {
+        const nicknameRes = await axiosInstance.get(`/api/nicknames`, {
           headers: {
             Authorization: `Bearer ${loginUser.token}`,
           },
@@ -67,11 +68,9 @@ const SignupPage = (props) => {
         categories: chipListByActive,
       };
       try {
-        const res = await axios.post(`/api/user`, param, {
+        const res = await axiosInstance.post(`/api/user`, param, {
           headers: {
             Authorization: `Bearer ${loginUser.token}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
           },
         });
         // store 저장
@@ -101,7 +100,7 @@ const SignupPage = (props) => {
     async onValidateNickname(inputValue: string) {
       console.log("inputValue", inputValue);
       try {
-        const res = await axios.get(`/api/user/${userEmail}`);
+        const res = await axiosInstance.get(`/api/user/${userEmail}`);
       } catch (e) {
         console.log(
           "<< onValidateNickname >> 토큰을 발급받지 않아 조회하지 않습니다",

@@ -48,6 +48,10 @@ const LoginPage = (props) => {
     const isNotSignupUser =
       USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL === storageEvent.key;
 
+    alert(
+      `"isSignupUser", ${isSignupUser}, "isNotSignupUser", ${isNotSignupUser}`
+    );
+
     // 회원가입하지 않은 사용자일 경우
     if (isNotSignupUser) {
       loginUser.email = localStorage.getItem(
@@ -77,6 +81,8 @@ const LoginPage = (props) => {
     setLoginUser(loginUser);
     localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
     localStorage.removeItem(removeStorageKey);
+    console.log({ routerLink });
+    alert(`routerLink, ${routerLink}`);
     router.push(routerLink);
   };
 

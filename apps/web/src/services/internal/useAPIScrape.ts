@@ -1,8 +1,10 @@
-import axios from "axios";
+import axiosInstance from "../requests";
 
 const useAPIScrape = (linkUrl?: string) => {
   const executeFetch = async () => {
-    const response = await axios.post(`/scrape`, { linkUrl });
+    const response = await axiosInstance.post(`/client-api/scrape`, {
+      linkUrl,
+    });
     return { ...response.data };
   };
 
