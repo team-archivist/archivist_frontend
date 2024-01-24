@@ -90,6 +90,7 @@ export const CategoryDetailPage = () => {
             groupTitle={group?.categories.join( " " )}
             description={group?.groupDesc||""}
             avatar={ { isVisible : false } }
+            thumbnail={{ imgUrl : `${process.env.NEXT_PUBLIC_API_URL}${group?.imgUrl}` }}
             button={ {
               text : "그룹 수정하기" ,
               isOutline : true,

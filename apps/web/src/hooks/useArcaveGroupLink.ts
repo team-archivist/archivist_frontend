@@ -18,7 +18,6 @@ const useArcaveGroupLink = ({ groupId }: Props) => {
     }
     const fetchLink = async () => {
       const response = await axiosInstance.get( `/api/group/link/${groupId}` );
-      console.log('response' , response );
       setLinks(response.data);
     };
 
