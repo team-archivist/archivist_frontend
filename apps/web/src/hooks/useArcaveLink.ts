@@ -2,6 +2,7 @@ import USER_CONSTANTS from "@constants/userStorageConstants";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
+import axiosInstance from "src/services/requests";
 
 type Props =
   | {
@@ -21,17 +22,12 @@ const useArcaveLink = ({ isUser, userId, linkId }: Props) => {
       return;
     }
 
-    const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-    const AuthorizationToken = `Bearer ${token}`;
+    // const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
+    // const AuthorizationToken = `Bearer ${token}`;
 
     const fetchLink = async () => {
-      const response = await axios.get(
-        isUser ? `/api/user/link/${userId}` : `/api/link/${linkId}`,
-        {
-          headers: {
-            Authorization: AuthorizationToken,
-          },
-        }
+      const response = await axiosInstance.get(
+        isUser ? `/api/user/link/${userId}` : `/api/link/${linkId}`
       );
       setLinks(response.data);
     };
