@@ -83,7 +83,6 @@ const LoginPage = ( props ) => {
     else {
       return;
     }
-
     setLoginUser(loginUserModel);
     // NOTE: SSR을 위해 cookie 활용 필요함
     setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN,loginUserModel.token);

@@ -25,7 +25,8 @@ export const ArcaveCardDetail = ({
  // thumbnail 관련 props
  thumbnail = {
    isVisibleIcon : true,
-   onClickByIcon : () => {}
+   onClickByIcon : () => {},
+   imgUrl : "https://i.namu.wiki/i/hJsQn0zd7srGpiDkjatRWKHzk7fCY6NRL3ewAcPWLOuxPbJnPP6WmNxhR0vGMN6WNCZek6nvqbM7WkgZrlISt4T0Nefd_lEbWtiwWxwEOa8sJej78QG--R5ZdNNhEMQTm4IKXYn6FRxEFL74-k6DnA.webp",
  },
  // bottom 관련 props
  button = {
@@ -39,9 +40,14 @@ export const ArcaveCardDetail = ({
    imgUrl : "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop",
  }
 }: Props) => {
+  console.log( 'thumbnail' , thumbnail )
   return (
     <HStack gap={"2"}>
-      <Thumbnail className="h-[240px] w-[360px] rounded-lg mr-5">
+      <Thumbnail
+        className="h-[240px] w-[360px] rounded-lg mr-5">
+        {
+          thumbnail && <img src={ thumbnail.imgUrl } />
+        }
         {
           thumbnail && thumbnail.isVisibleIcon &&
           <ThumbnailIcon

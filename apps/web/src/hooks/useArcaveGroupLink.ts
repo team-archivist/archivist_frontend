@@ -1,5 +1,5 @@
 import USER_CONSTANTS from "@constants/userStorageConstants";
-import axios from "axios";
+import axiosInstance from "src/services/requests";
 import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
@@ -16,18 +16,8 @@ const useArcaveGroupLink = ({ groupId }: Props) => {
     if (!groupId) {
       return;
     }
-
-    const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-    const AuthorizationToken = `Bearer ${token}`;
-
     const fetchLink = async () => {
-      const response = await axios.get( `/api/group/link/${groupId}`,
-        {
-          headers: {
-            Authorization: AuthorizationToken,
-          },
-        }
-      );
+      const response = await axiosInstance.get( `/api/group/link/${groupId}` );
       console.log('response' , response );
       setLinks(response.data);
     };

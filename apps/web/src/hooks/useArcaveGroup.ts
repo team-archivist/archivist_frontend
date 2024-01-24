@@ -1,7 +1,7 @@
+import {useEffect, useState} from "react";
+import {getCookie} from "cookies-next";
 import USER_CONSTANTS from "@constants/userStorageConstants";
-import axios from "axios";
-import { getCookie } from "cookies-next";
-import { useEffect, useState } from "react";
+import axiosInstance from "src/services/requests";
 
 type Props =
   | {
@@ -12,37 +12,29 @@ type Props =
   isUser: false;
   groupId: number;
 };
+/**
+ * - ArcaveGroup 관련 hook 입니다
+ */
+const useArcaveGroup = ( { isUser, userId , groupId } : Props ) => {
+  const [ group , setGroup ] = useState();
 
-const useArcaveGroup = ({ isUser , userId, groupId }: Props) => {
-  const [group, setGroup] = useState<any[]>();
-
-  useEffect(() => {
-    if (!userId && !groupId) {
+  useEffect( () => {
+    if ( !groupId ){
       return;
     }
 
-    const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-    const AuthorizationToken = `Bearer ${token}`;
-
-    const fetchLink = async () => {
-      const response = await axios.get(
-        isUser ? `/api/user/group/${userId}` : `/api/group/${groupId}`,
-        {
-          headers: {
-            Authorization: AuthorizationToken,
-          },
-        }
-      );
-      console.log( 'response' , response , groupId );
-      setGroup(response.data);
-    };
-
-    fetchLink();
-  }, [userId , groupId]);
+    const fetchGroup = async () => {
+      const response = await axiosInstance.get(
+        isUser ? `/api/user/group/${userId}` : `/api/group/${groupId}`  );
+      console.log( 'res' , response );
+      setGroup( response.data );
+    }
+    fetchGroup();
+  } , [groupId]);
 
   return {
     group,
-    hasGroup: !!group && group?.groupId,
-  };
-};
+    hasGroup : !!group && group.length > 0,
+  }
+}
 export default useArcaveGroup;
