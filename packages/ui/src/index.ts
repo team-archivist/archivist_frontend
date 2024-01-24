@@ -4,6 +4,7 @@ import "@radix-ui/themes/styles.css";
 
 export * from "./components/base/button";
 export * from "./components/base/ArcaveCard";
+export * from "./components/base/ArcaveCard/AcaveCardDetail";
 export * from "./components/base/Stack/HStack";
 export * from "./components/base/Stack/VStack";
 

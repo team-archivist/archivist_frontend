@@ -22,6 +22,10 @@ const SigninCallback = () => {
       };
       let token = ""; // jwt token
       try {
+        localStorage.removeItem( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
+        localStorage.removeItem( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID );
+        localStorage.removeItem( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL );
+
         const res = await axiosInstance.post(
           `/api/login/kakao`,
           { code: router.query.code },
