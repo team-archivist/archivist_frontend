@@ -10,6 +10,17 @@ export const Typography = {
       },
     },
   },
+  Title2: {
+    ["17"]: {
+      Regular: {
+        fontSize: "17px",
+        fontStyle: "normal",
+        fontWeight: 400,
+        lineHeight: "24px" /* 141.176% */,
+        letterSpacing: "-0.17px",
+      },
+    },
+  },
   Body2: {
     ["15"]: {
       Regular: {

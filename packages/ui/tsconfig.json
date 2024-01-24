@@ -11,7 +11,7 @@
     "types": ["@emotion/react/types/css-prop"],
     "baseUrl": "./",
     "paths": {
-      "@utils*" : [ "src/utils*" ]
+      "@utils*": ["src/utils*"]
     }
   },
   "include": ["src/components", "src/index.ts", "src"],
