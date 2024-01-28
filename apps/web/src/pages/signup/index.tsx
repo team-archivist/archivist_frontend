@@ -11,11 +11,10 @@ import styled from "@emotion/styled";
 import {useRouter} from "next/router";
 import LoginUserModel from "@model/LoginUserModel";
 import CategoriesModel from "@model/CategoriesModel";
-import { useSetAtom , useAtom } from "jotai";
-import loginUserAtom from "@store/loginUserAtom";
 import { getCookie } from "cookies-next";
 import USER_CONSTANTS from "@constants/userStorageConstants";
 import axiosInstance from "../../services/requests";
+import useCurrentUser from "@hooks/useCurrentUser";
 
 /** NavigationBar 위치 관련 */
 enum NavigationBarLeftItem {
@@ -27,18 +26,21 @@ enum NavigationBarLeftItem {
  * - 회원가입 관련 페이지입니다
  */
 const SignupPage = ( props ) => {
-  const [ loginUser , setLoginUser] = useAtom( loginUserAtom );
+  const { currentUser } = useCurrentUser();
   const [ _ , currentPath ] = usePathname();
   const [ signupStep , setSignupStep ] = useState<number>( 1 );
   const [ openBySignupEnd , setOpenBySignupEnd ] = useState( false );
   const [ categories , setCategories ] = useState<{name : string}[]>( [] );
   const [ nicknamesBySaved , setNicknamesBySaved ] = useState( [] );
   const router = useRouter();
+  const userEmail = getCookie( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL );
 
   useEffect( () => {
-    if ( !loginUser.email ){
-      window.alert( '먼저 카카오 로그인해주세요' );
+    if ( !userEmail ){
       router.push( '/login' );
+    }
+    if ( currentUser ){
+      router.push( '/mycave' );
     }
 
     ( async () => {
@@ -61,14 +63,14 @@ const SignupPage = ( props ) => {
 
     } )();
 
-  } , [] );
+  } , [ currentUser ] );
 
   // ( 회원가입 프로세스 )
   const signupProcess = {
     /** 가입하기 클릭시 */
     async onSignup( { nickName , chipListByActive } ){
       const param = {
-        email : loginUser.email,
+        email : userEmail,
         nickname: nickName,
         categories: chipListByActive,
       }
@@ -81,9 +83,6 @@ const SignupPage = ( props ) => {
             'Accept' : '*/*',
           }
         } );
-        // store 저장
-        setLoginUser( new LoginUserModel( { ...res?.data , token } ) );
-
         setOpenBySignupEnd( true );
       }
       catch( e ){
