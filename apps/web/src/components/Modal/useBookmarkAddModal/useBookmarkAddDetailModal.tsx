@@ -12,7 +12,7 @@ import {
   VStack,
 } from "@archivist/ui";
 
-import LinkModalAtom from "@store/LinkModalAtom";
+import LinkModalAtom, { LinkModel } from "@store/LinkModalAtom";
 
 import useUploadImage from "../common/useUploadImage";
 import useAPILink from "src/services/external/useAPILink";
@@ -21,18 +21,15 @@ import useAPIScrape from "src/services/internal/useAPIScrape";
 import ACSelect from "@components/Select";
 import { BookmarkTab } from "src/pages/mycave";
 import BookmarkTabAtom from "@store/BookmarkTabAtom";
-import useGroupAddModal from "../useGroupAddModal";
 
 const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
-  const [linkDTO, setLinkDTO] = useAtom(LinkModalAtom);
+  const [linkDto, setLinkDto] = useAtom(LinkModalAtom);
 
   const imgRef = useRef<HTMLImageElement>(null);
 
   const [isFetched, setIsFetched] = useState(false);
-  const [initialLinkInformation, setInitialLinkInformation] = useState();
 
   const [open, setOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [count, setCount] = useState(0);
 
   const [, setBookmarkTabValue] = useAtom(BookmarkTabAtom);
@@ -46,13 +43,14 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     resetUploadField,
   } = useUploadImage();
 
-  const { executeFetch: executeFetchLink } = useAPILink({
-    linkDto: JSON.stringify(linkDTO),
-    fileImageBlob,
-    previewImageExtension: previewImageUrl.split(".").at(-1) as string,
-  });
+  const { executePost: executePostLink, executePatch: executePatchLink } =
+    useAPILink({
+      linkDto: linkDto as LinkModel,
+      fileImageBlob,
+      previewImageExtension: previewImageUrl.split(".").at(-1) as string,
+    });
 
-  const { executeFetch: executeFetchScrape } = useAPIScrape(linkDTO?.linkUrl);
+  const { executeFetch: executeFetchScrape } = useAPIScrape(linkDto?.linkUrl);
 
   const handleChangeDescription = (value: string) => {
     setCount(value.length);
@@ -64,8 +62,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const handleClickCancelButton = () => {
     resetUploadField();
-    setInitialLinkInformation(undefined);
-    setLinkDTO({});
+    setLinkDto({});
     setIsFetched(false);
   };
 
@@ -74,7 +71,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   };
 
   const handleSubmit = () => {
-    executeFetchLink(imgRef.current);
+    if (!!linkDto?.linkId) {
+      executePatchLink(linkDto);
+      return;
+    }
+
+    executePostLink(imgRef.current);
   };
 
   const handleClickAddGroup = () => {
@@ -83,30 +85,41 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleOpenGroupAddModal();
   };
 
+  const handleShow = (params) => {
+    if (params) {
+      const { linkId, linkName, linkDesc, groupId } = params;
+      setLinkDto({
+        linkId,
+        linkName,
+        linkDesc,
+        ...(groupId ? { groupId } : {}),
+      });
+    }
+    handleChangeOpen(true);
+    setIsFetched(true);
+  };
+
   useEffect(() => {
     (async () => {
-      if (!!linkDTO?.linkUrl) {
+      if (!!linkDto?.linkUrl) {
         try {
-          console.log( 'linkDTO' , linkDTO );
           const { title, ogDescription, ogImage } = await executeFetchScrape();
-          setInitialLinkInformation({ title, ogDescription });
-          setLinkDTO({ ...linkDTO, linkName: title, linkDesc: ogDescription });
+          setLinkDto({ ...linkDto, linkName: title, linkDesc: ogDescription });
           if (ogImage) {
             handleChangePreviewImageUrl(ogImage);
           }
           setCount(ogDescription.length);
           setIsFetched(true);
-        }
-        catch( e ){
-          window.alert( '해당 링크의 메타정보를 가져올 수 없습니다' );
+        } catch (e) {
+          window.alert("해당 링크의 메타정보를 가져올 수 없습니다");
           return;
         }
       }
     })();
-  }, [linkDTO?.linkUrl]);
+  }, [linkDto?.linkUrl]);
 
   return {
-    show: () => handleChangeOpen(true),
+    show: handleShow,
     render: isFetched
       ? () => (
           <>
@@ -144,45 +157,29 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       onChange={handleChangeFileInput}
                     />
                     <VStack gap="4">
-                      {linkDTO?.group !== "CREATE" && (
-                        <Flex direction="column" gap="3">
-                          <HStack width={"100%"} justify={"between"}>
-                            <Text>그룹</Text>
-                            <Text onClick={handleClickAddGroup}>
-                              그룹 추가하기 {">"}
-                            </Text>
-                          </HStack>
-                          <Form.Field className="FormField" name="group">
-                            <ACSelect // FIXME: rhf으로 전환 예정
-                              onChange={(value) => {
-                                console.log( 'value' , value );
-                                setLinkDTO((prevLinkDTO) => ({
-                                  ...prevLinkDTO,
-                                  group: value,
-                                }));
-                              }}
-                            />
-                          </Form.Field>
-                        </Flex>
-                      )}
-                      {linkDTO?.group === "CREATE" && (
-                        <Flex direction="column" gap="3">
-                          <Text>그룹 이름</Text>
-                          <Form.Field className="FormField" name="group">
-                            <TextField.Input
-                              size="3"
-                              placeholder="그룹 이름을 입력해주세요"
-                              // FIXME: rhf으로 전환 예정
-                              onChange={({ target: { value } }) =>
-                                setLinkDTO((prevLinkDTO) => ({
-                                  ...prevLinkDTO,
-                                  groupName: value,
-                                }))
-                              }
-                            />
-                          </Form.Field>
-                        </Flex>
-                      )}
+                      <Flex direction="column" gap="3">
+                        <HStack width={"100%"} justify={"between"}>
+                          <Text>그룹</Text>
+                          <Text
+                            onClick={handleClickAddGroup}
+                            css={css`
+                              cursor: pointer;
+                            `}
+                          >
+                            그룹 추가하기 {">"}
+                          </Text>
+                        </HStack>
+                        <Form.Field className="FormField" name="group">
+                          <ACSelect // FIXME: rhf으로 전환 예정
+                            onChange={(value: string) => {
+                              setLinkDto((prevLinkDto) => ({
+                                ...prevLinkDto,
+                                groupId: value,
+                              }));
+                            }}
+                          />
+                        </Form.Field>
+                      </Flex>
                       <Flex direction="column" gap="3">
                         <Text>링크 이름</Text>
                         <Form.Field className="FormField" name="linkName">
@@ -190,12 +187,11 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                             <TextField.Input
                               size="3"
                               placeholder="링크 이름을 입력해주세요"
-                              defaultValue={initialLinkInformation?.title}
-                              state={true}
+                              value={linkDto.linkName}
                               // FIXME: rhf으로 전환 예정
                               onChange={({ target: { value } }) =>
-                                setLinkDTO((prevLinkDTO) => ({
-                                  ...prevLinkDTO,
+                                setLinkDto((prevLinkDto) => ({
+                                  ...prevLinkDto,
                                   linkName: value,
                                 }))
                               }
@@ -209,12 +205,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                           <TextArea
                             size="3"
                             placeholder="링크 설명을 입력해주세요"
-                            defaultValue={initialLinkInformation?.ogDescription}
+                            value={linkDto.linkDesc}
                             // FIXME: rhf으로 전환 예정
                             onChange={({ target: { value } }) => {
                               handleChangeDescription(value);
-                              setLinkDTO((prevLinkDTO) => ({
-                                ...prevLinkDTO,
+                              setLinkDto((prevLinkDto) => ({
+                                ...prevLinkDto,
                                 linkDesc: value,
                               }));
                             }}

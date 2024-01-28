@@ -28,7 +28,7 @@ const ACSelect = ({ onChange }) => {
           그룹 미지정
         </GroupSelectItem>
         {groups.map((group) => (
-          <GroupSelectItem key={group?.groupName} value={group?.groupId}>
+          <GroupSelectItem key={group?.groupId} value={group?.groupId}>
             <img src={group?.imgUrl} />
             {group?.groupName}
           </GroupSelectItem>

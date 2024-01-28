@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 
-type LinkModel = {
+export type LinkModel = {
+  linkId?: string;
   linkUrl?: string;
   linkName?: string;
   linkDesc?: string;

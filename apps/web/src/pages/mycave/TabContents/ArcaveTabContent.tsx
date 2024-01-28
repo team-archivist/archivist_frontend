@@ -12,6 +12,7 @@ import { Text } from "@radix-ui/themes";
 
 import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
 import useArcaveLink from "src/hooks/useArcaveLink";
+import useBookmarkAddDetailModal from "@components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
 
 type Props = {
   currentUser: any;
@@ -23,6 +24,10 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
   const { links, hasLink } = useArcaveLink({
     isUser: true,
     userId: currentUser?.userId ?? 0,
+  });
+
+  const linkDetailModal = useBookmarkAddDetailModal({
+    handleOpenGroupAddModal,
   });
 
   return (
@@ -59,15 +64,30 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
             width: 1224px;
           `}
         >
-          {links?.map(({ linkId, linkUrl, linkName, linkDesc, imgUrl }) => (
-            <ArcaveCard
-              key={linkId}
-              title={linkName}
-              description={linkDesc}
-              url={linkUrl}
-              imgSrc={imgUrl}
-            />
-          ))}
+          {links?.map(
+            ({ linkId, linkUrl, linkName, linkDesc, imgUrl, groupId }) => {
+              const handleClickModify = () => {
+                linkDetailModal.show({
+                  linkId,
+                  linkName,
+                  linkDesc,
+                  groupId,
+                  // imgUrl,
+                });
+              };
+
+              return (
+                <ArcaveCard
+                  key={linkId}
+                  title={linkName}
+                  description={linkDesc}
+                  url={linkUrl}
+                  imgSrc={imgUrl}
+                  onClickModify={handleClickModify}
+                />
+              );
+            }
+          )}
         </HStack>
       ) : (
         <VStack
@@ -88,6 +108,7 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
         </VStack>
       )}
       {bookmarkAddModal.render()}
+      {linkDetailModal.render()}
     </>
   );
 };

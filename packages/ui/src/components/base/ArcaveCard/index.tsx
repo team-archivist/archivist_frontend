@@ -19,6 +19,13 @@ type Props = {
   onClickModify: (params) => void;
 };
 
+const withStopPropagation = (callback) => {
+  return (event: React.MouseEvent) => {
+    event.stopPropagation();
+    callback();
+  };
+};
+
 export const ArcaveCard = ({
   title = "BookmarkTitle",
   description = "Description",
@@ -63,7 +70,7 @@ export const ArcaveCard = ({
         css={css`
           background-color: ${PaletteColor.Gray[300]};
           ${imgSrc &&
-        css`
+          css`
             background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
             background-size: contain;
             background-repeat: no-repeat;
@@ -82,7 +89,7 @@ export const ArcaveCard = ({
                 background-color: ${PaletteColor.Gray[200]};
                 cursor: pointer;
               `}
-              onClick={onClickModify}
+              onClick={withStopPropagation(onClickModify)}
             >
               <PencilIcon />
             </Button>
