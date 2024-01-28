@@ -48,9 +48,9 @@ const LoginPage = (props) => {
     const isNotSignupUser =
       USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL === storageEvent.key;
 
-    alert(
-      `"isSignupUser", ${isSignupUser}, "isNotSignupUser", ${isNotSignupUser}`
-    );
+    if ( !isNotSignupUser && !isSignupUser ){
+      return;
+    }
 
     // 회원가입하지 않은 사용자일 경우
     if (isNotSignupUser) {
@@ -61,7 +61,7 @@ const LoginPage = (props) => {
       removeStorageKey = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL;
     }
     // 회원가입한 사용자일 경우
-    else if (isSignupUser) {
+    else {
       loginUser.userId = localStorage.getItem(
         USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID
       );
@@ -72,17 +72,14 @@ const LoginPage = (props) => {
       );
       routerLink = "/mycave";
       removeStorageKey = USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID;
-    } else {
-      return;
     }
+
     loginUser.token = localStorage.getItem(
       USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN
     );
     setLoginUser(loginUser);
     localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
     localStorage.removeItem(removeStorageKey);
-    console.log({ routerLink });
-    alert(`routerLink, ${routerLink}`);
     router.push(routerLink);
   };
 

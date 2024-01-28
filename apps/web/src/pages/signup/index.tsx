@@ -8,7 +8,6 @@ import { css } from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo.svg";
 import React,{ useState , useEffect } from "react";
 import styled from "@emotion/styled";
-import axios from "axios";
 import {useRouter} from "next/router";
 import LoginUserModel from "@model/LoginUserModel";
 import CategoriesModel from "@model/CategoriesModel";
@@ -16,6 +15,7 @@ import { useSetAtom , useAtom } from "jotai";
 import loginUserAtom from "@store/loginUserAtom";
 import { getCookie } from "cookies-next";
 import USER_CONSTANTS from "@constants/userStorageConstants";
+import axiosInstance from "../../services/requests";
 
 /** NavigationBar 위치 관련 */
 enum NavigationBarLeftItem {
@@ -36,7 +36,6 @@ const SignupPage = ( props ) => {
   const router = useRouter();
 
   useEffect( () => {
-    console.log( 'loginUser' , loginUser );
     if ( !loginUser.email ){
       window.alert( '먼저 카카오 로그인해주세요' );
       router.push( '/login' );
@@ -44,23 +43,21 @@ const SignupPage = ( props ) => {
 
     ( async () => {
       try {
-        const categoriesRes = await axios.get( '/api/categories' );
+        const categoriesRes = await axiosInstance.get( '/api/categories' );
         const categoryModel = new CategoriesModel( categoriesRes?.data || [] );
         setCategories( categoryModel.categories.map( c => ( { name : c } ) ) );
-
         const token = getCookie( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
-
-        const nicknameRes = await axios.get( `/api/nicknames` , {
+        const nicknameRes = await axiosInstance.get( `/api/nicknames` , {
           headers: {
             Authorization: `Bearer ${token}`
           }
         } );
         setNicknamesBySaved( nicknameRes?.data || [] );
-
       }
       catch( e ){
         console.log( '<< categories >> 목록을 가져오는데 실패했습니다' );
       }
+
 
     } )();
 
@@ -77,7 +74,7 @@ const SignupPage = ( props ) => {
       }
       try {
         const token = getCookie( USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN );
-        const res = await axios.post( `/api/user` , param , {
+        const res = await axiosInstance.post( `/api/user` , param , {
           headers : {
             Authorization: `Bearer ${token}`,
             'Content-Type' : 'application/json',
