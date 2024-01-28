@@ -132,7 +132,7 @@ const useGroupAddModal = () => {
     render: () => (
       <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
         <Dialog.Content style={{ maxWidth: 348 }}>
-          <Dialog.Title>그룹 추가</Dialog.Title>
+          <Dialog.Title>{ !!id ? '그룹 수정' : '그룹 추가'}</Dialog.Title>
           <Form.Root className="FormRoot">
             <VStack gap="6">
               <Box

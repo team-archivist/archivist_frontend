@@ -23,6 +23,7 @@ import useArcaveGroupLink from "../../../../hooks/useArcaveGroupLink";
 import useArcaveLink from "@hooks/useArcaveLink";
 import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
 import {useRouter} from "next/router";
+import useGroupAddModal from "@components/Modal/useGroupAddModal";
 
 enum BookmarkTab {
   ALL = "전체",
@@ -51,6 +52,7 @@ export const UserGroupDetailPage = () => {
     groupId : currentGroup?.groupId,
   } );
 
+  const groupAddModal = useGroupAddModal();
   const handleOpenGroupAddModal = () => {};
   const bookmarkAddModal = useBookmarkAddModal({ handleOpenGroupAddModal });
 
@@ -65,10 +67,36 @@ export const UserGroupDetailPage = () => {
       router.back();
     }
     setCurrentGroup( _currentGroup );
+    console.log( '_currentGroup' , _currentGroup );
   } , [group] );
 
   if (!currentUser) {
     return "로딩 중";
+  }
+
+  // 그룹 수정하기 클릭시
+  const handleClickGroupEdit = () => {
+    if ( !currentGroup ){
+      window.alert( '현재 그룹이 없습니다' );
+      return;
+    }
+    const {
+      categories ,
+      groupDesc ,
+      groupId ,
+      groupName ,
+      imgUrl ,
+      linkCount ,
+      isGroupPublic
+    } = currentGroup;
+
+    groupAddModal.show( {
+      groupName,
+      groupDescription : groupDesc || '',
+      groupCategories : categories || [],
+      groupId,
+      groupIsPrivate : !isGroupPublic,
+    } );
   }
 
   return (
@@ -100,12 +128,13 @@ export const UserGroupDetailPage = () => {
             title={currentGroup?.groupName||""}
             groupTitle={currentGroup?.categories.join( " " )}
             description={currentGroup?.groupDesc||""}
+            avatar={ { isVisible : false } }
             thumbnail={{ imgUrl : `${process.env.NEXT_PUBLIC_API_URL}${currentGroup?.imgUrl}` }}
             button={ {
               isVisible : true,
               text : "그룹 수정하기" ,
               isOutline : true,
-              onClick : () => {}
+              onClick : () => handleClickGroupEdit(),
           } }
           />
         </Flex>
@@ -169,6 +198,7 @@ export const UserGroupDetailPage = () => {
               </VStack>
             ) }
             {bookmarkAddModal.render()}
+            {groupAddModal.render()}
           </Tabs.Content>
         </ACTabs>
       </BookmarkLayout>
