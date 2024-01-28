@@ -16,6 +16,7 @@ type Props = {
   groupTitle?: string;
   url?: string;
   imgSrc?: string;
+  onClickModify: (params) => void;
 };
 
 export const ArcaveCard = ({
@@ -24,6 +25,7 @@ export const ArcaveCard = ({
   groupTitle = "GroupTitle",
   url,
   imgSrc,
+  onClickModify,
 }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -73,6 +75,7 @@ export const ArcaveCard = ({
                 background-color: ${PaletteColor.Gray[200]};
                 cursor: pointer;
               `}
+              onClick={onClickModify}
             >
               <PencilIcon />
             </Button>

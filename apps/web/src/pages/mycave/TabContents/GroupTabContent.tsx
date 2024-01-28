@@ -60,14 +60,38 @@ const GroupTabContent = ({ currentUser }: Props) => {
             width: 1224px;
           `}
         >
-          {groups?.map(({ groupId, groupName, groupDesc, imgUrl }) => (
-            <ArcaveCard
-              key={groupId}
-              title={groupName}
-              description={groupDesc}
-              imgSrc={imgUrl}
-            />
-          ))}
+          {groups?.map(
+            ({
+              groupId,
+              groupName,
+              groupDesc,
+              imgUrl,
+              categories,
+              isGroupPublic,
+            }) => {
+              const handleClickModify = () => {
+                console.log({ groupName, groupDesc });
+                groupAddModal.show({
+                  groupName,
+                  groupId,
+                  groupDescription: groupDesc,
+                  groupIsPrivate: isGroupPublic,
+                  groupCategories: categories,
+                });
+              };
+
+              return (
+                <ArcaveCard
+                  key={groupId}
+                  title={groupName}
+                  description={groupDesc}
+                  groupTitle={categories}
+                  imgSrc={imgUrl}
+                  onClickModify={handleClickModify}
+                />
+              );
+            }
+          )}
         </HStack>
       ) : (
         <VStack
