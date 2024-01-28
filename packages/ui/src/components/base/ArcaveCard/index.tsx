@@ -13,7 +13,7 @@ import { useState } from "react";
 type Props = {
   title?: string;
   description?: string;
-  groupTitle?: string;
+  groupTitle?: string | string[];
   url?: string;
   imgSrc?: string;
   onClickModify: (params) => void;
@@ -22,7 +22,7 @@ type Props = {
 export const ArcaveCard = ({
   title = "BookmarkTitle",
   description = "Description",
-  groupTitle = "GroupTitle",
+  groupTitle,
   url,
   imgSrc,
   onClickModify,
@@ -40,6 +40,13 @@ export const ArcaveCard = ({
     if (url) {
       window.open(url);
     }
+  };
+
+  const renderGroupTitle = () => {
+    if (groupTitle instanceof Array) {
+      return groupTitle.join(", ");
+    }
+    return groupTitle;
   };
 
   return (
@@ -95,7 +102,7 @@ export const ArcaveCard = ({
       <VStack>
         <Title>{title}</Title>
         <Description>{description}</Description>
-        <GroupTitle>{groupTitle}</GroupTitle>
+        {groupTitle && <GroupTitle>{renderGroupTitle()}</GroupTitle>}
       </VStack>
     </VStack>
   );
