@@ -3,6 +3,7 @@ import USER_CONSTANTS from "@constants/userStorageConstants";
 import { getCookie } from "cookies-next";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import axiosInstance from "src/services/requests";
 
 type User = {
@@ -15,11 +16,13 @@ type User = {
 
 const useCurrentUser = () => {
   const [currentUser, setCurrentUser] = useState<User>();
+  const router = useRouter();
   useEffect(() => {
     const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
 
     if (!token) {
       alert("로그인을 다시 진행해야합니다.");
+      router.push( '/login' );
       return;
     }
 
