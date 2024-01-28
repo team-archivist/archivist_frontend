@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 type Props =
  {
-  groupId: number;
+  groupId: number | undefined;
 };
 
 // 특정 그룹의 링크조회
@@ -17,10 +17,18 @@ const useArcaveGroupLink = ({ groupId }: Props) => {
       return;
     }
     const fetchLink = async () => {
-      const response = await axiosInstance.get( `/api/group/link/${groupId}` );
+      let response = {
+        data : null,
+      }
+      try {
+        response = await axiosInstance.get( `/api/group/link/${groupId}` );
+      }
+      catch( e ){
+        console.log( '링크 에러' );
+      }
+      console.log( 'link res' , response.data )
       setLinks(response.data);
     };
-
     fetchLink();
   }, [groupId]);
 

@@ -25,7 +25,6 @@ const GroupTabContent = ({ currentUser }: Props) => {
   const { groups } = useAPIGroup();
 
   const hasGroups = groups?.length > 0;
-
   return (
     <>
       <HStack width="100%" justify={"between"} className="my-5">
@@ -66,6 +65,7 @@ const GroupTabContent = ({ currentUser }: Props) => {
               title={groupName}
               description={groupDesc}
               imgSrc={imgUrl}
+              url={ `/mycave/group/${ groupId }` }
             />
           ))}
         </HStack>

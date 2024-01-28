@@ -87,6 +87,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     (async () => {
       if (!!linkDTO?.linkUrl) {
         try {
+          console.log( 'linkDTO' , linkDTO );
           const { title, ogDescription, ogImage } = await executeFetchScrape();
           setInitialLinkInformation({ title, ogDescription });
           setLinkDTO({ ...linkDTO, linkName: title, linkDesc: ogDescription });
@@ -154,7 +155,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                           <Form.Field className="FormField" name="group">
                             <ACSelect // FIXME: rhf으로 전환 예정
                               onChange={(value) => {
-                                console.log("group", value);
+                                console.log( 'value' , value );
                                 setLinkDTO((prevLinkDTO) => ({
                                   ...prevLinkDTO,
                                   group: value,

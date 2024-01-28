@@ -34,7 +34,7 @@ enum NavigationBarLeftItem {
 /**
  * - 그룹 상세 페이지 입니다
  */
-export const CategoryDetailPage = () => {
+export const GroupDetailPage = () => {
   const currentPathname = usePathname();
   const { currentUser } = useCurrentUser();
 
@@ -89,11 +89,11 @@ export const CategoryDetailPage = () => {
             title={group?.groupName||""}
             groupTitle={group?.categories.join( " " )}
             description={group?.groupDesc||""}
-            avatar={ { isVisible : false } }
+            avatar={ { isVisible : true } }
             thumbnail={{ imgUrl : `${process.env.NEXT_PUBLIC_API_URL}${group?.imgUrl}` }}
             button={ {
-              text : "그룹 수정하기" ,
-              isOutline : true,
+              isVisible : true,
+              text : "링크 그룹 수정하기" ,
               onClick : () => {}
           } }
           />
@@ -119,20 +119,17 @@ export const CategoryDetailPage = () => {
                 </Text>
                 개의 링크
               </div>
-              <BaseButtonMain
-                size={"2"}
-                className="w-fit"
-              >
-                링크 추가하기 {<PlusIcon />}
-              </BaseButtonMain>
             </Flex>
             {hasLink ? (
               <HStack gap={"5"}>
-                {links?.map((link, idx) => <ArcaveCard
-                  title={ link.linkName || '' }
-                  description={ link.linkDesc || '' }
-                  groupTitle={ '' }
-                  key={idx} />)}
+                {links?.map((link, idx) =>
+                  <ArcaveCard
+                    title={ link.linkName || '' }
+                    description={ link.linkDesc || '' }
+                    url={link.linkUrl}
+                    imgSrc={link.imgUrl}
+                    key={idx}
+                  />)}
               </HStack>
             ) : (
               <VStack
@@ -148,7 +145,6 @@ export const CategoryDetailPage = () => {
                   align={"center"}
                 >
                   링크가 없습니다. <br />
-                  우측 버튼을 눌러서 추가하세요
                 </Text>
               </VStack>
             ) }
@@ -159,6 +155,6 @@ export const CategoryDetailPage = () => {
     </>
   )
 }
-export default CategoryDetailPage;
+export default GroupDetailPage;
 
 const BookmarkLayout = styled(Layout)``;

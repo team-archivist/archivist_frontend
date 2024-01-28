@@ -30,6 +30,7 @@ export const ArcaveCardDetail = ({
  },
  // bottom 관련 props
  button = {
+   isVisible : true,
    text : "ButtonText",
    isOutline : true,
    onClick : () => {},
@@ -40,7 +41,6 @@ export const ArcaveCardDetail = ({
    imgUrl : "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop",
  }
 }: Props) => {
-  console.log( 'thumbnail' , thumbnail )
   return (
     <HStack gap={"2"}>
       <Thumbnail
@@ -82,7 +82,7 @@ export const ArcaveCardDetail = ({
           <GroupTitle>{groupTitle}</GroupTitle>
           <Description>{description}</Description>
         </VStack>
-        { button && button.isOutline ?
+        { button && button.isVisible && button.isOutline ?
           <BaseButtonMainOutline
             size={"2"}
             className="w-fit"

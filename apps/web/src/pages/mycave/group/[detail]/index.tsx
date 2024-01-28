@@ -17,9 +17,12 @@ import {Avatar, Flex, Heading, Tabs, Text} from "@radix-ui/themes";
 import Chip from "@components/Chip";
 import {PlusIcon} from "@radix-ui/react-icons";
 import ACTabs from "@components/Tabs/ACTabs";
-import useCurrentUser from "../../../hooks/useCurrentUser";
-import useArcaveGroup from "../../../hooks/useArcaveGroup";
-import useArcaveGroupLink from "../../../hooks/useArcaveGroupLink";
+import useCurrentUser from "../../../../hooks/useCurrentUser";
+import useArcaveGroup from "../../../../hooks/useArcaveGroup";
+import useArcaveGroupLink from "../../../../hooks/useArcaveGroupLink";
+import useArcaveLink from "@hooks/useArcaveLink";
+import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
+import {useRouter} from "next/router";
 
 enum BookmarkTab {
   ALL = "전체",
@@ -32,28 +35,37 @@ enum NavigationBarLeftItem {
 }
 
 /**
- * - 그룹 상세 페이지 입니다
+ * - 내 그룹 상세 페이지 입니다
  */
-export const CategoryDetailPage = () => {
+export const UserGroupDetailPage = () => {
   const currentPathname = usePathname();
   const { currentUser } = useCurrentUser();
+  const [ currentGroup , setCurrentGroup ] = useState(null);
+  const router = useRouter();
 
-  const [userId ,setUserId ] = useState<number>();
+  const {group ,hasGroup } = useArcaveGroup( {
+    isUser : true,
+    userId : currentUser?.userId ?? 0,
+  } );
+  const { links , hasLink } = useArcaveGroupLink ( {
+    groupId : currentGroup?.groupId,
+  } );
 
-  // const {group ,hasGroup } = useArcaveGroup( {
-  //   isUser : true,
-  //   userId,
-  // } );
-  // const { links , hasLink } = useArcaveGroupLink ( {
-  //   groupId,
-  // } );
+  const handleOpenGroupAddModal = () => {};
+  const bookmarkAddModal = useBookmarkAddModal({ handleOpenGroupAddModal });
 
   useEffect( () => {
-    if (!currentPathname){
+    if (!currentPathname|| !group){
       return;
     }
-    // const [_ ,pathName ,userId ] = currentPathname.split('/');
-  } , [currentUser] );
+    const groupId = currentPathname.split('/').pop();
+    const _currentGroup = group.find( g => g.groupId === Number( groupId ) );
+    if ( !_currentGroup ){
+      window.alert( '해당 회원의 그룹이 아니거나 그룹이 없습니다' );
+      router.back();
+    }
+    setCurrentGroup( _currentGroup );
+  } , [group] );
 
   if (!currentUser) {
     return "로딩 중";
@@ -85,12 +97,12 @@ export const CategoryDetailPage = () => {
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
           <ArcaveCardDetail
-            title={group?.groupName||""}
-            groupTitle={group?.categories.join( " " )}
-            description={group?.groupDesc||""}
-            avatar={ { isVisible : false } }
-            thumbnail={{ imgUrl : `${process.env.NEXT_PUBLIC_API_URL}${group?.imgUrl}` }}
+            title={currentGroup?.groupName||""}
+            groupTitle={currentGroup?.categories.join( " " )}
+            description={currentGroup?.groupDesc||""}
+            thumbnail={{ imgUrl : `${process.env.NEXT_PUBLIC_API_URL}${currentGroup?.imgUrl}` }}
             button={ {
+              isVisible : true,
               text : "그룹 수정하기" ,
               isOutline : true,
               onClick : () => {}
@@ -121,17 +133,22 @@ export const CategoryDetailPage = () => {
               <BaseButtonMain
                 size={"2"}
                 className="w-fit"
+                onClick={bookmarkAddModal.show}
               >
-                링크 추가하기 {<PlusIcon />}
+                링크 담기 {<PlusIcon />}
               </BaseButtonMain>
             </Flex>
             {hasLink ? (
               <HStack gap={"5"}>
-                {links?.map((link, idx) => <ArcaveCard
-                  title={ link.linkName || '' }
-                  description={ link.linkDesc || '' }
-                  groupTitle={ '' }
-                  key={idx} />)}
+                {links?.map((link, idx) =>
+                  <ArcaveCard
+                    title={ link.linkName || '' }
+                    description={ link.linkDesc || '' }
+                    url={link.linkUrl}
+                    imgSrc={link.imgUrl}
+                    key={idx}
+                  />
+                )}
               </HStack>
             ) : (
               <VStack
@@ -151,13 +168,13 @@ export const CategoryDetailPage = () => {
                 </Text>
               </VStack>
             ) }
-
+            {bookmarkAddModal.render()}
           </Tabs.Content>
         </ACTabs>
       </BookmarkLayout>
     </>
   )
 }
-export default CategoryDetailPage;
+export default UserGroupDetailPage;
 
 const BookmarkLayout = styled(Layout)``;
