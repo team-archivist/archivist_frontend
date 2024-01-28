@@ -15,7 +15,6 @@ type User = {
 
 const useCurrentUser = () => {
   const [currentUser, setCurrentUser] = useState<User>();
-
   useEffect(() => {
     const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
 

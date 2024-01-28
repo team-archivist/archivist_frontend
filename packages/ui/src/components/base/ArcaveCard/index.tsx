@@ -25,6 +25,7 @@ export const ArcaveCard = ({
   groupTitle = "GroupTitle",
   url,
   imgSrc,
+  url,
   onClickModify,
 }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -56,7 +57,7 @@ export const ArcaveCard = ({
         css={css`
           background-color: ${PaletteColor.Gray[300]};
           ${imgSrc &&
-          css`
+        css`
             background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
             background-size: contain;
             background-repeat: no-repeat;

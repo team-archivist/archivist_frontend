@@ -24,6 +24,9 @@
       "@constants*" : [
         "src/constants*"
       ],
+      "@hooks*" : [
+        "src/hooks*"
+      ],
       "@store*" : [
         "src/store*"
       ],

@@ -16,16 +16,10 @@ import useAPIGroup from "src/services/external/useAPIGroup";
 type Props = {};
 
 const GroupTabContent = ({ currentUser }: Props) => {
-  // const { links, hasLink } = useGroups({
-  //   isUser: true,
-  //   userId: currentUser?.userId ?? 0,
-  // });
-
   const groupAddModal = useGroupAddModal();
   const { groups } = useAPIGroup();
 
   const hasGroups = groups?.length > 0;
-
   return (
     <>
       <HStack width="100%" justify={"between"} className="my-5">
@@ -87,6 +81,7 @@ const GroupTabContent = ({ currentUser }: Props) => {
                   description={groupDesc}
                   groupTitle={categories}
                   imgSrc={imgUrl}
+                  url={ `/mycave/group/${ groupId }` }
                   onClickModify={handleClickModify}
                 />
               );
