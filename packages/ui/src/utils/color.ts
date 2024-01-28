@@ -139,4 +139,5 @@ export const PaletteColor = {
     200: "#E6E6E6",
     300: "#CCCCCC",
   },
+
 };

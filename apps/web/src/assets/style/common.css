@@ -8,3 +8,6 @@
 body {
     font-family: 'Pretendard-Regular' , sans-serif;
 }
+.radix-themes {
+    --default-font-family : 'Pretendard-Regular' , sans-serif;
+}
