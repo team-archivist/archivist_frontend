@@ -2,10 +2,54 @@ const express = require("express");
 const jsdom = require("jsdom");
 const next = require("next");
 const axios = require("axios");
-
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+/**
+ *
+ * 'vc.ru', 'google.com' 같은 'http' protocol 을 포함하고 있는지 여부를 반환합니다
+ *
+ *
+ * @param { string } link - string to process
+ *
+ * @return { boolean }
+ */
+const includesProtocol = (link) => {
+  return /^(\w+):(\/\/)?/.test(link);
+};
+
+/**
+ *
+ * 'vc.ru', 'google.com' 같은 'http' protocol 을 추가합니다
+ *
+ *
+ * @param { string } link - string to process
+ *
+ * @return { string }
+ */
+const addProtocol = (link) => {
+  /**  protocol 이 이미 존재하면 진행하지 않습니다 */
+  if (includesProtocol(link)) {
+    return link;
+  }
+  /**
+   * - 누락된 HTTP 프로토콜은 link 에 추가해야 하지만, 2가지 경우에는 skip 합니다
+   *
+   *   1) "/general" 같은 내부링크
+   *
+   *   2) anchor 가 "#results" 일 경우,
+   *
+   *   3) "//google.com" 과 같은 protocol 관련 URL
+   */
+  const isInternal = /^\/[^/\s]/.test(link);
+  const isAnchor = "#" === link.substring(0, 1);
+  const isProtocolRelative = /^\/\/[^/\s]/.test(link);
+  if (!isInternal && !isAnchor && !isProtocolRelative) {
+    link = "http://" + link;
+  }
+  return link;
+};
 
 app.prepare().then(() => {
   const server = express();
@@ -15,11 +59,10 @@ app.prepare().then(() => {
 
   server.post("/scrape", async (req, res) => {
     try {
-      const linkUrlResponse = await fetch(req.body.linkUrl);
+      const linkUrlResponse = await fetch( addProtocol( req.body.linkUrl ) );
       const domString = await linkUrlResponse.text();
-
       const parsedDocument = new jsdom.JSDOM(domString).window.document;
-
+      console.log( 'parsedDocument' , parsedDocument );
       const ogImage = parsedDocument.querySelector("meta[property='og:image']")
         ?.content;
       const ogDescription = parsedDocument.querySelector(

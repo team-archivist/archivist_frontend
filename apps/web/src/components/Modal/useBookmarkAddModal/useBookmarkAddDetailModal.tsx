@@ -86,15 +86,20 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   useEffect(() => {
     (async () => {
       if (!!linkDTO?.linkUrl) {
-        const { title, ogDescription, ogImage } = await executeFetchScrape();
-
-        setInitialLinkInformation({ title, ogDescription });
-        setLinkDTO({ ...linkDTO, linkName: title, linkDesc: ogDescription });
-        if (ogImage) {
-          handleChangePreviewImageUrl(ogImage);
+        try {
+          const { title, ogDescription, ogImage } = await executeFetchScrape();
+          setInitialLinkInformation({ title, ogDescription });
+          setLinkDTO({ ...linkDTO, linkName: title, linkDesc: ogDescription });
+          if (ogImage) {
+            handleChangePreviewImageUrl(ogImage);
+          }
+          setCount(ogDescription.length);
+          setIsFetched(true);
         }
-        setCount(ogDescription.length);
-        setIsFetched(true);
+        catch( e ){
+          window.alert( '해당 링크의 메타정보를 가져올 수 없습니다' );
+          return;
+        }
       }
     })();
   }, [linkDTO?.linkUrl]);
