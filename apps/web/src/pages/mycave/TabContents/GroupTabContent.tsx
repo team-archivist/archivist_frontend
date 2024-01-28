@@ -16,11 +16,6 @@ import useAPIGroup from "src/services/external/useAPIGroup";
 type Props = {};
 
 const GroupTabContent = ({ currentUser }: Props) => {
-  // const { links, hasLink } = useGroups({
-  //   isUser: true,
-  //   userId: currentUser?.userId ?? 0,
-  // });
-
   const groupAddModal = useGroupAddModal();
   const { groups } = useAPIGroup();
 
@@ -59,15 +54,39 @@ const GroupTabContent = ({ currentUser }: Props) => {
             width: 1224px;
           `}
         >
-          {groups?.map(({ groupId, groupName, groupDesc, imgUrl }) => (
-            <ArcaveCard
-              key={groupId}
-              title={groupName}
-              description={groupDesc}
-              imgSrc={imgUrl}
-              url={ `/mycave/group/${ groupId }` }
-            />
-          ))}
+          {groups?.map(
+            ({
+              groupId,
+              groupName,
+              groupDesc,
+              imgUrl,
+              categories,
+              isGroupPublic,
+            }) => {
+              const handleClickModify = () => {
+                console.log({ groupName, groupDesc });
+                groupAddModal.show({
+                  groupName,
+                  groupId,
+                  groupDescription: groupDesc,
+                  groupIsPrivate: isGroupPublic,
+                  groupCategories: categories,
+                });
+              };
+
+              return (
+                <ArcaveCard
+                  key={groupId}
+                  title={groupName}
+                  description={groupDesc}
+                  groupTitle={categories}
+                  imgSrc={imgUrl}
+                  url={ `/mycave/group/${ groupId }` }
+                  onClickModify={handleClickModify}
+                />
+              );
+            }
+          )}
         </HStack>
       ) : (
         <VStack

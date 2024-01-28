@@ -25,7 +25,10 @@ import DropdownCheckbox from "./DropdownCheckbox";
 import ACCheckbox from "@components/ACCheckbox";
 import Chip from "@components/Chip";
 import useUploadImage from "../common/useUploadImage";
-import { executeGroupFetch } from "src/services/external/useAPIGroup";
+import {
+  executeGroupFetch,
+  executeGroupPatch,
+} from "src/services/external/useAPIGroup";
 
 const useGroupAddModal = () => {
   const [open, setOpen] = useState(false);
@@ -33,6 +36,7 @@ const useGroupAddModal = () => {
 
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [id, setId] = useState();
 
   const handleChangeDescription = (e) => {
     setDescription(e.target.value);
@@ -78,20 +82,53 @@ const useGroupAddModal = () => {
     fileInputRef.current?.click();
   };
 
+  const handleShow = ({
+    groupName,
+    groupDescription,
+    groupIsPrivate,
+    groupCategories,
+    groupId,
+  }) => {
+    const init = () => {
+      if ((!!groupName || !!groupDescription) && groupIsPrivate !== undefined) {
+        setName(!!groupName ? groupName : name);
+        setDescription(!!groupDescription ? groupDescription : description);
+        setIsPrivate(groupIsPrivate);
+        setSelectedCategories(
+          groupCategories.length !== 0 ? groupCategories : categories
+        );
+        console.log({ groupId });
+        setId(groupId);
+      } else {
+        setName("");
+        setDescription("");
+        setIsPrivate(false);
+        setSelectedCategories([]);
+      }
+    };
+
+    handleChangeOpen(true);
+    init();
+  };
+
   const save = () => {
-    executeGroupFetch({
+    console.log(id);
+    const fetchAction = !!id ? executeGroupPatch : executeGroupFetch;
+
+    fetchAction({
       groupDto: {
         groupName: name,
         groupDesc: description,
         isGroupPublic: !isPrivate,
         categories: selectedCategories,
+        ...(id ? { groupId: id } : {}),
       },
       fileImageBlob,
     });
   };
 
   return {
-    show: () => handleChangeOpen(true),
+    show: (params) => handleShow(params),
     render: () => (
       <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
         <Dialog.Content style={{ maxWidth: 348 }}>
@@ -130,6 +167,7 @@ const useGroupAddModal = () => {
                   size="3"
                   placeholder="그룹 이름을 입력해주세요"
                   onChange={handleChangeName}
+                  value={name}
                 />
               </VStack>
               <VStack gap="1">
@@ -138,6 +176,7 @@ const useGroupAddModal = () => {
                   size="3"
                   placeholder="그룹 설명을 입력해주세요"
                   onChange={handleChangeDescription}
+                  value={description}
                 />
                 {description.length}/400
               </VStack>
