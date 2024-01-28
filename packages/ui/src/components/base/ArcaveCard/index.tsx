@@ -25,7 +25,6 @@ export const ArcaveCard = ({
   groupTitle = "GroupTitle",
   url,
   imgSrc,
-  url,
   onClickModify,
 }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
