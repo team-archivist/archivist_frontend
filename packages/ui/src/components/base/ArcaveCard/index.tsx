@@ -13,16 +13,23 @@ import { useState } from "react";
 type Props = {
   title?: string;
   description?: string;
-  groupTitle?: string;
+  groupTitle?: string | string[];
   url?: string;
   imgSrc?: string;
   onClickModify: (params) => void;
 };
 
+const withStopPropagation = (callback) => {
+  return (event: React.MouseEvent) => {
+    event.stopPropagation();
+    callback();
+  };
+};
+
 export const ArcaveCard = ({
   title = "BookmarkTitle",
   description = "Description",
-  groupTitle = "GroupTitle",
+  groupTitle,
   url,
   imgSrc,
   onClickModify,
@@ -42,6 +49,13 @@ export const ArcaveCard = ({
     }
   };
 
+  const renderGroupTitle = () => {
+    if (groupTitle instanceof Array) {
+      return groupTitle.join(", ");
+    }
+    return groupTitle;
+  };
+
   return (
     <VStack
       gap={"2"}
@@ -56,7 +70,7 @@ export const ArcaveCard = ({
         css={css`
           background-color: ${PaletteColor.Gray[300]};
           ${imgSrc &&
-        css`
+          css`
             background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
             background-size: contain;
             background-repeat: no-repeat;
@@ -75,7 +89,7 @@ export const ArcaveCard = ({
                 background-color: ${PaletteColor.Gray[200]};
                 cursor: pointer;
               `}
-              onClick={onClickModify}
+              onClick={withStopPropagation(onClickModify)}
             >
               <PencilIcon />
             </Button>
@@ -95,7 +109,7 @@ export const ArcaveCard = ({
       <VStack>
         <Title>{title}</Title>
         <Description>{description}</Description>
-        <GroupTitle>{groupTitle}</GroupTitle>
+        {groupTitle && <GroupTitle>{renderGroupTitle()}</GroupTitle>}
       </VStack>
     </VStack>
   );
