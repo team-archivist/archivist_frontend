@@ -44,6 +44,7 @@ const LandingPage = () => {
           justify-content: center;
           align-items: center;
           background-color : #F6F6F4;
+          height : calc( 100% - 56px );
           
           @media screen and ( max-width : 1280px ) {
             justify-content: space-between;
