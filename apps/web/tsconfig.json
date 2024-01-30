@@ -32,6 +32,9 @@
       ],
       "@model*" : [
         "src/model*"
+      ],
+      "@public*" : [
+        "public*"
       ]
     },
     "types": [

@@ -5,7 +5,7 @@ import { NavigationBar, LoginView, SignupView, HStack } from "@archivist/ui";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { css } from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo.svg";
+import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import React,{ useState , useEffect } from "react";
 import styled from "@emotion/styled";
 import {useRouter} from "next/router";
@@ -124,6 +124,7 @@ const SignupPage = ( props ) => {
               css={css`
                 display: flex;
                 align-items: center;
+                height: 100%;
               `}
             >
               <ARCAVE_LOGO />

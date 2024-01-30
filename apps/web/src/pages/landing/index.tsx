@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import {css} from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo.svg";
+import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import {NavigationBar , HStack, BaseButtonMain , Typography, SemanticColor} from "@archivist/ui";
 import {usePathname} from "next/navigation";
 import {Box, Text} from "@radix-ui/themes";
@@ -29,6 +29,7 @@ const LandingPage = () => {
               css={css`
                 display: flex;
                 align-items: center;
+                height: 100%;
               `}
             >
               <ARCAVE_LOGO />

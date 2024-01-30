@@ -16,7 +16,7 @@ import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
 import ACTabs from "@components/Tabs/ACTabs";
 import { PlusIcon } from "@radix-ui/react-icons";
 
-import ARCAVE_LOGO from "@assets/icons/logo.svg";
+import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { css } from "@emotion/react";
@@ -68,6 +68,7 @@ const MycavePage = () => {
               css={css`
                 display: flex;
                 align-items: center;
+                height: 100%;
               `}
             >
               <ARCAVE_LOGO />

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React ,{useEffect,useState} from "react";
 import {css} from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo.svg";
+import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
 import {
@@ -71,6 +71,7 @@ export const GroupDetailPage = () => {
               css={css`
                 display: flex;
                 align-items: center;
+                height: 100%;
               `}
             >
               <ARCAVE_LOGO />
