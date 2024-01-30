@@ -30,6 +30,7 @@ import GroupTabContent from "./TabContents/GroupTabContent";
 import { useAtom } from "jotai";
 import BookmarkTabAtom from "@store/BookmarkTabAtom";
 import useGroupAddModal from "@components/Modal/useGroupAddModal";
+import {useRouter} from "next/router";
 
 export enum BookmarkTab {
   ALL = "아케이브",
@@ -43,11 +44,16 @@ enum NavigationBarLeftItem {
   MYCAVE = "mycave",
 }
 
+enum NavigationBarRightItem {
+  Login = "login",
+}
+
 const MycavePage = () => {
   const currentPathname = usePathname();
   const { currentUser } = useCurrentUser();
   const [bookmarkTabValue, setBookmarkTabValue] = useAtom(BookmarkTabAtom);
   const groupAddModal = useGroupAddModal();
+  const router = useRouter();
 
   const handleOpenGroupAddModal = () => {
     groupAddModal.show();
@@ -79,7 +85,16 @@ const MycavePage = () => {
             <Link href={"/mycave"}>마이케이브</Link>
           ),
         }}
-        rightItems={{}}
+        currentUser={ currentUser }
+        rightItems={{
+          [NavigationBarRightItem.Login] : (<BaseButtonMain
+            size={"2"}
+            className="w-fit"
+            onClick={ () => router.push('/') }
+          >
+            로그인
+          </BaseButtonMain>)
+        }}
       />
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
@@ -125,7 +140,6 @@ const MycavePage = () => {
     </>
   );
 };
-
 export default MycavePage;
 
 const BookmarkLayout = styled(Layout)``;

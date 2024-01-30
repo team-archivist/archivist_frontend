@@ -1,7 +1,7 @@
 /**
  * - 회원가입 관련 페이지입니다
  */
-import { NavigationBar, LoginView, SignupView, HStack } from "@archivist/ui";
+import {NavigationBar, LoginView, SignupView, HStack, BaseButtonMain} from "@archivist/ui";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { css } from "@emotion/react";
@@ -21,6 +21,11 @@ enum NavigationBarLeftItem {
   LOGO = "logo",
   FEED = "feed",
 }
+
+enum NavigationBarRightItem {
+  Login = "login",
+}
+
 
 /**
  * - 회원가입 관련 페이지입니다
@@ -130,6 +135,16 @@ const SignupPage = ( props ) => {
               <ARCAVE_LOGO />
             </Link>
           ),
+        }}
+        currentUser={ currentUser }
+        rightItems={{
+          [NavigationBarRightItem.Login] : (<BaseButtonMain
+            size={"2"}
+            className="w-fit"
+            onClick={ () => router.push('/') }
+          >
+            로그인
+          </BaseButtonMain>)
         }}
       />
       <SignupLayout

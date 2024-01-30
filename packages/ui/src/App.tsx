@@ -10,7 +10,8 @@ export default function App(): JSX.Element {
 
   return (
     <Theme style={{height: '100vh'}}>
-      <NavigationBar />
+      <NavigationBar rightItems={{
+        ['hi']:  (<span>1</span>),}} />
       <ArcaveCardDetail />
     </Theme>
   );

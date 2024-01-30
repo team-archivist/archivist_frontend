@@ -31,6 +31,10 @@ enum NavigationBarLeftItem {
   MYCAVE = "mycave",
 }
 
+enum NavigationBarRightItem {
+  Login = "login",
+}
+
 /**
  * - 그룹 상세 페이지 입니다
  */
@@ -82,7 +86,16 @@ export const GroupDetailPage = () => {
             <Link href={"/mycave"}>마이케이브</Link>
           ),
         }}
-        rightItems={{}}
+        currentUser={ currentUser }
+        rightItems={{
+          [NavigationBarRightItem.Login] : (<BaseButtonMain
+            size={"2"}
+            className="w-fit"
+            onClick={ () => router.push('/') }
+          >
+            로그인
+          </BaseButtonMain>)
+        }}
       />
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
