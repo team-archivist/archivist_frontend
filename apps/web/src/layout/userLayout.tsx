@@ -13,7 +13,6 @@ const UserLayout = ({ children }: PropsWithChildren) => {
   }
 
   const [_, currentPath] = currentPathname?.split("/");
-  console.log( 'currentPath' , currentPath );
   const isUseFooter = currentPath && currentPath !== "login" && currentPath !== "landing" ;
 
   return (

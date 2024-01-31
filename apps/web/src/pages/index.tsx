@@ -6,7 +6,10 @@ import {useRouter} from "next/router";
 
 const Home = () => {
   const router = useRouter();
-  router.replace( '/landing' );
+  useEffect( () => {
+    router.replace( '/landing' );
+  } , [] );
+
   return (
     <div>
       index 페이지
