@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "src/services/requests";
 
 const useAPIGroup = () => {
-  const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState();
 
   useEffect(() => {
     (async () => {
@@ -20,7 +20,7 @@ const useAPIGroup = () => {
   return { groups };
 };
 
-export const executeGroupFetch = async ({ groupDto, fileImageBlob }) => {
+export const executeGroupPost = async ({ groupDto, fileImageBlob }) => {
   const formData = new FormData();
   const groupDtoBlob = new Blob([JSON.stringify(groupDto)], {
     type: "application/json",
@@ -31,9 +31,11 @@ export const executeGroupFetch = async ({ groupDto, fileImageBlob }) => {
     formData.append("groupImgFile", fileImageBlob);
   }
 
-  const response = await axiosInstance.post(`/api/group`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  try {
+    const response = await axiosInstance.post(`/api/group`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  } catch (e) {}
 };
 
 export const executeGroupPatch = async ({ groupDto, fileImageBlob }) => {

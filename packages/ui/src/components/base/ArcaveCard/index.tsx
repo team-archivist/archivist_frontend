@@ -9,6 +9,7 @@ import { HStack } from "../Stack/HStack";
 import PencilIcon from "../../../assets/icons/pencil.svg?react";
 import LinkIcon from "../../../assets/icons/link.svg?react";
 import { useState } from "react";
+import HoverCard from "../HoverCard";
 
 type Props = {
   title?: string;
@@ -72,7 +73,7 @@ export const ArcaveCard = ({
           ${imgSrc &&
           css`
             background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
-            background-size: contain;
+            background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
           `};
@@ -108,7 +109,9 @@ export const ArcaveCard = ({
       </Box>
       <VStack>
         <Title>{title}</Title>
-        <Description>{description}</Description>
+        <HoverCard value={description}>
+          <Description>{description}</Description>
+        </HoverCard>
         {groupTitle && <GroupTitle>{renderGroupTitle()}</GroupTitle>}
       </VStack>
     </VStack>
@@ -123,6 +126,11 @@ const Title = styled(Text)`
 const Description = styled(Text)`
   ${Typography.Body2[15].Regular}
   color: ${SemanticColor.Text.Alternative};
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 `;
 
 const GroupTitle = styled(Text)`

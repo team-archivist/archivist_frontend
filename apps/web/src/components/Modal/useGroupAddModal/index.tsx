@@ -26,7 +26,7 @@ import ACCheckbox from "@components/ACCheckbox";
 import Chip from "@components/Chip";
 import useUploadImage from "../common/useUploadImage";
 import {
-  executeGroupFetch,
+  executeGroupPost,
   executeGroupPatch,
 } from "src/services/external/useAPIGroup";
 
@@ -112,8 +112,7 @@ const useGroupAddModal = () => {
   };
 
   const save = () => {
-    console.log(id);
-    const fetchAction = !!id ? executeGroupPatch : executeGroupFetch;
+    const fetchAction = !!id ? executeGroupPatch : executeGroupPost;
 
     fetchAction({
       groupDto: {
@@ -132,7 +131,7 @@ const useGroupAddModal = () => {
     render: () => (
       <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
         <Dialog.Content style={{ maxWidth: 348 }}>
-          <Dialog.Title>{ !!id ? '그룹 수정' : '그룹 추가'}</Dialog.Title>
+          <Dialog.Title>{!!id ? "그룹 수정" : "그룹 추가"}</Dialog.Title>
           <Form.Root className="FormRoot">
             <VStack gap="6">
               <Box

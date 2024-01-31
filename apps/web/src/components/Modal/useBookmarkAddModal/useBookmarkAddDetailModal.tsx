@@ -83,6 +83,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
       await executePostLink(imgRef.current);
       toast.show({ title: "완료 되었습니다" });
     } catch (e) {
+      console.error(e);
       toast.show({ title: "오류가 발생했습니다" });
     }
   };
@@ -95,11 +96,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const handleShow = (params) => {
     if (params) {
-      const { linkId, linkName, linkDesc, groupId } = params;
+      const { linkId, linkName, linkDesc, groupId, linkUrl } = params;
       setLinkDto({
         linkId,
         linkName,
         linkDesc,
+        linkUrl,
         ...(groupId ? { groupId } : {}),
       });
     }
