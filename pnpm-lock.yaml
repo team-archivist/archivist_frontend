@@ -20,12 +20,18 @@ importers:
       '@archivist/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@emotion/babel-plugin':
+        specifier: ^11.11.0
+        version: 11.11.0
       '@emotion/react':
         specifier: ^11.11.3
         version: 11.11.3(@types/react@18.2.47)(react@18.2.0)
       '@emotion/styled':
         specifier: ^11.11.0
         version: 11.11.0(@emotion/react@11.11.3)(@types/react@18.2.47)(react@18.2.0)
+      '@radix-ui/colors':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@radix-ui/react-accordion':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.2.15)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
@@ -499,7 +505,7 @@ packages:
     resolution: {integrity: sha512-0pYVBnDKZO2fnSPCrgM/6WMc7eS20Fbok+0r88fp+YtWVLZrp4CkafFGIp+W0VKw4a22sgebPT99y+FDNMdP4w==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.4
+      '@babel/types': 7.23.6
 
   /@babel/helper-module-transforms@7.23.3(@babel/core@7.23.3):
     resolution: {integrity: sha512-7bBs4ED9OmswdfDzpz4MpWgSrV7FXlc3zIagvLFjS5H+Mk7Snr21vQ6QwrsoCGMfNC4e4LQPdoULEt4ykz0SRQ==}
@@ -1742,7 +1748,6 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
-    dev: false
 
   /@emotion/babel-plugin-jsx-pragmatic@0.2.1(@babel/core@7.23.3):
     resolution: {integrity: sha512-xy1SlgEJygAAIvIuC2idkGKJYa6v5iwoyILkvNKgk347bV+IImXrUat5Z86EmLGyWhEoTplVT9EHqTnHZG4HFw==}

@@ -10,7 +10,8 @@
     "dev": "pnpm run build:ui && turbo run dev --parallel",
     "build:ui": "pnpm run -F @archivist/ui build",
     "watch:ui": "pnpm run -F @archivist/ui watch",
-    "dev:ui": "pnpm run -F @archivist/ui dev"
+    "dev:ui": "pnpm run -F @archivist/ui dev",
+    "start:web": "pnpm run -F @archivist/web start"
   },
   "packageManager": "pnpm@8.10.2",
   "eslintConfig": {
