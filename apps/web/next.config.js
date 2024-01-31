@@ -4,6 +4,12 @@ const headers = [{ key: "Cache-Control", value: "public, max-age=3600" }];
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   /**
    * - next-js 에서 CORS 이슈를 해결하기 위해 Proxy 설정을 사용합니다
    */

@@ -13,6 +13,8 @@ import { Text } from "@radix-ui/themes";
 import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
 import useArcaveLink from "src/hooks/useArcaveLink";
 import useBookmarkAddDetailModal from "@components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
+import useAPIGroupLink from "src/services/external/useAPIGroupLink";
+import useAPIGroup from "src/services/external/useAPIGroup";
 
 type Props = {
   currentUser: any;
@@ -26,10 +28,33 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
     userId: currentUser?.userId ?? 0,
   });
 
+  const { groups } = useAPIGroup();
+  const { linksWithGroupId, isLoading: isLinksWithGroupIdLoading } =
+    useAPIGroupLink(groups);
+
   const linkDetailModal = useBookmarkAddDetailModal({
     handleOpenGroupAddModal,
   });
 
+  console.log({ linksWithGroupId });
+
+  const findGroupName = (linkId) => {
+    const groupId = linksWithGroupId.find(
+      (linkWithGroupId) => linkWithGroupId.linkId === linkId
+    )?.groupId;
+
+    console.log(
+      groupId,
+      groups?.find((group) => group.groupId === groupId)?.groupName
+    );
+    if (groupId) {
+      return groups?.find((group) => group.groupId === groupId)?.groupName;
+    }
+  };
+
+  if (isLinksWithGroupIdLoading) {
+    return <>로딩중 입니다</>;
+  }
   return (
     <>
       <HStack width="100%" justify={"between"} className="my-5">
@@ -69,6 +94,7 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
               const handleClickModify = () => {
                 linkDetailModal.show({
                   linkId,
+                  linkUrl,
                   linkName,
                   linkDesc,
                   groupId,
@@ -81,6 +107,7 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
                   key={linkId}
                   title={linkName}
                   description={linkDesc}
+                  groupTitle={findGroupName(linkId)}
                   url={linkUrl}
                   imgSrc={imgUrl}
                   onClickModify={handleClickModify}

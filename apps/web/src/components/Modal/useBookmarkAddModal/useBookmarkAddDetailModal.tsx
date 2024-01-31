@@ -21,6 +21,7 @@ import useAPIScrape from "src/services/internal/useAPIScrape";
 import ACSelect from "@components/Select";
 import { BookmarkTab } from "src/pages/mycave";
 import BookmarkTabAtom from "@store/BookmarkTabAtom";
+import useACToast from "@components/ACToast/useACToast";
 
 const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   const [linkDto, setLinkDto] = useAtom(LinkModalAtom);
@@ -52,6 +53,8 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const { executeFetch: executeFetchScrape } = useAPIScrape(linkDto?.linkUrl);
 
+  const toast = useACToast();
+
   const handleChangeDescription = (value: string) => {
     setCount(value.length);
   };
@@ -70,13 +73,19 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = () => {
-    if (!!linkDto?.linkId) {
-      executePatchLink(linkDto);
-      return;
-    }
+  const handleSubmit = async () => {
+    try {
+      if (!!linkDto?.linkId) {
+        await executePatchLink(linkDto);
+        return;
+      }
 
-    executePostLink(imgRef.current);
+      await executePostLink(imgRef.current);
+      toast.show({ title: "완료 되었습니다" });
+    } catch (e) {
+      console.error(e);
+      toast.show({ title: "오류가 발생했습니다" });
+    }
   };
 
   const handleClickAddGroup = () => {
@@ -87,11 +96,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const handleShow = (params) => {
     if (params) {
-      const { linkId, linkName, linkDesc, groupId } = params;
+      const { linkId, linkName, linkDesc, groupId, linkUrl } = params;
       setLinkDto({
         linkId,
         linkName,
         linkDesc,
+        linkUrl,
         ...(groupId ? { groupId } : {}),
       });
     }
@@ -245,6 +255,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                 </Flex>
               </Dialog.Content>
             </Dialog.Root>
+            {toast.render()}
           </>
         )
       : () => <></>,

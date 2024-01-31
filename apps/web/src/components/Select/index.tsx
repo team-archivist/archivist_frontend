@@ -12,6 +12,11 @@ const GroupSelectItem = styled(Select.Item)`
 
 const ACSelect = ({ onChange }) => {
   const { groups } = useAPIGroup();
+
+  if (!groups) {
+    return <></>;
+  }
+
   return (
     <Select.Root
       size="3"
@@ -28,7 +33,10 @@ const ACSelect = ({ onChange }) => {
           그룹 미지정
         </GroupSelectItem>
         {groups.map((group) => (
-          <GroupSelectItem key={group?.groupId} value={group?.groupId}>
+          <GroupSelectItem
+            key={`${group?.groupId}-${group?.groupName}`}
+            value={group?.groupId}
+          >
             <img src={group?.imgUrl} />
             {group?.groupName}
           </GroupSelectItem>

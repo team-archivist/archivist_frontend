@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "name": "ArcaveFrontend",
+      "path": "../"
+    },
+    {
+      "name": "apps/web",
+      "path": "../apps/web"
+    },
+    {
+      "name": "packages/ui",
+      "path": "../packages/ui"
+    },
+    {
+      "name": "packages/config",
+      "path": "../packages/config"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "node_modules/": true,
+      "packages/": true
+    }
+  }
+}

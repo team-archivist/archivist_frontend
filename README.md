@@ -58,17 +58,40 @@ archivist_frontent/
 |   |
 |   |- web/                         # webApp 작업 패키지입니다       
 |   |
-|   |- chromExtension/              # 크롬 익스텐션 작업 패키지입니다   
+|   |- chromeExtension/              # 크롬 익스텐션 작업 패키지입니다   
 |
 |– packages/
     |
     |– config/                      # esconfig, tsconfig 등 공용 설정파일이 들어갑니다
     |
     |– types/                       # 각 패키지에서 export 할 type 들을 묶어두었습니다
+    |–––––––– 스펙을 명시하기 위한 것
     |
     |– ui/                          # 공용 ui 컴포넌트 들이 들어갑니다
     
 ````
+
+```
+- Store + Provider - 전역 상태 = Vuex -> 
+  - 상태관리 도구 ->
+    - mvvm - zustand, provider + useHook
+    - atom - recoil, jotai
+  ATOM based
+
+  - axios - useSWR, tanstack/query
+  - storybook - 공통 ui + (web) // package
+  - next.js -> vite 
+  - dayjs , lodash-es, 
+  - msw
+
+- Route - Next.js directory 기반 라우팅
+
+
+cf
+- https://vanilla-extract.style/
+- https://stitches.dev/
+- 
+```
 
 
 - 각 패키지별 자세한 설명은 패키지란에 설명해두었습니다

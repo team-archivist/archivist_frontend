@@ -22,14 +22,17 @@ const useAPILink = ({
     formData.append("linkDto", linkDtoBlob);
 
     if (linkDto.groupId) {
-      formData.append("groupId", linkDto.groupId);
+      const groupIdBlob = new Blob([JSON.stringify([linkDto.groupId])], {
+        type: "application/json",
+      });
+      formData.append("groupId", groupIdBlob);
     }
 
     if (!fileImageBlob && imgElement) {
-      const blob = await imageToBlob(imgElement);
+      const imgBlob = await imageToBlob(imgElement);
       formData.append(
         "linkImgFile",
-        blob,
+        imgBlob,
         `${Number(new Date())}.${previewImageExtension}`
       );
     }
@@ -43,8 +46,20 @@ const useAPILink = ({
     });
   };
 
-  const executePatch = async (patchedLinkDto) => {
+  const executePatch = async (patchableLinkDto) => {
     const formData = new FormData();
+
+    const patchedLinkDto = Object.entries(patchableLinkDto).reduce(
+      (acc, [key, value]) => {
+        if (value === null) {
+          return acc;
+        }
+
+        return { ...acc, [key]: value };
+      },
+      {}
+    );
+
     const linkDtoBlob = new Blob([JSON.stringify(patchedLinkDto)], {
       type: "application/json",
     });
@@ -52,7 +67,10 @@ const useAPILink = ({
     formData.append("linkDto", linkDtoBlob);
 
     if (patchedLinkDto.groupId) {
-      formData.append("groupId", patchedLinkDto.groupId);
+      const groupIdBlob = new Blob([JSON.stringify([patchedLinkDto.groupId])], {
+        type: "application/json",
+      });
+      formData.append("groupId", groupIdBlob);
     }
 
     // if (!fileImageBlob && imgElement) {
