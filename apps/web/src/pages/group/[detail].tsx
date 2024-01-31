@@ -1,6 +1,6 @@
 import Link from "next/link";
-import React ,{useEffect,useState} from "react";
-import {css} from "@emotion/react";
+import React, { useEffect, useState } from "react";
+import { css } from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
@@ -10,16 +10,18 @@ import {
   VStack,
   HStack,
   ArcaveCard,
-  ArcaveCardDetail, SemanticColor, Typography,
+  ArcaveCardDetail,
+  SemanticColor,
+  Typography,
 } from "@archivist/ui";
-import {usePathname} from "next/navigation";
-import {Avatar, Flex, Heading, Tabs, Text} from "@radix-ui/themes";
+import { usePathname } from "next/navigation";
+import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
 import Chip from "@components/Chip";
-import {PlusIcon} from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
 import ACTabs from "@components/Tabs/ACTabs";
-import useCurrentUser from "../../../hooks/useCurrentUser";
-import useArcaveGroup from "../../../hooks/useArcaveGroup";
-import useArcaveGroupLink from "../../../hooks/useArcaveGroupLink";
+import useCurrentUser from "../../hooks/useCurrentUser";
+import useArcaveGroup from "../../hooks/useArcaveGroup";
+import useArcaveGroupLink from "../../hooks/useArcaveGroupLink";
 
 enum BookmarkTab {
   ALL = "전체",
@@ -38,27 +40,27 @@ enum NavigationBarRightItem {
 /**
  * - 그룹 상세 페이지 입니다
  */
-export const GroupDetailPage = () => {
+const GroupDetailPage = () => {
   const currentPathname = usePathname();
   const { currentUser } = useCurrentUser();
 
-  const [groupId ,setGroupId ] = useState<number>();
+  const [groupId, setGroupId] = useState<number>();
 
-  const {group ,hasGroup } = useArcaveGroup( {
-    isUser : false,
+  const { group, hasGroup } = useArcaveGroup({
+    isUser: false,
     groupId,
-  } );
-  const { links , hasLink } = useArcaveGroupLink ( {
+  });
+  const { links, hasLink } = useArcaveGroupLink({
     groupId,
-  } );
+  });
 
-  useEffect( () => {
-    if (!currentPathname){
+  useEffect(() => {
+    if (!currentPathname) {
       return;
     }
-    const [_ ,pathName ,groupId ] = currentPathname.split('/');
-    setGroupId( Number( groupId ) );
-  } , [currentPathname] );
+    const [_, pathName, groupId] = currentPathname.split("/");
+    setGroupId(Number(groupId));
+  }, [currentPathname]);
 
   if (!currentUser) {
     return "로딩 중";
@@ -86,30 +88,34 @@ export const GroupDetailPage = () => {
             <Link href={"/mycave"}>마이케이브</Link>
           ),
         }}
-        currentUser={ currentUser }
+        currentUser={currentUser}
         rightItems={{
-          [NavigationBarRightItem.Login] : (<BaseButtonMain
-            size={"2"}
-            className="w-fit"
-            onClick={ () => router.push('/') }
-          >
-            로그인
-          </BaseButtonMain>)
+          [NavigationBarRightItem.Login]: (
+            <BaseButtonMain
+              size={"2"}
+              className="w-fit"
+              onClick={() => router.push("/")}
+            >
+              로그인
+            </BaseButtonMain>
+          ),
         }}
       />
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
           <ArcaveCardDetail
-            title={group?.groupName||""}
-            groupTitle={group?.categories.join( " " )}
-            description={group?.groupDesc||""}
-            avatar={ { isVisible : true } }
-            thumbnail={{ imgUrl : `${process.env.NEXT_PUBLIC_API_URL}${group?.imgUrl}` }}
-            button={ {
-              isVisible : true,
-              text : "링크 그룹 수정하기" ,
-              onClick : () => {}
-          } }
+            title={group?.groupName || ""}
+            groupTitle={group?.categories?.join(" ")}
+            description={group?.groupDesc || ""}
+            avatar={{ isVisible: true }}
+            thumbnail={{
+              imgUrl: `${process.env.NEXT_PUBLIC_API_URL}${group?.imgUrl}`,
+            }}
+            button={{
+              isVisible: true,
+              text: "링크 그룹 수정하기",
+              onClick: () => {},
+            }}
           />
         </Flex>
         <ACTabs
@@ -136,14 +142,15 @@ export const GroupDetailPage = () => {
             </Flex>
             {hasLink ? (
               <HStack gap={"5"}>
-                {links?.map((link, idx) =>
+                {links?.map((link, idx) => (
                   <ArcaveCard
-                    title={ link.linkName || '' }
-                    description={ link.linkDesc || '' }
+                    title={link.linkName || ""}
+                    description={link.linkDesc || ""}
                     url={link.linkUrl}
                     imgSrc={link.imgUrl}
                     key={idx}
-                  />)}
+                  />
+                ))}
               </HStack>
             ) : (
               <VStack
@@ -161,14 +168,13 @@ export const GroupDetailPage = () => {
                   링크가 없습니다. <br />
                 </Text>
               </VStack>
-            ) }
-
+            )}
           </Tabs.Content>
         </ACTabs>
       </BookmarkLayout>
     </>
-  )
-}
+  );
+};
 export default GroupDetailPage;
 
 const BookmarkLayout = styled(Layout)``;

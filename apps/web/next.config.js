@@ -4,6 +4,8 @@ const headers = [{ key: "Cache-Control", value: "public, max-age=3600" }];
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  productionBrowserSourceMaps: true,
+
   eslint: {
     ignoreDuringBuilds: true,
   },

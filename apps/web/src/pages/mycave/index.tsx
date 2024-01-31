@@ -25,12 +25,12 @@ import Chip from "@components/Chip";
 
 import useCurrentUser from "src/hooks/useCurrentUser";
 
-import ArcaveTabContent from "./TabContents/ArcaveTabContent";
-import GroupTabContent from "./TabContents/GroupTabContent";
+import ArcaveTabContent from "../../components/TabContents/ArcaveTabContent";
+import GroupTabContent from "../../components/TabContents/GroupTabContent";
 import { useAtom } from "jotai";
 import BookmarkTabAtom from "@store/BookmarkTabAtom";
 import useGroupAddModal from "@components/Modal/useGroupAddModal";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 export enum BookmarkTab {
   ALL = "아케이브",
@@ -85,15 +85,17 @@ const MycavePage = () => {
             <Link href={"/mycave"}>마이케이브</Link>
           ),
         }}
-        currentUser={ currentUser }
+        currentUser={currentUser}
         rightItems={{
-          [NavigationBarRightItem.Login] : (<BaseButtonMain
-            size={"2"}
-            className="w-fit"
-            onClick={ () => router.push('/') }
-          >
-            로그인
-          </BaseButtonMain>)
+          [NavigationBarRightItem.Login]: (
+            <BaseButtonMain
+              size={"2"}
+              className="w-fit"
+              onClick={() => router.push("/")}
+            >
+              로그인
+            </BaseButtonMain>
+          ),
         }}
       />
       <BookmarkLayout>
