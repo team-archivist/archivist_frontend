@@ -31,7 +31,7 @@ const SigninCallback = () => {
 
       localStorage.setItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo.token);
       localStorage.setItem(userInfo.key, userInfo.value);
-      window.close();
+      // window.close();
     })();
   }, [router.query]);
 

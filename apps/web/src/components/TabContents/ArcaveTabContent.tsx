@@ -17,7 +17,8 @@ import useAPIGroupLink from "src/services/external/useAPIGroupLink";
 import useAPIGroup from "src/services/external/useAPIGroup";
 
 type Props = {
-  currentUser: any;
+  currentUser: any; // 현재 user 정보
+  handleOpenGroupAddModal : () => void; // GroupAddModal 이 열릴 때 발생하는 callback 입니다
 };
 
 const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import {useAtom} from "jotai/index";
 import loginUserAtom from "@store/loginUserAtom";
 import {useRouter} from "next/router";
-import {useState} from "react/index";
 import USER_CONSTANTS from "@constants/userStorageConstants";
 import {setCookie} from "cookies-next";
 
