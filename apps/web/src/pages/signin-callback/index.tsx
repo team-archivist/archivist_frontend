@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import axios from "axios";
 import USER_CONSTANTS from "@constants/userStorageConstants";
 import { setCookie , deleteCookie } from "cookies-next";
 import axiosInstance from "src/services/requests";
@@ -26,6 +25,7 @@ const SigninCallback = () => {
         deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
         userInfo = await onRequestKaKaoLogin();
       }
+
       setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo.token);
       setCookie(userInfo.key, userInfo.value);
 

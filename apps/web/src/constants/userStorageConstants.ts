@@ -5,6 +5,7 @@ const USER_CONSTANTS = {
     USER_EMAIL : 'USER_EMAIL',
     USER_ID : 'USER_ID',
     USER_TOKEN : 'USER_TOKEN',
+    USER_INFO : 'USER_INFO',
   }
 }
 export default USER_CONSTANTS;
