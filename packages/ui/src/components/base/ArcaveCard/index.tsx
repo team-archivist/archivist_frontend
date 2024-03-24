@@ -45,9 +45,14 @@ export const ArcaveCard = ({
   };
 
   const handleClickCard = () => {
-    if (url) {
-      window.open(url);
+    if (!url) {
+      return;
     }
+    let _url = url
+    if ( !_url.includes( 'https://' ) ){
+      _url = `https://${url}`
+    }
+    window.open(_url);
   };
 
   const renderGroupTitle = () => {
