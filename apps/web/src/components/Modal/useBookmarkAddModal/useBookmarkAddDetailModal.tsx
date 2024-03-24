@@ -167,7 +167,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                         ref={imgRef}
                         src={previewImageUrl}
                         onClick={handleClickUploadPanel}
-                        crossOrigin="anonymous"
                       />
                     ) : (
                       <Box
