@@ -58,7 +58,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleChangeFileInput,
     resetUploadField,
   } = useUploadImage();
-
+  console.log("previewImageUrl", previewImageUrl);
   const { executePost: executePostLink, executePatch: executePatchLink } =
     useAPILink({
       linkDto: linkDto as LinkModel,
@@ -167,6 +167,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                         ref={imgRef}
                         src={previewImageUrl}
                         onClick={handleClickUploadPanel}
+                        onError={resetUploadField}
                       />
                     ) : (
                       <Box
