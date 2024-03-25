@@ -59,7 +59,7 @@ app.prepare().then(() => {
 
   server.post("/scrape", async (req, res) => {
     try {
-      const linkUrlResponse = await fetch( addProtocol( req.body.linkUrl ) );
+      const linkUrlResponse = await fetch(addProtocol(req.body.linkUrl));
       const domString = await linkUrlResponse.text();
       const parsedDocument = new jsdom.JSDOM(domString).window.document;
       const ogImage = parsedDocument.querySelector("meta[property='og:image']")
@@ -80,7 +80,24 @@ app.prepare().then(() => {
     }
   });
 
-  server.post("/scrape/image", async (req, res) => {});
+  server.post("/scrape/image", async (req, res) => {
+    try {
+      const response = await axios.get(req.body.src, {
+        responseType: "arraybuffer", // ArrayBuffer로 응답 받음
+      });
+      const contentType = response.headers["content-type"];
+      const blob = Buffer.from(response.data, "binary").toString("base64");
+      // console.log("blob", blob);
+      // const imageData = Buffer.from(response.data, "binary");
+      // const blob = new Blob([imageData], { type: contentType });
+      // return res.status(200).json({ blob, contentType });
+      const blobString = `data:${contentType};base64,${blob}`;
+      return res.status(200).json({ blob: blobString, contentType });
+    } catch (error) {
+      console.error("Error scraping image:", error);
+      res.status(400).json({ message: "Scrape image failed" });
+    }
+  });
 
   server.all("*", (req, res) => {
     return handle(req, res);
