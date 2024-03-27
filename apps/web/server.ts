@@ -87,10 +87,6 @@ app.prepare().then(() => {
       });
       const contentType = response.headers["content-type"];
       const blob = Buffer.from(response.data, "binary").toString("base64");
-      // console.log("blob", blob);
-      // const imageData = Buffer.from(response.data, "binary");
-      // const blob = new Blob([imageData], { type: contentType });
-      // return res.status(200).json({ blob, contentType });
       const blobString = `data:${contentType};base64,${blob}`;
       return res.status(200).json({ blob: blobString, contentType });
     } catch (error) {
