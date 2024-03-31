@@ -1,0 +1,694 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "OpenAPI definition", "version": "v0" },
+  "servers": [
+    {
+      "url": "http://223.130.128.93:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": ["user-controller"],
+        "operationId": "getUserInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      },
+      "post": {
+        "tags": ["user-controller"],
+        "operationId": "registerUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserDto" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/login/kakao": {
+      "post": {
+        "tags": ["user-controller"],
+        "operationId": "callback",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/link": {
+      "post": {
+        "tags": ["link-controller"],
+        "operationId": "registerLink",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["linkDto"],
+                "type": "object",
+                "properties": {
+                  "linkDto": { "$ref": "#/components/schemas/LinkDto" },
+                  "groupId": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                  },
+                  "linkImgFile": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/group": {
+      "post": {
+        "tags": ["group-controller"],
+        "operationId": "registerGroup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["groupDto"],
+                "type": "object",
+                "properties": {
+                  "groupDto": { "$ref": "#/components/schemas/GroupDto" },
+                  "groupImgFile": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/group/link": {
+      "post": {
+        "tags": ["link-group-controller"],
+        "operationId": "registerLinkGroup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["linkGroupDto"],
+                "type": "object",
+                "properties": {
+                  "linkGroupDto": {
+                    "$ref": "#/components/schemas/LinkGroupDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/bookmark/{groupId}": {
+      "post": {
+        "tags": ["bookmark-controller"],
+        "operationId": "bookmarkGroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      },
+      "delete": {
+        "tags": ["bookmark-controller"],
+        "operationId": "deleteBookmark",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/user/{userId}": {
+      "delete": {
+        "tags": ["user-controller"],
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      },
+      "patch": {
+        "tags": ["user-controller"],
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["userDto"],
+                "type": "object",
+                "properties": {
+                  "userDto": { "$ref": "#/components/schemas/UserDto" },
+                  "userImgFile": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/link/{linkId}": {
+      "get": {
+        "tags": ["link-controller"],
+        "operationId": "findLinkById",
+        "parameters": [
+          {
+            "name": "linkId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["link-controller"],
+        "operationId": "deleteLink",
+        "parameters": [
+          {
+            "name": "linkId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      },
+      "patch": {
+        "tags": ["link-controller"],
+        "operationId": "updateLink",
+        "parameters": [
+          {
+            "name": "linkId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["linkDto"],
+                "type": "object",
+                "properties": {
+                  "linkDto": { "$ref": "#/components/schemas/LinkDto" },
+                  "groupId": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                  },
+                  "linkImgFile": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/group/{groupId}": {
+      "get": {
+        "tags": ["group-controller"],
+        "operationId": "findGroupById",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["group-controller"],
+        "operationId": "deleteGroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      },
+      "patch": {
+        "tags": ["group-controller"],
+        "operationId": "updateGroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["groupDto"],
+                "type": "object",
+                "properties": {
+                  "groupDto": { "$ref": "#/components/schemas/GroupDto" },
+                  "groupImgFile": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/user/link/{userId}": {
+      "get": {
+        "tags": ["link-controller"],
+        "operationId": "getUserLinkList",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/LinkDto" }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/user/group/{userId}": {
+      "get": {
+        "tags": ["group-controller"],
+        "operationId": "getUserGroupList",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/GroupDto" }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/user/bookmark/{userId}": {
+      "get": {
+        "tags": ["bookmark-controller"],
+        "operationId": "getBookmarks",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/nicknames": {
+      "get": {
+        "tags": ["user-controller"],
+        "operationId": "getNicknames",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/link/valid": {
+      "get": {
+        "tags": ["link-controller"],
+        "operationId": "urlValidation",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/group/link/{groupId}": {
+      "get": {
+        "tags": ["group-controller"],
+        "operationId": "getLinksByGroupId",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "tags": ["user-controller"],
+        "operationId": "getCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/api/admin": {
+      "get": {
+        "tags": ["user-controller"],
+        "operationId": "adminLogin",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        }
+      }
+    },
+    "/group/link/{linkGroupId}": {
+      "delete": {
+        "tags": ["link-group-controller"],
+        "operationId": "deleteLinkGroup",
+        "parameters": [
+          {
+            "name": "linkGroupId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "type": "object" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserDto": {
+        "required": ["categories", "email", "nickname"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "pattern": "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$",
+            "type": "string"
+          },
+          "nickname": { "pattern": "^[가-힣a-zA-Z0-9]+$", "type": "string" },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "라이프스타일",
+                "자기개발",
+                "커리어",
+                "취미",
+                "운동",
+                "음악",
+                "엔터테인먼트",
+                "패션",
+                "뷰티",
+                "여행",
+                "맛집",
+                "지식",
+                "IT/기술",
+                "비즈니스/경제",
+                "문화생활",
+                "독서",
+                "영화",
+                "요리"
+              ]
+            }
+          }
+        }
+      },
+      "LinkDto": {
+        "required": ["linkName"],
+        "type": "object",
+        "properties": {
+          "linkId": { "type": "integer", "format": "int64" },
+          "linkUrl": { "type": "string" },
+          "linkName": { "maxLength": 100, "minLength": 1, "type": "string" },
+          "linkDesc": { "maxLength": 400, "minLength": 0, "type": "string" },
+          "imgUrl": { "type": "string" },
+          "userId": { "type": "integer", "format": "int64" }
+        }
+      },
+      "GroupDto": {
+        "required": ["groupName"],
+        "type": "object",
+        "properties": {
+          "groupId": { "type": "integer", "format": "int64" },
+          "groupName": { "maxLength": 100, "minLength": 1, "type": "string" },
+          "groupDesc": { "maxLength": 400, "minLength": 0, "type": "string" },
+          "isGroupPublic": { "type": "string" },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "라이프스타일",
+                "자기개발",
+                "커리어",
+                "취미",
+                "운동",
+                "음악",
+                "엔터테인먼트",
+                "패션",
+                "뷰티",
+                "여행",
+                "맛집",
+                "지식",
+                "IT/기술",
+                "비즈니스/경제",
+                "문화생활",
+                "독서",
+                "영화",
+                "요리"
+              ]
+            }
+          },
+          "imgUrl": { "type": "string" },
+          "linkCount": { "type": "integer", "format": "int64" }
+        }
+      },
+      "LinkGroupDto": {
+        "type": "object",
+        "properties": {
+          "linkGroupId": { "type": "integer", "format": "int64" },
+          "groupId": { "type": "integer", "format": "int64" },
+          "linkId": { "type": "integer", "format": "int64" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
