@@ -6,15 +6,15 @@ export default class LoginUserModel {
   public email : string | null;  // 이메일
   public categories : string[]; // 카테고리 리스트
   public userId : number | string | null; // 사용자 id
-  public imageUrl : string; // 프로필 이미지 url
+  public imgUrl : string; // 프로필 이미지 url
   public token : string | null; // jwt token
 
-  constructor( { nickname , email , categories , userId , imageUrl , token } : unknown = {} ) {
+  constructor( { nickname , email , categories , userId , imgUrl , token } : unknown = {} ) {
     this.nickname = nickname || null;
     this.email = email || null;
     this.categories = categories || null;
     this.userId = userId || null;
-    this.imageUrl = imageUrl || null;
+    this.imgUrl = imgUrl || null;
     this.token = token || null;
   }
 }

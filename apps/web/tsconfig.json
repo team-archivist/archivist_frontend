@@ -12,7 +12,8 @@
       "@hooks*": ["src/hooks*"],
       "@store*": ["src/store*"],
       "@model*": ["src/model*"],
-      "@public*": ["public*"]
+      "@public*": ["public*"],
+      "@utils*" : ["src/utils*"]
     },
     "types": ["@emotion/react/types/css-prop"],
     "jsx": "preserve"
