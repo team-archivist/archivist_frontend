@@ -22,6 +22,21 @@ import ACSelect from "@components/Select";
 import { BookmarkTab } from "src/pages/mycave";
 import BookmarkTabAtom from "@store/BookmarkTabAtom";
 import useACToast from "@components/ACToast/useACToast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const schema = z
+  .object({
+    linkName: z
+      .string()
+      .min(1, "북마크는 필수 입력입니다.")
+      .max(100, "북마크 이름은 최대 100자까지 입력할 수 있습니다."),
+    linkDesc: z
+      .string()
+      .max(400, "북마크 설명은 최대 400자까지 입력할 수 있습니다."),
+  })
+  .required();
 
 const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   const [linkDto, setLinkDto] = useAtom(LinkModalAtom);
@@ -31,7 +46,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   const [isFetched, setIsFetched] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [count, setCount] = useState(0);
+  const [, setCount] = useState(0);
 
   const [, setBookmarkTabValue] = useAtom(BookmarkTabAtom);
 
@@ -43,7 +58,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleChangeFileInput,
     resetUploadField,
   } = useUploadImage();
-
+  console.log("previewImageUrl", previewImageUrl);
   const { executePost: executePostLink, executePatch: executePatchLink } =
     useAPILink({
       linkDto: linkDto as LinkModel,
@@ -55,9 +70,18 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const toast = useACToast();
 
-  const handleChangeDescription = (value: string) => {
-    setCount(value.length);
-  };
+  const {
+    register,
+    getValues,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "all",
+    resolver: zodResolver(schema),
+  });
+
+  const watchLinkDesc = watch("linkDesc");
 
   const handleChangeOpen = (isOpen: boolean) => {
     setOpen(isOpen);
@@ -73,7 +97,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = async () => {
+  const submit = async () => {
     try {
       if (!!linkDto?.linkId) {
         await executePatchLink(linkDto);
@@ -143,7 +167,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                         ref={imgRef}
                         src={previewImageUrl}
                         onClick={handleClickUploadPanel}
-                        crossOrigin="anonymous"
+                        onError={resetUploadField}
                       />
                     ) : (
                       <Box
@@ -192,41 +216,49 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       </Flex>
                       <Flex direction="column" gap="3">
                         <Text>링크 이름</Text>
-                        <Form.Field className="FormField" name="linkName">
-                          <Form.Control asChild>
-                            <TextField.Input
-                              size="3"
-                              placeholder="링크 이름을 입력해주세요"
-                              value={linkDto.linkName}
-                              // FIXME: rhf으로 전환 예정
-                              onChange={({ target: { value } }) =>
-                                setLinkDto((prevLinkDto) => ({
-                                  ...prevLinkDto,
-                                  linkName: value,
-                                }))
-                              }
-                            />
-                          </Form.Control>
-                        </Form.Field>
+                        {/* linkDto.linkName */}
+                        <TextField.Input
+                          size="3"
+                          placeholder="링크 이름을 입력해주세요"
+                          {...register("linkName")}
+                        />
+                        {errors.linkName && (
+                          <Text
+                            css={css`
+                              font-size: 14px;
+                              color: ${SemanticColor.Status.Alert};
+                            `}
+                          >
+                            {errors.linkName.message as string}
+                          </Text>
+                        )}
                       </Flex>
                       <Flex direction="column" gap="3">
                         <Text>링크 설명</Text>
-                        <Form.Field className="FormField" name="linkDesc">
-                          <TextArea
-                            size="3"
-                            placeholder="링크 설명을 입력해주세요"
-                            value={linkDto.linkDesc}
-                            // FIXME: rhf으로 전환 예정
-                            onChange={({ target: { value } }) => {
-                              handleChangeDescription(value);
-                              setLinkDto((prevLinkDto) => ({
-                                ...prevLinkDto,
-                                linkDesc: value,
-                              }));
-                            }}
-                          />
-                        </Form.Field>
-                        <Text>{count}/400</Text>
+                        {/* linkDto.linkDesc */}
+                        <TextArea
+                          size="3"
+                          placeholder="링크 설명을 입력해주세요"
+                          {...register("linkDesc")}
+                        />
+                        {errors.linkDesc && (
+                          <Text
+                            css={css`
+                              font-size: 14px;
+                              color: ${SemanticColor.Status.Alert};
+                            `}
+                          >
+                            {errors.linkDesc.message as string}
+                          </Text>
+                        )}
+                        <Text
+                          css={css`
+                            font-size: 14px;
+                          `}
+                          align={"right"}
+                        >
+                          {watchLinkDesc?.length ?? 0}/400
+                        </Text>
                       </Flex>
                     </VStack>
                   </VStack>
@@ -246,8 +278,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                     <BaseButtonMain
                       size={"2"}
                       className="w-fit"
-                      onClick={handleSubmit}
-                      backgroundColor={SemanticColor.Primary.Default}
+                      onClick={handleSubmit(submit)}
+                      backgroundColor={
+                        isValid
+                          ? SemanticColor.Primary.Default
+                          : PaletteColor.Gray[200]
+                      }
                     >
                       확인
                     </BaseButtonMain>

@@ -29,11 +29,20 @@ const useAPILink = ({
     }
 
     if (!fileImageBlob && imgElement) {
-      const imgBlob = await imageToBlob(imgElement);
+      const response = await axiosInstance.post(`/client-api/scrape/image`, {
+        src: imgElement.src,
+      });
+
+      const imgBlob = await imageToBlob(
+        response.data.blob,
+        imgElement.naturalWidth,
+        imgElement.naturalHeight
+      );
+
       formData.append(
         "linkImgFile",
         imgBlob,
-        `${Number(new Date())}.${previewImageExtension}`
+        `${Number(new Date())}.${response.data.contentType.split("/")[1]}`
       );
     }
 
