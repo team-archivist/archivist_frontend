@@ -15,10 +15,11 @@ import useArcaveLink from "src/hooks/useArcaveLink";
 import useBookmarkAddDetailModal from "@components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
 import useAPIGroupLink from "src/services/external/useAPIGroupLink";
 import useAPIGroup from "src/services/external/useAPIGroup";
+import Tooltip from "@components/Tooltip";
 
 type Props = {
   currentUser: any; // 현재 user 정보
-  handleOpenGroupAddModal : () => void; // GroupAddModal 이 열릴 때 발생하는 callback 입니다
+  handleOpenGroupAddModal: () => void; // GroupAddModal 이 열릴 때 발생하는 callback 입니다
 };
 
 const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
@@ -74,13 +75,15 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
           </Text>
           개의 링크
         </div>
-        <BaseButtonMain
-          size={"2"}
-          className="w-fit"
-          onClick={bookmarkAddModal.show}
-        >
-          링크 담기 {<PlusIcon />}
-        </BaseButtonMain>
+        <Tooltip text={"링크를 추가해보세요"} open side="bottom">
+          <BaseButtonMain
+            size={"2"}
+            className="w-fit"
+            onClick={bookmarkAddModal.show}
+          >
+            링크 담기 {<PlusIcon />}
+          </BaseButtonMain>
+        </Tooltip>
       </HStack>
       {hasLink ? (
         <HStack
