@@ -12,7 +12,7 @@ import {
   VStack,
 } from "@archivist/ui";
 
-import LinkModalAtom, { LinkModel } from "@store/LinkModalAtom";
+import LinkModalAtom from "@store/LinkModalAtom";
 
 import useUploadImage from "../common/useUploadImage";
 import useAPILink from "src/services/external/useAPILink";
@@ -38,7 +38,11 @@ const schema = z
   })
   .required();
 
-const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
+type Props = {
+  handleOpenGroupAddModal: () => void;
+};
+
+const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }: Props) => {
   const [linkDto, setLinkDto] = useAtom(LinkModalAtom);
 
   const imgRef = useRef<HTMLImageElement>(null);
@@ -58,12 +62,11 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleChangeFileInput,
     resetUploadField,
   } = useUploadImage();
-  console.log("previewImageUrl", previewImageUrl);
+
   const { executePost: executePostLink, executePatch: executePatchLink } =
     useAPILink({
-      linkDto: linkDto as LinkModel,
       fileImageBlob,
-      previewImageExtension: previewImageUrl.split(".").at(-1) as string,
+      // previewImageExtension: previewImageUrl.split(".").at(-1) as string,
     });
 
   const { executeFetch: executeFetchScrape } = useAPIScrape(linkDto?.linkUrl);
@@ -72,16 +75,17 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const {
     register,
-    getValues,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: "all",
     resolver: zodResolver(schema),
   });
 
-  const watchLinkDesc = watch("linkDesc");
+  const linkDesc = watch("linkDesc");
+  const linkName = watch("linkName");
 
   const handleChangeOpen = (isOpen: boolean) => {
     setOpen(isOpen);
@@ -98,13 +102,15 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   };
 
   const submit = async () => {
+    const payload = { ...linkDto, ...{ linkDesc, linkName } };
     try {
       if (!!linkDto?.linkId) {
-        await executePatchLink(linkDto);
+        await executePatchLink(payload);
+        setLinkDto(payload);
         return;
       }
 
-      await executePostLink(imgRef.current);
+      await executePostLink(payload, imgRef.current);
       toast.show({ title: "완료 되었습니다" });
     } catch (e) {
       console.error(e);
@@ -118,17 +124,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleOpenGroupAddModal();
   };
 
-  const handleShow = (params) => {
-    if (params) {
-      const { linkId, linkName, linkDesc, groupId, linkUrl } = params;
-      setLinkDto({
-        linkId,
-        linkName,
-        linkDesc,
-        linkUrl,
-        ...(groupId ? { groupId } : {}),
-      });
-    }
+  const handleShow = () => {
     handleChangeOpen(true);
     setIsFetched(true);
   };
@@ -138,7 +134,10 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
       if (!!linkDto?.linkUrl) {
         try {
           const { title, ogDescription, ogImage } = await executeFetchScrape();
-          setLinkDto({ ...linkDto, linkName: title, linkDesc: ogDescription });
+
+          setValue("linkName", title);
+          setValue("linkDesc", ogDescription);
+
           if (ogImage) {
             handleChangePreviewImageUrl(ogImage);
           }
@@ -205,7 +204,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                         </HStack>
                         <Form.Field className="FormField" name="group">
                           <ACSelect // FIXME: rhf으로 전환 예정
-                            onChange={(value: string) : void => {
+                            onChange={(value: string): void => {
                               setLinkDto((prevLinkDto) => ({
                                 ...prevLinkDto,
                                 groupId: value,
@@ -216,7 +215,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       </Flex>
                       <Flex direction="column" gap="3">
                         <Text>링크 이름</Text>
-                        {/* linkDto.linkName */}
                         <TextField.Input
                           size="3"
                           placeholder="링크 이름을 입력해주세요"
@@ -235,7 +233,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       </Flex>
                       <Flex direction="column" gap="3">
                         <Text>링크 설명</Text>
-                        {/* linkDto.linkDesc */}
                         <TextArea
                           size="3"
                           placeholder="링크 설명을 입력해주세요"
@@ -257,7 +254,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                           `}
                           align={"right"}
                         >
-                          {watchLinkDesc?.length ?? 0}/400
+                          {linkDesc?.length ?? 0}/400
                         </Text>
                       </Flex>
                     </VStack>

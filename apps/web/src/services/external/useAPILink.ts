@@ -1,28 +1,24 @@
-import { LinkModel } from "@store/LinkModalAtom";
 import axiosInstance from "../requests";
 import { imageToBlob } from "../utils";
 
 type Props = {
-  linkDto: LinkModel;
   fileImageBlob: any;
-  previewImageExtension: string;
 };
 
-const useAPILink = ({
-  linkDto,
-  fileImageBlob,
-  previewImageExtension,
-}: Props) => {
-  const executePost = async (imgElement: HTMLImageElement) => {
+const useAPILink = ({ fileImageBlob }: Props) => {
+  const executePost = async (
+    payloadLinkDto: any,
+    imgElement: HTMLImageElement
+  ) => {
     const formData = new FormData();
-    const linkDtoBlob = new Blob([JSON.stringify(linkDto)], {
+    const linkDtoBlob = new Blob([JSON.stringify(payloadLinkDto)], {
       type: "application/json",
     });
 
     formData.append("linkDto", linkDtoBlob);
 
-    if (linkDto.groupId) {
-      const groupIdBlob = new Blob([JSON.stringify([linkDto.groupId])], {
+    if (payloadLinkDto.groupId) {
+      const groupIdBlob = new Blob([JSON.stringify([payloadLinkDto.groupId])], {
         type: "application/json",
       });
       formData.append("groupId", groupIdBlob);
@@ -82,6 +78,7 @@ const useAPILink = ({
       formData.append("groupId", groupIdBlob);
     }
 
+    // FIXME 수정 이미지 저장 로직 판단 후 제거 예정
     // if (!fileImageBlob && imgElement) {
     //   const blob = await imageToBlob(imgElement);
     //   formData.append(

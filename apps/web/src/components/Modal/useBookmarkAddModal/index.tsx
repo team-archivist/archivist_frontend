@@ -28,7 +28,11 @@ const schema = z
   })
   .required();
 
-const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
+type Props = {
+  handleOpenGroupAddModal: () => void;
+};
+
+const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
   const [, setLinkDTO] = useAtom(LinkModalAtom);
   const [open, setOpen] = useState(false);
 
@@ -44,20 +48,21 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
 
   const detailModal = useBookmarkAddDetailModal({ handleOpenGroupAddModal });
 
-  const handleChangeOpen = (isOpen: boolean) => {
+  const handleChangeModalOpen = (isOpen: boolean) => {
     setOpen(isOpen);
   };
 
   const handleClickNext = () => {
     const linkUrl = getValues("linkUrl");
     setLinkDTO((prevDTO) => ({ ...prevDTO, linkUrl: linkUrl }));
+    handleChangeModalOpen(false);
     detailModal.show();
   };
 
   return {
-    show: () => handleChangeOpen(true),
+    show: () => handleChangeModalOpen(true),
     render: () => (
-      <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
+      <Dialog.Root open={open} onOpenChange={handleChangeModalOpen}>
         <Dialog.Content style={{ maxWidth: 450 }}>
           <Dialog.Title>URL 입력</Dialog.Title>
           <form onSubmit={handleSubmit((data) => console.log(data))}>
