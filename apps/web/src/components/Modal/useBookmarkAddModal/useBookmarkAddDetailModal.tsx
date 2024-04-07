@@ -181,7 +181,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                         </HStack>
                         <Form.Field className="FormField" name="group">
                           <ACSelect // FIXME: rhf으로 전환 예정
-                            onChange={(value: string) => {
+                            onChange={(value: string) : void => {
                               setLinkDto((prevLinkDto) => ({
                                 ...prevLinkDto,
                                 groupId: value,

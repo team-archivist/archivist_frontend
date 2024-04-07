@@ -41,10 +41,18 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
                   onChange={({ target: { value } }) => setUrl(value)}
                   size="3"
                   placeholder="URL 주소를 입력해주세요"
+                  onKeyPress={ ( e ) => {
+                    if ( 'Enter' !== e.code ){
+                      return;
+                    }
+                    e.preventDefault();
+                    handleClickNext();
+                  } }
                 />
                 <Form.Message
-                  match={(value, formData) => {
+                  match={(value, formData) : boolean => {
                     console.log(value, formData);
+                    return true;
                   }}
                 >
                   Only John is allowed.
