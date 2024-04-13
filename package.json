@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "turbo": "^1.11.3"
+    "turbo": "^1.11.3",
+    "next": "^14.0.4"
   },
   "scripts": {
     "build": "turbo run build --parallel",
