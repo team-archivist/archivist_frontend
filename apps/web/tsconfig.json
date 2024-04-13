@@ -13,7 +13,7 @@
       "@store*": ["src/store*"],
       "@model*": ["src/model*"],
       "@public*": ["public*"],
-      "@utils*" : ["src/utils*"]
+      "@utils*": ["src/utils*"]
     },
     "types": ["@emotion/react/types/css-prop"],
     "jsx": "preserve"
