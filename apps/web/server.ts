@@ -2,6 +2,8 @@ const express = require("express");
 const jsdom = require("jsdom");
 const next = require("next");
 const axios = require("axios");
+const { createProxyMiddleware } = require("http-proxy-middleware");
+
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -56,6 +58,15 @@ app.prepare().then(() => {
   server.use(express.json());
   // NOTE: url encode에서 문제 생기면 해당 라인 실행
   // server.use(express.urlencoded({ extended: false }));
+
+  // NOTE: BE를 위한 프록시 세팅 추가
+  server.use(
+    "/api",
+    createProxyMiddleware({
+      target: `${process.env.NEXT_PUBLIC_API_URL}/`,
+      changeOrigin: true,
+    })
+  );
 
   server.post("/scrape", async (req, res) => {
     try {

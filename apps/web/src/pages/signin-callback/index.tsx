@@ -59,13 +59,12 @@ const SigninCallback = () => {
         { code: "success", userInfo, key: userInfo.key },
         "*"
       );
-      // window.close();
+      window.close();
     })();
   }, [router.query]);
 
   /** kakaoLogin 요청입니다 */
   const onRequestKaKaoLogin = async (): Promise<undefined | TokenData> => {
-    // let data;
     try {
       const res = await axiosInstance.post<{ value: string; token: string }>(
         `/api/login/kakao`,

@@ -16,8 +16,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   if (config.url?.startsWith("/api")) {
-    config.baseURL = `${process.env.NEXT_PUBLIC_API_URL}/`;
-    config.url = config.url.replace("/api", "");
+    // NOTE: 커스텀 서버에 replace 책임 변경
+    config.baseURL = `/`;
+    // config.baseURL = `${process.env.NEXT_PUBLIC_API_URL}/`;
+    // config.url = config.url.replace("/api", "");
 
     const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
     config.headers["Authorization"] = `Bearer ${token}`;
