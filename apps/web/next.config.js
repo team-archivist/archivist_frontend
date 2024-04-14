@@ -6,6 +6,8 @@ const nextConfig = {
   reactStrictMode: false,
   productionBrowserSourceMaps: true,
 
+  // transpilePackages: ["@archivist/ui"],
+
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -41,6 +43,12 @@ const nextConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
+
+    // config.resolve.alias = {
+    //   ...config.resolve.alias,
+    //   "@archivist/ui": path.resolve(__dirname, "../../packages/ui"),
+    // };
+
     return config;
   },
 };

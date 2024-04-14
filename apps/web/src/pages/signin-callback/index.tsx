@@ -33,8 +33,7 @@ const SigninCallback = () => {
       setCookie(userInfo.key, userInfo.value, {
         expires: expiresDate,
       });
-
-      window.close();
+      // window.close();
     })();
   }, [router.query]);
 
@@ -57,7 +56,7 @@ const SigninCallback = () => {
       };
     } catch (e) {
       const data = e.response?.data;
-      if (404 === data.statusCode) {
+      if (404 === data?.statusCode) {
         return {
           key: USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL,
           value: data?.email || "",
