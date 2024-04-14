@@ -25,14 +25,14 @@ const SigninCallback = () => {
         userInfo = await onRequestKaKaoLogin();
       }
 
-      setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo.token);
-      setCookie(userInfo.key, userInfo.value);
-
-      localStorage.setItem(
-        USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN,
-        userInfo.token
-      );
-      localStorage.setItem(userInfo.key, userInfo.value);
+      const twelveHours = 12 * 60 * 60 * 1000;
+      const expiresDate = new Date(Date.now() + twelveHours);
+      setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo.token, {
+        expires: expiresDate,
+      });
+      setCookie(userInfo.key, userInfo.value, {
+        expires: expiresDate,
+      });
       // window.close();
     })();
   }, [router.query]);
@@ -43,9 +43,6 @@ const SigninCallback = () => {
     value: string;
     token: string;
   }> => {
-    localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-    localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID);
-    localStorage.removeItem(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL);
     let data;
     try {
       const res = await axiosInstance.post(

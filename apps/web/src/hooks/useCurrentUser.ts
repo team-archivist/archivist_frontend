@@ -22,14 +22,19 @@ const useCurrentUser = () => {
 
     if (!token) {
       alert("로그인을 다시 진행해야합니다.");
-      router.push( '/login' );
+      router.push("/login");
       return;
     }
 
     const fetchUser = async () => {
-      const response = await axiosInstance.get(`/api/user`);
-
-      setCurrentUser(response.data);
+      try {
+        const response = await axiosInstance.get(`/api/user`);
+        setCurrentUser(response.data);
+      } catch (e) {
+        alert("로그인을 다시 진행해주세요.");
+        router.push("/");
+        return;
+      }
     };
 
     fetchUser();
