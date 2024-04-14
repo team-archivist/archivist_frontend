@@ -36,7 +36,7 @@ const SigninCallback = () => {
       if (!userInfo) {
         deletePreviousTokenInCookie();
         window.opener.postMessage({ code: "failed" }, "*");
-        window.close();
+        // window.close();
         return;
       }
 
@@ -59,7 +59,7 @@ const SigninCallback = () => {
         { code: "success", userInfo, key: userInfo.key },
         "*"
       );
-      window.close();
+      // window.close();
     })();
   }, [router.query]);
 
@@ -84,6 +84,7 @@ const SigninCallback = () => {
           token: data?.token,
         };
       }
+      console.log(data);
     }
   };
 
