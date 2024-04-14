@@ -4,6 +4,20 @@ import USER_CONSTANTS from "@constants/userStorageConstants";
 import { setCookie, deleteCookie } from "cookies-next";
 import axiosInstance from "src/services/requests";
 
+type TokenData = {
+  key: string;
+  token: string;
+  value?: string;
+  userId?: string;
+};
+
+const deletePreviousTokenInCookie = async () => {
+  deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
+  deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID);
+  deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL);
+  deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_INFO);
+};
+
 /**
  * - 카카오 로그인 callback 페이지
  */
@@ -14,43 +28,51 @@ const SigninCallback = () => {
     if (!router.query?.code) {
       return;
     }
+
     (async () => {
-      let userInfo = await onRequestKaKaoLogin();
-      /**
-       * 이전 token 이 남아있을 경우 간헐적으로 로그인이 되지않아
-       * token 을 삭제하고 다시받아오도록 변경하였습니다
-       */
+      const userInfo = await onRequestKaKaoLogin();
+
+      // NOTE: 실패한 경우 다시 시도하도록
       if (!userInfo) {
-        deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-        userInfo = await onRequestKaKaoLogin();
+        deletePreviousTokenInCookie();
+        window.opener.postMessage({ code: "failed" }, "*");
+        window.close();
+        return;
       }
 
       const twelveHours = 12 * 60 * 60 * 1000;
       const expiresDate = new Date(Date.now() + twelveHours);
-      setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo.token, {
+      setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo?.token, {
         expires: expiresDate,
       });
-      setCookie(userInfo.key, userInfo.value, {
+
+      // FIXME : 리턴 인터페이스 구조를 맞춰야 할 필요가 있음. 어떤 경우에는 value로 넘어오고 어떤 경우에는 userId로 넘어옴.
+      const cookieValue =
+        userInfo.key === USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID
+          ? userInfo.userId
+          : userInfo.value;
+      setCookie(userInfo?.key, cookieValue, {
         expires: expiresDate,
       });
+
+      window.opener.postMessage(
+        { code: "success", userInfo, key: userInfo.key },
+        "*"
+      );
       // window.close();
     })();
   }, [router.query]);
 
   /** kakaoLogin 요청입니다 */
-  const onRequestKaKaoLogin = async (): Promise<{
-    key: string;
-    value: string;
-    token: string;
-  }> => {
-    let data;
+  const onRequestKaKaoLogin = async (): Promise<undefined | TokenData> => {
+    // let data;
     try {
-      const res = await axiosInstance.post(
+      const res = await axiosInstance.post<{ value: string; token: string }>(
         `/api/login/kakao`,
         { code: router.query.code },
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      data = {
+      return {
         ...res?.data,
         key: USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID,
       };
@@ -63,14 +85,7 @@ const SigninCallback = () => {
           token: data?.token,
         };
       }
-      return;
     }
-
-    return {
-      key: data.key,
-      value: data?.userId || "",
-      token: data?.token,
-    };
   };
 
   return <div>카카오톡 로그인 콜백</div>;
