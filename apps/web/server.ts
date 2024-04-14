@@ -60,13 +60,13 @@ app.prepare().then(() => {
   // server.use(express.urlencoded({ extended: false }));
 
   // NOTE: BE를 위한 프록시 세팅 추가
-  server.use(
-    "/api",
-    createProxyMiddleware({
-      target: `${process.env.NEXT_PUBLIC_API_URL}/`,
-      changeOrigin: true,
-    })
-  );
+  // server.use(
+  //   "/api",
+  //   createProxyMiddleware({
+  //     target: `${process.env.NEXT_PUBLIC_API_URL}/`,
+  //     changeOrigin: true,
+  //   })
+  // );
 
   server.post("/scrape", async (req, res) => {
     try {
