@@ -59,7 +59,7 @@ const SigninCallback = () => {
         { code: "success", userInfo, key: userInfo.key },
         "*"
       );
-      window.close();
+      // window.close();
     })();
   }, [router.query]);
 
@@ -78,7 +78,7 @@ const SigninCallback = () => {
       };
     } catch (e) {
       const data = e.response?.data;
-      if (404 === data.statusCode) {
+      if (404 === data?.statusCode) {
         return {
           key: USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL,
           value: data?.email || "",
