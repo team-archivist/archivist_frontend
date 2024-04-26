@@ -30,36 +30,39 @@ const SigninCallback = () => {
     }
 
     (async () => {
-      const userInfo = await onRequestKaKaoLogin();
+      try {
+        const userInfo = await onRequestKaKaoLogin();
+        // NOTE: 실패한 경우 다시 시도하도록
+        if (!userInfo) {
+          deletePreviousTokenInCookie();
+          window.opener.postMessage({ code: "failed" }, "*");
+          window.close();
+          return;
+        }
 
-      // NOTE: 실패한 경우 다시 시도하도록
-      if (!userInfo) {
-        deletePreviousTokenInCookie();
-        window.opener.postMessage({ code: "failed" }, "*");
-        // window.close();
-        return;
+        const twelveHours = 12 * 60 * 60 * 1000;
+        const expiresDate = new Date(Date.now() + twelveHours);
+        setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo?.token, {
+          expires: expiresDate,
+        });
+
+        // FIXME : 리턴 인터페이스 구조를 맞춰야 할 필요가 있음. 어떤 경우에는 value로 넘어오고 어떤 경우에는 userId로 넘어옴.
+        const cookieValue =
+          userInfo.key === USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID
+            ? userInfo.userId
+            : userInfo.value;
+        setCookie(userInfo?.key, cookieValue, {
+          expires: expiresDate,
+        });
+
+        window.opener.postMessage(
+          { code: "success", userInfo, key: userInfo.key },
+          "*"
+        );
+        window.close();
+      } catch (e) {
+        console.log(e);
       }
-
-      const twelveHours = 12 * 60 * 60 * 1000;
-      const expiresDate = new Date(Date.now() + twelveHours);
-      setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN, userInfo?.token, {
-        expires: expiresDate,
-      });
-
-      // FIXME : 리턴 인터페이스 구조를 맞춰야 할 필요가 있음. 어떤 경우에는 value로 넘어오고 어떤 경우에는 userId로 넘어옴.
-      const cookieValue =
-        userInfo.key === USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID
-          ? userInfo.userId
-          : userInfo.value;
-      setCookie(userInfo?.key, cookieValue, {
-        expires: expiresDate,
-      });
-
-      window.opener.postMessage(
-        { code: "success", userInfo, key: userInfo.key },
-        "*"
-      );
-      // window.close();
     })();
   }, [router.query]);
 

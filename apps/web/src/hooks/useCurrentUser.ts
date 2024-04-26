@@ -27,14 +27,8 @@ const useCurrentUser = () => {
     }
 
     const fetchUser = async () => {
-      try {
-        const response = await axiosInstance.get(`/api/user`);
-        setCurrentUser(response.data);
-      } catch (e) {
-        alert("로그인을 다시 진행해주세요.");
-        router.push("/");
-        return;
-      }
+      const response = await axiosInstance.get(`/api/user`);
+      setCurrentUser(response.data);
     };
 
     fetchUser();

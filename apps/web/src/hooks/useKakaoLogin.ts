@@ -54,10 +54,10 @@ const useKakaoLogin = () => {
 
   /** 카카오 로그인이 완료되었을때 */
   const onEndKakaoLogin = (event) => {
-    console.log(event.data);
     if (event.data.code === "failed") {
       alert("문제가 발생하였습니다. 다시 시도해주세요.");
       router.push("/");
+      return;
     }
 
     let routerLink = "/";
