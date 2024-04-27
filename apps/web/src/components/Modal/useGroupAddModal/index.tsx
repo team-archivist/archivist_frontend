@@ -209,7 +209,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                   size={"2"}
                   className="w-fit"
                   onClick={() => save()}
-                  backgroundColor={SemanticColor.Primary.Black}
+                  backgroundColor={SemanticColor.Primary.Default}
                 >
                   확인
                 </BaseButton>

@@ -295,7 +295,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       onClick={handleSubmit(submit)}
                       backgroundColor={
                         isValid
-                          ? SemanticColor.Primary.Black
+                          ? SemanticColor.Primary.Default
                           : PaletteColor.Gray[200]
                       }
                     >

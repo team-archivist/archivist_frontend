@@ -96,7 +96,9 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
                 className="w-fit"
                 onClick={handleSubmit(handleClickNext)}
                 backgroundColor={
-                  isValid ? SemanticColor.Primary.Black : PaletteColor.Gray[200]
+                  isValid
+                    ? SemanticColor.Primary.Default
+                    : PaletteColor.Gray[200]
                 }
               >
                 다음
