@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import styled from "@emotion/styled";
@@ -15,14 +15,12 @@ import {
   Typography,
 } from "@archivist/ui";
 import { usePathname } from "next/navigation";
-import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
-import Chip from "@components/Chip";
+import { Flex, Tabs, Text } from "@radix-ui/themes";
 import { PlusIcon } from "@radix-ui/react-icons";
 import ACTabs from "@components/Tabs/ACTabs";
 import useCurrentUser from "../../../hooks/useCurrentUser";
 import useArcaveGroup from "../../../hooks/useArcaveGroup";
 import useArcaveGroupLink from "../../../hooks/useArcaveGroupLink";
-import useArcaveLink from "@hooks/useArcaveLink";
 import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
 import { useRouter } from "next/router";
 import useGroupAddModal from "@components/Modal/useGroupAddModal";
@@ -72,7 +70,6 @@ const UserGroupDetailPage = () => {
       router.back();
     }
     setCurrentGroup(_currentGroup);
-    console.log("_currentGroup", _currentGroup);
   }, [group]);
 
   if (!currentUser) {

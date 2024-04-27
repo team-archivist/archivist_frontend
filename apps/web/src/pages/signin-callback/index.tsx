@@ -87,7 +87,6 @@ const SigninCallback = () => {
           token: data?.token,
         };
       }
-      console.log(data);
     }
   };
 

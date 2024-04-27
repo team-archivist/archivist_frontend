@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "src/services/requests";
-import CommonUtils from "src/utils/commonUtils";
 
 const useAPIGroup = () => {
   const [groups, setGroups] = useState();
@@ -14,10 +13,10 @@ const useAPIGroup = () => {
       const { data: groupsByUser } = await axiosInstance.get(
         `/api/user/group/${userId}`
       );
-      if ( !groupsByUser || 0 === groupsByUser.length ){
+      if (!groupsByUser || 0 === groupsByUser.length) {
         return;
       }
-      groupsByUser.forEach( groupItem => resolveGroupImagePath( groupItem ) );
+      groupsByUser.forEach((groupItem) => resolveGroupImagePath(groupItem));
       setGroups(groupsByUser);
     })();
   }, []);
@@ -53,7 +52,6 @@ export const executeGroupPatch = async ({ groupDto, fileImageBlob }) => {
   if (fileImageBlob) {
     formData.append("groupImgFile", fileImageBlob);
   }
-  console.log({ groupDto });
 
   const response = await axiosInstance.patch(
     `/api/group/${groupDto.groupId}`,
@@ -64,12 +62,12 @@ export const executeGroupPatch = async ({ groupDto, fileImageBlob }) => {
   );
 };
 
-const resolveGroupImagePath = ( groupItem : { imgUrl : string } ) => {
-  if ( !groupItem.imgUrl ){
+const resolveGroupImagePath = (groupItem: { imgUrl: string }) => {
+  if (!groupItem.imgUrl) {
     return groupItem;
   }
-  groupItem.imgUrl = `${ process.env.NEXT_PUBLIC_API_URL }${ groupItem.imgUrl }`;
+  groupItem.imgUrl = `${process.env.NEXT_PUBLIC_API_URL}${groupItem.imgUrl}`;
   return groupItem;
-}
+};
 
 export default useAPIGroup;

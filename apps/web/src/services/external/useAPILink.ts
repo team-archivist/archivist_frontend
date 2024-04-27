@@ -13,18 +13,21 @@ const useAPILink = ({
   fileImageBlob,
   previewImageExtension,
 }: Props) => {
-  const executePost = async (imgElement: HTMLImageElement) => {
+  const executePost = async (linkDtoFromForm, imgElement: HTMLImageElement) => {
     const formData = new FormData();
-    const linkDtoBlob = new Blob([JSON.stringify(linkDto)], {
+    const linkDtoBlob = new Blob([JSON.stringify(linkDtoFromForm)], {
       type: "application/json",
     });
 
     formData.append("linkDto", linkDtoBlob);
 
-    if (linkDto.groupId) {
-      const groupIdBlob = new Blob([JSON.stringify([linkDto.groupId])], {
-        type: "application/json",
-      });
+    if (linkDtoFromForm.groupId) {
+      const groupIdBlob = new Blob(
+        [JSON.stringify([linkDtoFromForm.groupId])],
+        {
+          type: "application/json",
+        }
+      );
       formData.append("groupId", groupIdBlob);
     }
 

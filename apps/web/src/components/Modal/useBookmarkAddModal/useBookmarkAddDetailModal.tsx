@@ -59,7 +59,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleChangeFileInput,
     resetUploadField,
   } = useUploadImage();
-  console.log("previewImageUrl", previewImageUrl);
   const { executePost: executePostLink, executePatch: executePatchLink } =
     useAPILink({
       linkDto: linkDto as LinkModel,
@@ -105,11 +104,15 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         return;
       }
 
-      await executePostLink(imgRef.current);
-      toast.show({ title: "완료 되었습니다" });
+      await executePostLink({ ...linkDto, ...getValues() }, imgRef.current);
+      toast.show({
+        title: "링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!",
+      });
     } catch (e) {
       console.error(e);
       toast.show({ title: "오류가 발생했습니다" });
+    } finally {
+      handleChangeOpen(false);
     }
   };
 
@@ -155,6 +158,9 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   return {
     show: handleShow,
+    close: () => {
+      handleChangeOpen(false);
+    },
     render: isFetched
       ? () => (
           <>

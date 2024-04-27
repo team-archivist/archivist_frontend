@@ -60,7 +60,6 @@ const GroupTabContent = ({ currentUser }: Props) => {
               isGroupPublic,
             }) => {
               const handleClickModify = () => {
-                console.log({ groupName, groupDesc });
                 groupAddModal.show({
                   groupName,
                   groupId,

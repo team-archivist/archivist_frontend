@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import * as Toast from "@radix-ui/react-toast";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,8 +46,21 @@ const useACToast = () => {
           className="ToastRoot"
           open={isOpen}
           onOpenChange={handleChangeOpen}
+          css={css`
+            z-index: 2;
+            background-color: black;
+          `}
         >
-          {title && <Toast.Title className="ToastTitle">{title}</Toast.Title>}
+          {title && (
+            <Toast.Title
+              className="ToastTitle"
+              css={css`
+                color: white;
+              `}
+            >
+              {title}
+            </Toast.Title>
+          )}
           {description && (
             <Toast.Description asChild>{description}</Toast.Description>
           )}

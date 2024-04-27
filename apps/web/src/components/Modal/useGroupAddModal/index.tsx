@@ -90,7 +90,6 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
         setSelectedCategories(
           groupCategories.length !== 0 ? groupCategories : categories
         );
-        console.log({ groupId });
         setId(groupId);
       } else {
         setName("");

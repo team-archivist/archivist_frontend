@@ -52,10 +52,12 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
     const linkUrl = getValues("linkUrl");
     setLinkDTO((prevDTO) => ({ ...prevDTO, linkUrl: linkUrl }));
     detailModal.show();
+    handleChangeOpen(false);
   };
 
   return {
     show: () => handleChangeOpen(true),
+    close: () => handleChangeOpen(false),
     render: () => (
       <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
         <Dialog.Content style={{ maxWidth: 450 }}>

@@ -44,17 +44,11 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
     handleOpenGroupAddModal,
   });
 
-  console.log({ linksWithGroupId });
-
   const findGroupName = (linkId) => {
     const groupId = linksWithGroupId.find(
       (linkWithGroupId) => linkWithGroupId.linkId === linkId
     )?.groupId;
 
-    console.log(
-      groupId,
-      groups?.find((group) => group.groupId === groupId)?.groupName
-    );
     if (groupId) {
       return groups?.find((group) => group.groupId === groupId)?.groupName;
     }
