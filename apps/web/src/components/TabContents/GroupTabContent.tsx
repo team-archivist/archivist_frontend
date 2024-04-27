@@ -1,6 +1,6 @@
 import {
   ArcaveCard,
-  BaseButtonMain,
+  BaseButton,
   HStack,
   SemanticColor,
   Typography,
@@ -38,13 +38,9 @@ const GroupTabContent = ({ currentUser }: Props) => {
           </Text>
           개의 그룹
         </div>
-        <BaseButtonMain
-          size={"2"}
-          className="w-fit"
-          onClick={groupAddModal.show}
-        >
+        <BaseButton size={"2"} className="w-fit" onClick={groupAddModal.show}>
           그룹 추가하기 {<PlusIcon />}
-        </BaseButtonMain>
+        </BaseButton>
       </HStack>
       {hasGroups ? (
         <HStack
@@ -81,7 +77,7 @@ const GroupTabContent = ({ currentUser }: Props) => {
                   description={groupDesc}
                   groupTitle={categories}
                   imgSrc={imgUrl}
-                  url={ `/mycave/group/${ groupId }` }
+                  url={`/mycave/group/${groupId}`}
                   onClickModify={handleClickModify}
                 />
               );

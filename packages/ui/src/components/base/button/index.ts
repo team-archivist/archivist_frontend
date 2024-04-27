@@ -1,2 +1,2 @@
-export * from './BaseButtonMain';
-export * from './BaseButtonMainOutline';
+export * from "./BaseButton";
+export * from "./BaseButtonOutline";

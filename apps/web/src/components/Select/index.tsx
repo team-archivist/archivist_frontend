@@ -1,54 +1,30 @@
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import {Select, Text} from "@radix-ui/themes";
-import React, {useEffect, useState} from "react";
+import { Select } from "@radix-ui/themes";
+import { useState } from "react";
 import useAPIGroup from "../../services/external/useAPIGroup";
 import { GROUP_VALUE } from "./types";
-
-const GroupSelectItem = styled(Select.Item)`
-  
-  height: 48px;
-  margin: 8px 0;
-  
-  > span {
-    display : flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-`;
-
-const GroupSelectItemImg = styled('img')`
-  display : inline-block;
-  width : 33px;
-  height : 33px;
-  margin-right: 10px;
-`;
-
-const GroupSelectItemText = styled(Text)`
-  display: inline-block;
-`;
+import {
+  GroupSelectItemImg,
+  GroupSelectItemText,
+  groupSelectItemStyle,
+} from "./styles";
 
 type Props = {
-  onChange : ( value : string ) => void;
-}
+  onChange: (value: string) => void;
+};
 
-const ACSelect = ({ onChange } : Props ) => {
+const ACSelect = ({ onChange }: Props) => {
   const { groups } = useAPIGroup();
-  const [ selectedValue , setSelectedValue ] = useState( '' );
+  const [selectedValue, setSelectedValue] = useState<string>(
+    GROUP_VALUE.UNDESIGNATED
+  );
 
   // 선택값이 변경될때 호출되는 함수입니다
-  const handleSelectValueChange = ( value : string ) => {
-    onChange( value );
-    setSelectedValue( value );
-  }
+  const handleSelectValueChange = (value: string) => {
+    setSelectedValue(value);
+    onChange(value);
+  };
 
-  useEffect( () => {
-    setSelectedValue( GROUP_VALUE.UNDESIGNATED );
-  } , [] )
-
-  if (!groups) {
-    return <></>;
-  }
   // 여기 이미지 경로가 frontend 를 바라보고 있어서 발생하는 문제...
   return (
     <Select.Root
@@ -66,18 +42,18 @@ const ACSelect = ({ onChange } : Props ) => {
         `}
       />
       <Select.Content position="popper">
-        <GroupSelectItem value={GROUP_VALUE.UNDESIGNATED}>
-          그룹 미지정
-        </GroupSelectItem>
-        {groups.map((group) => (
-          <GroupSelectItem
-            key={`${group?.groupId}-${group?.groupName}`}
-            value={group?.groupId.toString()}
-          >
-            <GroupSelectItemImg src={ group?.imgUrl } />
-            <GroupSelectItemText> {group?.groupName} </GroupSelectItemText>
-          </GroupSelectItem>
-        ))}
+        <Select.Item value={GROUP_VALUE.UNDESIGNATED}>그룹 미지정</Select.Item>
+        {groups &&
+          groups.map((group) => (
+            <Select.Item
+              css={groupSelectItemStyle}
+              key={`${group?.groupId}-${group?.groupName}`}
+              value={group?.groupId.toString()}
+            >
+              <GroupSelectItemImg src={group?.imgUrl} />
+              <GroupSelectItemText> {group?.groupName} </GroupSelectItemText>
+            </Select.Item>
+          ))}
       </Select.Content>
     </Select.Root>
   );

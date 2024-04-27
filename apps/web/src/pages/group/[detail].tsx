@@ -5,7 +5,7 @@ import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
 import {
-  BaseButtonMain,
+  BaseButton,
   NavigationBar,
   VStack,
   HStack,
@@ -91,13 +91,13 @@ const GroupDetailPage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButtonMain
+            <BaseButton
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButtonMain>
+            </BaseButton>
           ),
         }}
       />

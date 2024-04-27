@@ -2,7 +2,7 @@ import { Button } from "@radix-ui/themes";
 import { SemanticColor } from "../../../utils/color";
 import { ButtonProps } from "@radix-ui/themes/dist/cjs/components/button";
 import { PropsWithChildren } from "react";
-import {css} from "@emotion/react";
+import { css } from "@emotion/react";
 
 // FIXME : backgroundColor와 관련된 영역을 시맨틱한 이름으로 다룰 수 있도록 변경 필요
 type Props = ButtonProps & { backgroundColor?: string };
@@ -10,11 +10,11 @@ type Props = ButtonProps & { backgroundColor?: string };
 /**
  * - Main Button Component 입니다
  */
-export const BaseButtonMainOutline = ({
+export const BaseButton = ({
   children,
   size,
   onClick,
-  color,
+  backgroundColor,
   ...rest
 }: PropsWithChildren<Props>) => {
   return (
@@ -23,11 +23,7 @@ export const BaseButtonMainOutline = ({
       variant="solid"
       radius="full"
       css={css`
-        border-width : 1px;
-        border-style: solid;
-        background-color : transparent;
-        color : ${color ?? SemanticColor.Primary.Default};
-        border-color : ${color ?? SemanticColor.Primary.Default};
+        background-color: ${backgroundColor ?? SemanticColor.Primary.Default};
         cursor: pointer;
       `}
       {...(onClick ? { onClick } : {})}

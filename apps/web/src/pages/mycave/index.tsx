@@ -1,20 +1,10 @@
-import {
-  BaseButtonMain,
-  ArcaveCard,
-  HStack,
-  NavigationBar,
-  VStack,
-  Typography,
-  SemanticColor,
-} from "@archivist/ui";
-import React from "react";
+import { BaseButton, HStack, NavigationBar, VStack } from "@archivist/ui";
 
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
-import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
+import { Avatar, Flex, Heading, Tabs } from "@radix-ui/themes";
 
 import ACTabs from "@components/Tabs/ACTabs";
-import { PlusIcon } from "@radix-ui/react-icons";
 
 import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import Link from "next/link";
@@ -29,7 +19,7 @@ import ArcaveTabContent from "../../components/TabContents/ArcaveTabContent";
 import GroupTabContent from "../../components/TabContents/GroupTabContent";
 import { useAtom } from "jotai";
 import BookmarkTabAtom from "@store/BookmarkTabAtom";
-import useGroupAddModal from "@components/Modal/useGroupAddModal";
+
 import { useRouter } from "next/router";
 
 export enum BookmarkTab {
@@ -52,12 +42,7 @@ const MycavePage = () => {
   const currentPathname = usePathname();
   const { currentUser } = useCurrentUser();
   const [bookmarkTabValue, setBookmarkTabValue] = useAtom(BookmarkTabAtom);
-  const groupAddModal = useGroupAddModal();
   const router = useRouter();
-
-  const handleOpenGroupAddModal = () => {
-    groupAddModal.show();
-  };
 
   if (!currentUser) {
     return "로딩 중";
@@ -88,13 +73,13 @@ const MycavePage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButtonMain
+            <BaseButton
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButtonMain>
+            </BaseButton>
           ),
         }}
       />
@@ -125,10 +110,7 @@ const MycavePage = () => {
           onValueChange={setBookmarkTabValue}
         >
           <Tabs.Content value={BookmarkTab.ALL}>
-            <ArcaveTabContent
-              currentUser={currentUser}
-              handleOpenGroupAddModal={handleOpenGroupAddModal}
-            />
+            <ArcaveTabContent currentUser={currentUser} />
           </Tabs.Content>
           <Tabs.Content value={BookmarkTab.GROUP}>
             <GroupTabContent />
@@ -138,7 +120,6 @@ const MycavePage = () => {
           </Tabs.Content>
         </ACTabs>
       </BookmarkLayout>
-      {groupAddModal.render()}
     </>
   );
 };

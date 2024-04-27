@@ -5,7 +5,7 @@ import { Box, Dialog, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
 import * as Form from "@radix-ui/react-form";
 
 import {
-  BaseButtonMain,
+  BaseButton,
   HStack,
   PaletteColor,
   SemanticColor,
@@ -18,13 +18,14 @@ import useUploadImage from "../common/useUploadImage";
 import useAPILink from "src/services/external/useAPILink";
 import useAPIScrape from "src/services/internal/useAPIScrape";
 
-import ACSelect from "@components/Select";
 import { BookmarkTab } from "src/pages/mycave";
 import BookmarkTabAtom from "@store/BookmarkTabAtom";
 import useACToast from "@components/ACToast/useACToast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import ACSelect from "@components/Select";
+import { GROUP_VALUE } from "@components/Select/types";
 
 const schema = z
   .object({
@@ -205,10 +206,17 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                         </HStack>
                         <Form.Field className="FormField" name="group">
                           <ACSelect // FIXME: rhf으로 전환 예정
-                            onChange={(value: string) : void => {
+                            onChange={(value: string): void => {
                               setLinkDto((prevLinkDto) => ({
                                 ...prevLinkDto,
-                                groupId: value,
+                                ...(value !== GROUP_VALUE.UNDESIGNATED && {
+                                  groupId: value,
+                                }),
+                                // groupId: [
+                                //   ...(value !== GROUP_VALUE.UNDESIGNATED
+                                //     ? [value]
+                                //     : []),
+                                // ],
                               }));
                             }}
                           />
@@ -265,28 +273,28 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                 </Form.Root>
                 <Flex gap="3" mt="4" justify="end">
                   <Dialog.Close>
-                    <BaseButtonMain
+                    <BaseButton
                       size={"2"}
                       className="w-fit"
                       onClick={handleClickCancelButton}
                       backgroundColor={PaletteColor.Gray[200]}
                     >
                       취소
-                    </BaseButtonMain>
+                    </BaseButton>
                   </Dialog.Close>
                   <Dialog.Close>
-                    <BaseButtonMain
+                    <BaseButton
                       size={"2"}
                       className="w-fit"
                       onClick={handleSubmit(submit)}
                       backgroundColor={
                         isValid
-                          ? SemanticColor.Primary.Default
+                          ? SemanticColor.Primary.Black
                           : PaletteColor.Gray[200]
                       }
                     >
                       확인
-                    </BaseButtonMain>
+                    </BaseButton>
                   </Dialog.Close>
                 </Flex>
               </Dialog.Content>

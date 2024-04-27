@@ -17,14 +17,6 @@ const nextConfig = {
   /**
    * - next-js 에서 CORS 이슈를 해결하기 위해 Proxy 설정을 사용합니다
    */
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/api/:path*",
-  //       destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
-  //     },
-  //   ];
-  // },
   distDir: "dist",
   async headers() {
     return [

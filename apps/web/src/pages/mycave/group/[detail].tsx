@@ -5,7 +5,7 @@ import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import styled from "@emotion/styled";
 import Layout from "@components/Layout";
 import {
-  BaseButtonMain,
+  BaseButton,
   NavigationBar,
   VStack,
   HStack,
@@ -129,13 +129,13 @@ const UserGroupDetailPage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButtonMain
+            <BaseButton
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButtonMain>
+            </BaseButton>
           ),
         }}
       />
@@ -178,13 +178,13 @@ const UserGroupDetailPage = () => {
                 </Text>
                 개의 링크
               </div>
-              <BaseButtonMain
+              <BaseButton
                 size={"2"}
                 className="w-fit"
                 onClick={bookmarkAddModal.show}
               >
                 링크 담기 {<PlusIcon />}
-              </BaseButtonMain>
+              </BaseButton>
             </Flex>
             {hasLink ? (
               <HStack gap={"5"}>

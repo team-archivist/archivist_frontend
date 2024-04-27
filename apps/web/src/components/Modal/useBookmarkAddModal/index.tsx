@@ -1,4 +1,4 @@
-import { BaseButtonMain, PaletteColor, SemanticColor } from "@archivist/ui";
+import { BaseButton, PaletteColor, SemanticColor } from "@archivist/ui";
 import { css } from "@emotion/react";
 
 import { Dialog, Flex, Text, TextField } from "@radix-ui/themes";
@@ -79,28 +79,26 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
           </form>
           <Flex gap="3" mt="4" justify="end">
             <Dialog.Close>
-              <BaseButtonMain
+              <BaseButton
                 size={"2"}
                 className="w-fit"
                 backgroundColor={PaletteColor.Gray[200]}
                 onClick={() => handleChangeOpen(false)}
               >
                 취소
-              </BaseButtonMain>
+              </BaseButton>
             </Dialog.Close>
             <Dialog.Close>
-              <BaseButtonMain
+              <BaseButton
                 size={"2"}
                 className="w-fit"
                 onClick={handleSubmit(handleClickNext)}
                 backgroundColor={
-                  isValid
-                    ? SemanticColor.Primary.Default
-                    : PaletteColor.Gray[200]
+                  isValid ? SemanticColor.Primary.Black : PaletteColor.Gray[200]
                 }
               >
                 다음
-              </BaseButtonMain>
+              </BaseButton>
             </Dialog.Close>
           </Flex>
         </Dialog.Content>

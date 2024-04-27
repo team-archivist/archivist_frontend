@@ -10,11 +10,11 @@ type Props = ButtonProps & { backgroundColor?: string };
 /**
  * - Main Button Component 입니다
  */
-export const BaseButtonMain = ({
+export const BaseButtonOutline = ({
   children,
   size,
   onClick,
-  backgroundColor,
+  color,
   ...rest
 }: PropsWithChildren<Props>) => {
   return (
@@ -23,7 +23,11 @@ export const BaseButtonMain = ({
       variant="solid"
       radius="full"
       css={css`
-        background-color : ${backgroundColor ?? SemanticColor.Primary.Default};
+        border-width: 1px;
+        border-style: solid;
+        background-color: transparent;
+        color: ${color ?? SemanticColor.Primary.Default};
+        border-color: ${color ?? SemanticColor.Primary.Default};
         cursor: pointer;
       `}
       {...(onClick ? { onClick } : {})}

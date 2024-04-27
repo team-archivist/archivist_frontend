@@ -1,20 +1,12 @@
 import {
-  BaseButtonMain,
+  BaseButton,
   HStack,
   PaletteColor,
   SemanticColor,
   VStack,
 } from "@archivist/ui";
 
-import {
-  Box,
-  Dialog,
-  Flex,
-  Text,
-  TextArea,
-  TextField,
-  TextFieldInput,
-} from "@radix-ui/themes";
+import { Box, Dialog, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
 
 import { useState } from "react";
 
@@ -30,7 +22,7 @@ import {
   executeGroupPatch,
 } from "src/services/external/useAPIGroup";
 
-const useGroupAddModal = () => {
+const useGroupAddModal = ({ onSuccess } = {}) => {
   const [open, setOpen] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
 
@@ -82,13 +74,14 @@ const useGroupAddModal = () => {
     fileInputRef.current?.click();
   };
 
-  const handleShow = ({
-    groupName,
-    groupDescription,
-    groupIsPrivate,
-    groupCategories,
-    groupId,
-  }) => {
+  const handleShow = (params = {}) => {
+    const {
+      groupName,
+      groupDescription,
+      groupIsPrivate,
+      groupCategories,
+      groupId,
+    } = params;
     const init = () => {
       if ((!!groupName || !!groupDescription) && groupIsPrivate !== undefined) {
         setName(!!groupName ? groupName : name);
@@ -111,23 +104,26 @@ const useGroupAddModal = () => {
     init();
   };
 
-  const save = () => {
+  const save = async () => {
     const fetchAction = !!id ? executeGroupPatch : executeGroupPost;
 
-    fetchAction({
-      groupDto: {
-        groupName: name,
-        groupDesc: description,
-        isGroupPublic: !isPrivate,
-        categories: selectedCategories,
-        ...(id ? { groupId: id } : {}),
-      },
-      fileImageBlob,
-    });
+    try {
+      await fetchAction({
+        groupDto: {
+          groupName: name,
+          groupDesc: description,
+          isGroupPublic: !isPrivate,
+          categories: selectedCategories,
+          ...(id ? { groupId: id } : {}),
+        },
+        fileImageBlob,
+      });
+      onSuccess?.();
+    } catch (e) {}
   };
 
   return {
-    show: (params) => handleShow(params),
+    show: (params = {}) => handleShow(params),
     render: () => (
       <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
         <Dialog.Content style={{ maxWidth: 348 }}>
@@ -200,24 +196,24 @@ const useGroupAddModal = () => {
 
             <Flex gap="3" mt="4" justify="end">
               <Dialog.Close>
-                <BaseButtonMain
+                <BaseButton
                   size={"2"}
                   className="w-fit"
                   onClick={() => {}}
                   backgroundColor={PaletteColor.Gray[200]}
                 >
                   취소
-                </BaseButtonMain>
+                </BaseButton>
               </Dialog.Close>
               <Dialog.Close>
-                <BaseButtonMain
+                <BaseButton
                   size={"2"}
                   className="w-fit"
                   onClick={() => save()}
-                  backgroundColor={SemanticColor.Primary.Default}
+                  backgroundColor={SemanticColor.Primary.Black}
                 >
                   확인
-                </BaseButtonMain>
+                </BaseButton>
               </Dialog.Close>
             </Flex>
           </Form.Root>

@@ -1,6 +1,6 @@
 import {
   ArcaveCard,
-  BaseButtonMain,
+  BaseButton,
   HStack,
   SemanticColor,
   Typography,
@@ -10,6 +10,7 @@ import { css } from "@emotion/react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Text } from "@radix-ui/themes";
 
+import useGroupAddModal from "@components/Modal/useGroupAddModal";
 import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
 import useArcaveLink from "src/hooks/useArcaveLink";
 import useBookmarkAddDetailModal from "@components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
@@ -19,10 +20,15 @@ import Tooltip from "@components/Tooltip";
 
 type Props = {
   currentUser: any; // 현재 user 정보
-  handleOpenGroupAddModal: () => void; // GroupAddModal 이 열릴 때 발생하는 callback 입니다
 };
 
-const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
+const ArcaveTabContent = ({ currentUser }: Props) => {
+  const groupAddModal = useGroupAddModal();
+
+  const handleOpenGroupAddModal = () => {
+    groupAddModal.show();
+  };
+
   const bookmarkAddModal = useBookmarkAddModal({ handleOpenGroupAddModal });
 
   const { links, hasLink } = useArcaveLink({
@@ -76,13 +82,13 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
           개의 링크
         </div>
         <Tooltip text={"링크를 추가해보세요"} open side="bottom">
-          <BaseButtonMain
+          <BaseButton
             size={"2"}
             className="w-fit"
             onClick={bookmarkAddModal.show}
           >
             링크 담기 {<PlusIcon />}
-          </BaseButtonMain>
+          </BaseButton>
         </Tooltip>
       </HStack>
       {hasLink ? (
@@ -140,6 +146,7 @@ const ArcaveTabContent = ({ currentUser, handleOpenGroupAddModal }: Props) => {
       )}
       {bookmarkAddModal.render()}
       {linkDetailModal.render()}
+      {groupAddModal.render()}
     </>
   );
 };
