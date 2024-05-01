@@ -74,6 +74,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     register,
     getValues,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors, isValid },
   } = useForm({
@@ -143,6 +144,8 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         try {
           const { title, ogDescription, ogImage } = await executeFetchScrape();
           setLinkDto({ ...linkDto, linkName: title, linkDesc: ogDescription });
+          setValue("linkName", title);
+          setValue("linkDesc", ogDescription);
           if (ogImage) {
             handleChangePreviewImageUrl(ogImage);
           }
