@@ -45,9 +45,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   const imgRef = useRef<HTMLImageElement>(null);
 
   const [isFetched, setIsFetched] = useState(false);
-
   const [open, setOpen] = useState(false);
-  const [, setCount] = useState(0);
 
   const [, setBookmarkTabValue] = useAtom(BookmarkTabAtom);
 
@@ -76,6 +74,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     mode: "all",
@@ -88,8 +87,9 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     setOpen(isOpen);
   };
 
-  const handleClickCancelButton = () => {
+  const resetModal = () => {
     resetUploadField();
+    reset();
     setLinkDto({});
     setIsFetched(false);
   };
@@ -113,12 +113,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
       console.error(e);
       toast.show({ title: "오류가 발생했습니다" });
     } finally {
-      handleChangeOpen(false);
+      resetModal();
     }
   };
 
   const handleClickAddGroup = () => {
-    handleChangeOpen(false);
+    resetModal();
     setBookmarkTabValue(BookmarkTab.GROUP);
     handleOpenGroupAddModal();
   };
@@ -144,12 +144,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         try {
           const { title, ogDescription, ogImage } = await executeFetchScrape();
           setLinkDto({ ...linkDto, linkName: title, linkDesc: ogDescription });
-          setValue("linkName", title);
-          setValue("linkDesc", ogDescription);
+          setValue("linkName", title, { shouldValidate: true });
+          setValue("linkDesc", ogDescription, { shouldValidate: true });
           if (ogImage) {
             handleChangePreviewImageUrl(ogImage);
           }
-          setCount(ogDescription.length);
+
           setIsFetched(true);
         } catch (e) {
           window.alert("해당 링크의 메타정보를 가져올 수 없습니다");
@@ -162,7 +162,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   return {
     show: handleShow,
     close: () => {
-      handleChangeOpen(false);
+      resetModal();
     },
     render: isFetched
       ? () => (
@@ -285,7 +285,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                     <BaseButton
                       size={"2"}
                       className="w-fit"
-                      onClick={handleClickCancelButton}
+                      onClick={resetModal}
                       backgroundColor={PaletteColor.Gray[200]}
                     >
                       취소
