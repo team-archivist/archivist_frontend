@@ -9,31 +9,16 @@ type Props = PropsWithChildren<{
 }>;
 
 const Tooltip = ({ text, children, open, side }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(open ?? false);
 
-  const handleMouseOver = () => {
-    if (open) {
-      setIsOpen(false);
-      return;
-    }
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (open) {
-      setIsOpen(true);
-      return;
-    }
+  const handleClick = () => {
     setIsOpen(false);
   };
 
   return (
     <RadixTooltip.Provider>
       <RadixTooltip.Root open={isOpen}>
-        <RadixTooltip.Trigger
-          onMouseOver={handleMouseOver}
-          onMouseLeave={handleMouseLeave}
-        >
+        <RadixTooltip.Trigger onClick={handleClick}>
           {children}
         </RadixTooltip.Trigger>
         <RadixTooltip.Portal>
