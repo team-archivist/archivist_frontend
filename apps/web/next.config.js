@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: false,
   productionBrowserSourceMaps: true,
 
-  // transpilePackages: ["@archivist/ui"],
+  transpilePackages: ["@archivist/ui"],
 
   eslint: {
     ignoreDuringBuilds: true,
