@@ -7,7 +7,7 @@
     "next": "^14.0.4"
   },
   "scripts": {
-    "build": "turbo run build --parallel",
+    "build": "turbo run build",
     "dev": "pnpm run build:ui && turbo run dev --parallel",
     "build:ui": "pnpm run -F @archivist/ui build",
     "watch:ui": "pnpm run -F @archivist/ui watch",
