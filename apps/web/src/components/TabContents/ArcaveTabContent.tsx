@@ -1,22 +1,20 @@
-import {
-  ArcaveCard,
-  BaseButton,
-  HStack,
-  SemanticColor,
-  Typography,
-  VStack,
-} from "@archivist/ui";
 import { css } from "@emotion/react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Text } from "@radix-ui/themes";
 
-import useGroupAddModal from "@components/Modal/useGroupAddModal";
-import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
-import useArcaveLink from "src/hooks/useArcaveLink";
-import useBookmarkAddDetailModal from "@components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
-import useAPIGroupLink from "src/services/external/useAPIGroupLink";
-import useAPIGroup from "src/services/external/useAPIGroup";
-import Tooltip from "@components/Tooltip";
+import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
+import { BaseButton } from "@arcave/components/common/button";
+import { HStack } from "@arcave/components/common/Stack/HStack";
+import { VStack } from "@arcave/components/common/Stack/VStack";
+import useBookmarkAddModal from "@arcave/components/Modal/useBookmarkAddModal";
+import useBookmarkAddDetailModal from "@arcave/components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
+import useGroupAddModal from "@arcave/components/Modal/useGroupAddModal";
+import Tooltip from "@arcave/components/Tooltip";
+import useArcaveLink from "@arcave/hooks/useArcaveLink";
+import useAPIGroup from "@arcave/services/external/useAPIGroup";
+import useAPIGroupLink from "@arcave/services/external/useAPIGroupLink";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
 
 type Props = {
   currentUser: any; // 현재 user 정보
@@ -46,7 +44,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
 
   const findGroupName = (linkId) => {
     const groupId = linksWithGroupId.find(
-      (linkWithGroupId) => linkWithGroupId.linkId === linkId
+      (linkWithGroupId) => linkWithGroupId.linkId === linkId,
     )?.groupId;
 
     if (groupId) {
@@ -117,7 +115,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
                   onClickModify={handleClickModify}
                 />
               );
-            }
+            },
           )}
         </HStack>
       ) : (

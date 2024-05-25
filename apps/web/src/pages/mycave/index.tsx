@@ -1,26 +1,24 @@
-import { BaseButton, HStack, NavigationBar, VStack } from "@archivist/ui";
-
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import Layout from "@components/Layout";
 import { Avatar, Flex, Heading, Tabs } from "@radix-ui/themes";
-
-import ACTabs from "@components/Tabs/ACTabs";
-
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { css } from "@emotion/react";
-
-import Chip from "@components/Chip";
-
+import { useRouter } from "next/router";
 import useCurrentUser from "src/hooks/useCurrentUser";
+
+import Chip from "@arcave/components/Chip";
+import { BaseButton } from "@arcave/components/common/button";
+import { HStack } from "@arcave/components/common/Stack/HStack";
+import { VStack } from "@arcave/components/common/Stack/VStack";
+import Layout from "@arcave/components/Layout";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import ACTabs from "@arcave/components/Tabs/ACTabs";
+import BookmarkTabAtom from "@arcave/store/BookmarkTabAtom";
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 
 import ArcaveTabContent from "../../components/TabContents/ArcaveTabContent";
 import GroupTabContent from "../../components/TabContents/GroupTabContent";
-import { useAtom } from "jotai";
-import BookmarkTabAtom from "@store/BookmarkTabAtom";
-
-import { useRouter } from "next/router";
 
 export enum BookmarkTab {
   ALL = "아케이브",

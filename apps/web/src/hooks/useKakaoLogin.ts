@@ -1,10 +1,11 @@
-import { useEffect } from "react";
-import { useAtom } from "jotai/index";
-import loginUserAtom from "@store/loginUserAtom";
-import { useRouter } from "next/router";
-import USER_CONSTANTS from "@constants/userStorageConstants";
 import { getCookie } from "cookies-next";
-import LoginUserModel from "@model/LoginUserModel";
+import { useAtom } from "jotai/index";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+import USER_CONSTANTS from "@arcave/constants/userStorageConstants";
+import LoginUserModel from "@arcave/model/LoginUserModel";
+import loginUserAtom from "@arcave/store/loginUserAtom";
 
 enum RouteLink {
   SIGNUP = "/signup",
@@ -48,7 +49,7 @@ const useKakaoLogin = () => {
     window.open(
       kakaoLoginURL,
       "_blank",
-      `width=${popupWidth},height=${popupHeight},left=${popupX},top=${popupY}`
+      `width=${popupWidth},height=${popupHeight},left=${popupX},top=${popupY}`,
     );
   };
 

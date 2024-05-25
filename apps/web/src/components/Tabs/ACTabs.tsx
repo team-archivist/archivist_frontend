@@ -1,8 +1,8 @@
-import { SemanticColor } from "@archivist/ui";
 import { css } from "@emotion/react";
-import { Tabs, Text } from "@radix-ui/themes";
+import { Tabs } from "@radix-ui/themes";
 import { PropsWithChildren } from "react";
-import { BookmarkTab } from "src/pages/mycave";
+
+import { SemanticColor } from "@arcave/utils/color";
 
 type Props = {
   tabsList: string[];

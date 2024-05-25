@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@archivist/config": "workspace:*",
-    "@archivist/ui": "workspace:*",
     "@emotion/babel-plugin": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",

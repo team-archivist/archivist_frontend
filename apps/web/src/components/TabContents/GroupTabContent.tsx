@@ -1,17 +1,13 @@
-import {
-  ArcaveCard,
-  BaseButton,
-  HStack,
-  SemanticColor,
-  Typography,
-  VStack,
-} from "@archivist/ui";
-import useGroupAddModal from "@components/Modal/useGroupAddModal";
-
 import { css } from "@emotion/react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Text } from "@radix-ui/themes";
-import useAPIGroup from "src/services/external/useAPIGroup";
+
+import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
+import { BaseButton } from "@arcave/components/common/button";
+import { HStack } from "@arcave/components/common/Stack/HStack";
+import { VStack } from "@arcave/components/common/Stack/VStack";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
 
 type Props = {};
 
@@ -80,7 +76,7 @@ const GroupTabContent = ({ currentUser }: Props) => {
                   onClickModify={handleClickModify}
                 />
               );
-            }
+            },
           )}
         </HStack>
       ) : (

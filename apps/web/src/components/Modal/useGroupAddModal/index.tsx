@@ -1,26 +1,22 @@
-import {
-  BaseButton,
-  HStack,
-  PaletteColor,
-  SemanticColor,
-  VStack,
-} from "@archivist/ui";
-
+import { css } from "@emotion/react";
+import * as Form from "@radix-ui/react-form";
 import { Box, Dialog, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
-
 import { useState } from "react";
 
-import * as Form from "@radix-ui/react-form";
-import { css } from "@emotion/react";
-import useAPICategory from "src/services/external/useAPICategory";
-import DropdownCheckbox from "./DropdownCheckbox";
-import ACCheckbox from "@components/ACCheckbox";
-import Chip from "@components/Chip";
-import useUploadImage from "../common/useUploadImage";
+import ACCheckbox from "@arcave/components/ACCheckbox";
+import Chip from "@arcave/components/Chip";
+import { BaseButton } from "@arcave/components/common/button";
+import { HStack } from "@arcave/components/common/Stack/HStack";
+import { VStack } from "@arcave/components/common/Stack/VStack";
+import useAPICategory from "@arcave/services/external/useAPICategory";
 import {
-  executeGroupPost,
   executeGroupPatch,
-} from "src/services/external/useAPIGroup";
+  executeGroupPost,
+} from "@arcave/services/external/useAPIGroup";
+import { PaletteColor, SemanticColor } from "@arcave/utils/color";
+
+import DropdownCheckbox from "./DropdownCheckbox";
+import useUploadImage from "../common/useUploadImage";
 
 const useGroupAddModal = ({ onSuccess } = {}) => {
   const [open, setOpen] = useState(false);
@@ -62,7 +58,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
     }
 
     setSelectedCategories((prev) =>
-      prev.filter((category) => category !== value)
+      prev.filter((category) => category !== value),
     );
   };
 
@@ -88,7 +84,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
         setDescription(!!groupDescription ? groupDescription : description);
         setIsPrivate(groupIsPrivate);
         setSelectedCategories(
-          groupCategories.length !== 0 ? groupCategories : categories
+          groupCategories.length !== 0 ? groupCategories : categories,
         );
         setId(groupId);
       } else {

@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { LoginView } from "@archivist/ui";
-import useKakaoLogin from "@hooks/useKakaoLogin";
+import { useEffect, useState } from "react";
 
-/** 카카오 로그인 관련 페이지입니다 */
-const LoginPage = (props) => {
+import LoginView from "@arcave/components/LoginView";
+import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
+
+const LoginPage = () => {
   const { onLogin } = useKakaoLogin();
   const router = useRouter();
-
-  /** loginView 관련 로직입니다 */
   const [mountedByLoginView, setMountedByLoginView] = useState<boolean>(false);
 
   useEffect(() => {

@@ -4,18 +4,18 @@
     "baseUrl": "./",
     "lib": ["DOM", "DOM.Iterable", "ESNext", "webworker"],
     "paths": {
-      "@components*": ["src/components*"],
-      "@lib*": ["src/lib*"],
-      "@assets*": ["src/assets*"],
-      "@archivist/ui": ["packages/ui/src"],
-      "@constants*": ["src/constants*"],
-      "@hooks*": ["src/hooks*"],
-      "@store*": ["src/store*"],
-      "@model*": ["src/model*"],
-      "@public*": ["public*"],
-      "@utils*": ["src/utils*"]
+      "@arcave*":["src*"],
+      // "@public*": ["public*"],
+      // "@components*": ["src/components*"],
+      // "@lib*": ["src/lib*"],
+      // "@assets*": ["src/assets*"],
+      // "@constants*": ["src/constants*"],
+      // "@hooks*": ["src/hooks*"],
+      // "@store*": ["src/store*"],
+      // "@model*": ["src/model*"],
+      // "@utils*": ["src/utils*"]
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

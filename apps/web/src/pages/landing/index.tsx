@@ -1,17 +1,15 @@
-import Link from "next/link";
-import React from "react";
 import { css } from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
-import {
-  NavigationBar,
-  HStack,
-  BaseButton,
-  Typography,
-  SemanticColor,
-} from "@archivist/ui";
-import { usePathname } from "next/navigation";
 import { Box, Text } from "@radix-ui/themes";
-import useKakaoLogin from "@hooks/useKakaoLogin";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { BaseButton } from "@arcave/components/common/button";
+import { HStack } from "@arcave/components/common/Stack/HStack";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
 
 enum NavigationBarLeftItem {
   LOGO = "logo",

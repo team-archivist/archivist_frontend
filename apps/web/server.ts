@@ -1,8 +1,7 @@
+const axios = require("axios");
 const express = require("express");
 const jsdom = require("jsdom");
 const next = require("next");
-const axios = require("axios");
-const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -76,7 +75,7 @@ app.prepare().then(() => {
       const ogImage = parsedDocument.querySelector("meta[property='og:image']")
         ?.content;
       const ogDescription = parsedDocument.querySelector(
-        "meta[property='og:description']"
+        "meta[property='og:description']",
       )?.content;
       const title = parsedDocument.querySelector("title")?.innerHTML;
 

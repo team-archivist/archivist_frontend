@@ -1,6 +1,7 @@
-import { Checkbox } from "@radix-ui/themes";
 import { css } from "@emotion/react";
-import { SemanticColor } from "@archivist/ui";
+import { Checkbox } from "@radix-ui/themes";
+
+import { SemanticColor } from "@arcave/utils/color";
 
 const ACCheckbox = ({ onClick, checked, ...rest }) => {
   return (

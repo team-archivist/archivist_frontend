@@ -1,29 +1,19 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
-import styled from "@emotion/styled";
-import Layout from "@components/Layout";
-import {
-  BaseButton,
-  NavigationBar,
-  VStack,
-  HStack,
-  ArcaveCard,
-  ArcaveCardDetail,
-  SemanticColor,
-  Typography,
-} from "@archivist/ui";
-import { usePathname } from "next/navigation";
-import { Flex, Tabs, Text } from "@radix-ui/themes";
 import { PlusIcon } from "@radix-ui/react-icons";
-import ACTabs from "@components/Tabs/ACTabs";
-import useCurrentUser from "../../../hooks/useCurrentUser";
-import useArcaveGroup from "../../../hooks/useArcaveGroup";
-import useArcaveGroupLink from "../../../hooks/useArcaveGroupLink";
-import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
+import { Flex, Tabs, Text } from "@radix-ui/themes";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
-import useGroupAddModal from "@components/Modal/useGroupAddModal";
+import { useEffect, useState } from "react";
+
+import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
+import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
+import { BaseButton } from "@arcave/components/common/button";
+import { HStack } from "@arcave/components/common/Stack/HStack";
+import { VStack } from "@arcave/components/common/Stack/VStack";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import { Typography } from "@arcave/utils/typography";
+
+import useCurrentUser from "../../../hooks/useCurrentUser";
 
 enum BookmarkTab {
   ALL = "전체",

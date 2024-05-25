@@ -1,13 +1,11 @@
 /** next 관련 설정파일입니다 */
+const path = require("path");
 const headers = [{ key: "Cache-Control", value: "public, max-age=3600" }];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   productionBrowserSourceMaps: true,
-
-  transpilePackages: ["@archivist/ui"],
-
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -35,11 +33,6 @@ const nextConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
-
-    // config.resolve.alias = {
-    //   ...config.resolve.alias,
-    //   "@archivist/ui": path.resolve(__dirname, "../../packages/ui"),
-    // };
 
     return config;
   },

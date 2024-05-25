@@ -1,9 +1,10 @@
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import USER_CONSTANTS from "@constants/userStorageConstants";
-import { setCookie } from "cookies-next";
 import axiosInstance from "src/services/requests";
-import { deletePreviousTokenInCookie } from "@utils/cookie";
+
+import USER_CONSTANTS from "@arcave/constants/userStorageConstants";
+import { deletePreviousTokenInCookie } from "@arcave/utils/cookie";
 
 type TokenData = {
   key: string;
@@ -51,7 +52,7 @@ const SigninCallback = () => {
 
         window.opener.postMessage(
           { code: "success", userInfo, key: userInfo.key },
-          "*"
+          "*",
         );
         window.close();
       } catch (e) {
@@ -66,7 +67,7 @@ const SigninCallback = () => {
       const res = await axiosInstance.post<{ value: string; token: string }>(
         `/api/login/kakao`,
         { code: router.query.code },
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
       return {
         ...res?.data,

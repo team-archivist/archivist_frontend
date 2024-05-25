@@ -1,18 +1,16 @@
-import { BaseButton, PaletteColor, SemanticColor } from "@archivist/ui";
 import { css } from "@emotion/react";
-
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, Flex, Text, TextField } from "@radix-ui/themes";
-
-import LinkModalAtom from "@store/LinkModalAtom";
 import { useAtom } from "jotai";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { BaseButton } from "@arcave/components/common/button";
+import LinkModalAtom from "@arcave/store/LinkModalAtom";
+import { PaletteColor, SemanticColor } from "@arcave/utils/color";
 
 import useBookmarkAddDetailModal from "./useBookmarkAddDetailModal";
-
-import { useForm } from "react-hook-form";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 const URL_REGEX =
   /^(https?|ftp):\/\/([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+\.[a-zA-Z]{2,9}(:\d{1,5})?(\/[^\s]*)?(\?[^\s]*)?(#\w*)?$/;
@@ -23,7 +21,7 @@ const schema = z
       .string()
       .refine(
         (value) => URL_REGEX.test(value ?? ""),
-        "잘못된 형식의 링크입니다."
+        "잘못된 형식의 링크입니다.",
       ),
   })
   .required();
