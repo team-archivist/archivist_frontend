@@ -9,10 +9,6 @@
       "path": "../apps/web"
     },
     {
-      "name": "packages/ui",
-      "path": "../packages/ui"
-    },
-    {
       "name": "packages/config",
       "path": "../packages/config"
     }

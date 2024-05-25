@@ -65,9 +65,6 @@ archivist_frontent/
     |– config/                      # esconfig, tsconfig 등 공용 설정파일이 들어갑니다
     |
     |– types/                       # 각 패키지에서 export 할 type 들을 묶어두었습니다
-    |–––––––– 스펙을 명시하기 위한 것
-    |
-    |– ui/                          # 공용 ui 컴포넌트 들이 들어갑니다
     
 ````
 
@@ -79,7 +76,7 @@ archivist_frontent/
   ATOM based
 
   - axios - useSWR, tanstack/query
-  - storybook - 공통 ui + (web) // package
+  - storybook
   - next.js -> vite 
   - dayjs , lodash-es, 
   - msw
@@ -98,6 +95,5 @@ cf
 
 
 - [ Archivist ]( apps/web/README.md )
-- [ UI ]( packages/ui/README.md )
 - [ Types ]( packages/types/README.md )
 - [ Config ]( packages/config/README.md )
