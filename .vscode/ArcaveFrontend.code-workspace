@@ -13,5 +13,9 @@
       "path": "../packages/config"
     }
   ],
-  "settings": {}
+  "settings": {
+    "cSpell.words": [
+      "Arcave"
+    ]
+  }
 }

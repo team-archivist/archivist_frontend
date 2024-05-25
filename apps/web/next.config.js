@@ -1,7 +1,3 @@
-/** next 관련 설정파일입니다 */
-const path = require("path");
-const headers = [{ key: "Cache-Control", value: "public, max-age=3600" }];
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -16,6 +12,9 @@ const nextConfig = {
    * - next-js 에서 CORS 이슈를 해결하기 위해 Proxy 설정을 사용합니다
    */
   distDir: "dist",
+  async redirects() {
+    return [{ source: "/", destination: "/landing", permanent: true }];
+  },
   async headers() {
     return [
       {

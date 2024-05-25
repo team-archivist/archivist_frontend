@@ -3,17 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "lib": ["DOM", "DOM.Iterable", "ESNext", "webworker"],
+    "moduleResolution": "node",
     "paths": {
       "@arcave*":["src*"],
-      // "@public*": ["public*"],
-      // "@components*": ["src/components*"],
-      // "@lib*": ["src/lib*"],
-      // "@assets*": ["src/assets*"],
-      // "@constants*": ["src/constants*"],
-      // "@hooks*": ["src/hooks*"],
-      // "@store*": ["src/store*"],
-      // "@model*": ["src/model*"],
-      // "@utils*": ["src/utils*"]
     },
     "jsx": "preserve",
   },
