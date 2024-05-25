@@ -5,8 +5,8 @@ import { useAtom } from "jotai";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
-import useCurrentUser from "src/hooks/useCurrentUser";
 
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import Chip from "@arcave/components/Chip";
 import { BaseButton } from "@arcave/components/common/button";
 import { HStack } from "@arcave/components/common/Stack/HStack";
@@ -14,8 +14,8 @@ import { VStack } from "@arcave/components/common/Stack/VStack";
 import Layout from "@arcave/components/Layout";
 import { NavigationBar } from "@arcave/components/NavigationBar";
 import ACTabs from "@arcave/components/Tabs/ACTabs";
+import useCurrentUser from "@arcave/hooks/useCurrentUser";
 import BookmarkTabAtom from "@arcave/store/BookmarkTabAtom";
-import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 
 import ArcaveTabContent from "../../components/TabContents/ArcaveTabContent";
 import GroupTabContent from "../../components/TabContents/GroupTabContent";

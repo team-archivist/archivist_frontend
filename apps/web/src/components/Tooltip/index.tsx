@@ -1,7 +1,7 @@
+import { Tooltip as RadixTooltip } from "@radix-ui/themes";
+import { PropsWithChildren, useState } from "react";
+
 import * as S from "./styles";
-import { PropsWithChildren, useState } from "react";
-import { PropsWithChildren, useState } from "react";
-import { PropsWithChildren, useState } from "react";
 
 type Props = PropsWithChildren<{
   text: string;

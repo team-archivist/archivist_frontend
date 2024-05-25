@@ -1,16 +1,26 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Flex, Tabs, Text } from "@radix-ui/themes";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
 import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
 import { BaseButton } from "@arcave/components/common/button";
 import { HStack } from "@arcave/components/common/Stack/HStack";
 import { VStack } from "@arcave/components/common/Stack/VStack";
+import Layout from "@arcave/components/Layout";
+import useBookmarkAddModal from "@arcave/components/Modal/useBookmarkAddModal";
+import useGroupAddModal from "@arcave/components/Modal/useGroupAddModal";
 import { NavigationBar } from "@arcave/components/NavigationBar";
+import ACTabs from "@arcave/components/Tabs/ACTabs";
+import useArcaveGroup from "@arcave/hooks/useArcaveGroup";
+import useArcaveGroupLink from "@arcave/hooks/useArcaveGroupLink";
+import { SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
 
 import useCurrentUser from "../../../hooks/useCurrentUser";
@@ -72,15 +82,8 @@ const UserGroupDetailPage = () => {
       window.alert("현재 그룹이 없습니다");
       return;
     }
-    const {
-      categories,
-      groupDesc,
-      groupId,
-      groupName,
-      imgUrl,
-      linkCount,
-      isGroupPublic,
-    } = currentGroup;
+    const { categories, groupDesc, groupId, groupName, isGroupPublic } =
+      currentGroup;
 
     groupAddModal.show({
       groupName,
