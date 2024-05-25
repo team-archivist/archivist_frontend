@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { BaseButton } from "@arcave/components/common/button";
+import Button from "@arcave/components/common/Button/Button";
 import LinkModalAtom from "@arcave/store/LinkModalAtom";
 import { PaletteColor, SemanticColor } from "@arcave/utils/color";
 
@@ -79,17 +79,17 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
           </form>
           <Flex gap="3" mt="4" justify="end">
             <Dialog.Close>
-              <BaseButton
+              <Button
                 size={"2"}
                 className="w-fit"
                 backgroundColor={PaletteColor.Gray[200]}
                 onClick={() => handleChangeOpen(false)}
               >
                 취소
-              </BaseButton>
+              </Button>
             </Dialog.Close>
             <Dialog.Close>
-              <BaseButton
+              <Button
                 size={"2"}
                 className="w-fit"
                 onClick={handleSubmit(handleClickNext)}
@@ -100,7 +100,7 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
                 }
               >
                 다음
-              </BaseButton>
+              </Button>
             </Dialog.Close>
           </Flex>
         </Dialog.Content>

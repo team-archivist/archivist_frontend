@@ -3,9 +3,9 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Text } from "@radix-ui/themes";
 
 import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
-import { BaseButton } from "@arcave/components/common/button";
-import { HStack } from "@arcave/components/common/Stack/HStack";
-import { VStack } from "@arcave/components/common/Stack/VStack";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
 import useBookmarkAddModal from "@arcave/components/Modal/useBookmarkAddModal";
 import useBookmarkAddDetailModal from "@arcave/components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
 import useGroupAddModal from "@arcave/components/Modal/useGroupAddModal";
@@ -57,7 +57,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
   }
   return (
     <>
-      <HStack width="100%" justify={"between"} className="my-5">
+      <HStack justify={"space-between"} className="my-5">
         <div
           css={css`
             ${Typography.Title2[17].Regular}
@@ -73,14 +73,10 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
           </Text>
           개의 링크
         </div>
-        <Tooltip text={"링크를 추가해보세요"} open side="bottom">
-          <BaseButton
-            size={"2"}
-            className="w-fit"
-            onClick={bookmarkAddModal.show}
-          >
+        <Tooltip text={"링크를 추가해보세요"} placement="bottom">
+          <Button size={"2"} className="w-fit" onClick={bookmarkAddModal.show}>
             링크 담기 {<PlusIcon />}
-          </BaseButton>
+          </Button>
         </Tooltip>
       </HStack>
       {hasLink ? (

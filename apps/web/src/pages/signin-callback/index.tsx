@@ -85,6 +85,6 @@ const SigninCallback = () => {
     }
   };
 
-  return <div>카카오톡 로그인 콜백</div>;
+  return <div>로그인중입니다</div>;
 };
 export default SigninCallback;

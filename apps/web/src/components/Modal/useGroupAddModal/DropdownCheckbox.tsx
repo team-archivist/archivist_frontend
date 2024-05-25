@@ -5,8 +5,8 @@ import { Grid } from "@radix-ui/themes";
 import { useState } from "react";
 
 import ACCheckbox from "@arcave/components/ACCheckbox";
-import { HStack } from "@arcave/components/common/Stack/HStack";
-import { VStack } from "@arcave/components/common/Stack/VStack";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
 
 type Props = {
   categories: string[];
@@ -46,7 +46,12 @@ const DropdownCheckbox = ({
             `}
           >
             {categories.map((category) => (
-              <HStack key={category} height={"6"} gap={"2"} align={"center"}>
+              <HStack
+                key={category}
+                height={"6"}
+                gap={"2"}
+                alignItems={"center"}
+              >
                 <ACCheckbox
                   onClick={(checked: boolean) =>
                     handleClickCheckbox(category, checked)

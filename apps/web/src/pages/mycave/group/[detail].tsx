@@ -10,9 +10,9 @@ import { useEffect, useState } from "react";
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
 import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
-import { BaseButton } from "@arcave/components/common/button";
-import { HStack } from "@arcave/components/common/Stack/HStack";
-import { VStack } from "@arcave/components/common/Stack/VStack";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
 import Layout from "@arcave/components/Layout";
 import useBookmarkAddModal from "@arcave/components/Modal/useBookmarkAddModal";
 import useGroupAddModal from "@arcave/components/Modal/useGroupAddModal";
@@ -119,13 +119,13 @@ const UserGroupDetailPage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
+            <Button
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />
@@ -168,13 +168,13 @@ const UserGroupDetailPage = () => {
                 </Text>
                 개의 링크
               </div>
-              <BaseButton
+              <Button
                 size={"2"}
                 className="w-fit"
                 onClick={bookmarkAddModal.show}
               >
                 링크 담기 {<PlusIcon />}
-              </BaseButton>
+              </Button>
             </Flex>
             {hasLink ? (
               <HStack gap={"5"}>

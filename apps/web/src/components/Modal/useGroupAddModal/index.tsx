@@ -5,9 +5,9 @@ import { useState } from "react";
 
 import ACCheckbox from "@arcave/components/ACCheckbox";
 import Chip from "@arcave/components/Chip";
-import { BaseButton } from "@arcave/components/common/button";
-import { HStack } from "@arcave/components/common/Stack/HStack";
-import { VStack } from "@arcave/components/common/Stack/VStack";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
 import useAPICategory from "@arcave/services/external/useAPICategory";
 import {
   executeGroupPatch,
@@ -171,7 +171,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 {description.length}/400
               </VStack>
               <VStack>
-                <HStack gap={"2"} align={"center"}>
+                <HStack gap={"2"} alignItems={"center"}>
                   <ACCheckbox
                     checked={isPrivate}
                     onClick={handleClickIsPrivate}
@@ -191,24 +191,24 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
 
             <Flex gap="3" mt="4" justify="end">
               <Dialog.Close>
-                <BaseButton
+                <Button
                   size={"2"}
                   className="w-fit"
                   onClick={() => {}}
                   backgroundColor={PaletteColor.Gray[200]}
                 >
                   취소
-                </BaseButton>
+                </Button>
               </Dialog.Close>
               <Dialog.Close>
-                <BaseButton
+                <Button
                   size={"2"}
                   className="w-fit"
                   onClick={() => save()}
                   backgroundColor={SemanticColor.Primary.Default}
                 >
                   확인
-                </BaseButton>
+                </Button>
               </Dialog.Close>
             </Flex>
           </Form.Root>

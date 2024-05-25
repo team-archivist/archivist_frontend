@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
-import { BaseButton } from "@arcave/components/common/button";
-import { HStack } from "@arcave/components/common/Stack/HStack";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
 import { NavigationBar } from "@arcave/components/NavigationBar";
 import { SignupView } from "@arcave/components/Signup/SignupView";
 import USER_CONSTANTS from "@arcave/constants/userStorageConstants";
@@ -134,13 +134,9 @@ const SignupPage = (props) => {
         }}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
-              size={"2"}
-              className="w-fit"
-              onClick={() => router.push("/")}
-            >
+            <Button className="w-fit" onClick={() => router.push("/")}>
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />

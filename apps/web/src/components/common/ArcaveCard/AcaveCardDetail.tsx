@@ -6,9 +6,10 @@ import { Box, Text, Avatar, Flex } from "@radix-ui/themes";
 import { PaletteColor, SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
 
-import { BaseButtonOutline, BaseButton } from "../button";
-import { HStack } from "../Stack/HStack";
-import { VStack } from "../Stack/VStack";
+import Button from "../Button/Button";
+import OutlineButton from "../Button/OutlineButton";
+import HStack from "../Stack/HStack";
+import VStack from "../Stack/VStack";
 
 type Props = {
   title?: string;
@@ -64,14 +65,14 @@ export const ArcaveCardDetail = ({
         )}
       </Thumbnail>
       <VStack
-        justify="between"
+        justify="space-between"
         css={css`
           max-width: calc(100% - 370px);
         `}
       >
         <VStack>
           {avatar && avatar.isVisible && (
-            <HStack align="center" className="mb-2">
+            <HStack alignItems="center" className="mb-2">
               <Avatar
                 src={avatar.imgUrl}
                 fallback="A"
@@ -91,17 +92,13 @@ export const ArcaveCardDetail = ({
           <Description>{description}</Description>
         </VStack>
         {button && button.isVisible && button.isOutline ? (
-          <BaseButtonOutline
-            size={"2"}
-            className="w-fit"
-            onClick={button.onClick}
-          >
+          <OutlineButton size={"2"} className="w-fit" onClick={button.onClick}>
             {button.text} {<Pencil1Icon />}
-          </BaseButtonOutline>
+          </OutlineButton>
         ) : (
-          <BaseButton size={"2"} className="w-fit" onClick={button.onClick}>
+          <Button className="w-fit" onClick={button.onClick}>
             {button.text} {<PlusIcon />}
-          </BaseButton>
+          </Button>
         )}
       </VStack>
     </HStack>

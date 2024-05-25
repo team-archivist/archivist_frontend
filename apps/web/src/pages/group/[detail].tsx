@@ -3,17 +3,17 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
 import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
-import { BaseButton } from "@arcave/components/common/button";
-import { HStack } from "@arcave/components/common/Stack/HStack";
-import { VStack } from "@arcave/components/common/Stack/VStack";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
 import Layout from "@arcave/components/Layout";
 import { NavigationBar } from "@arcave/components/NavigationBar";
 import ACTabs from "@arcave/components/Tabs/ACTabs";
 import { SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
-import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 
 import useArcaveGroup from "../../hooks/useArcaveGroup";
 import useArcaveGroupLink from "../../hooks/useArcaveGroupLink";
@@ -87,13 +87,13 @@ const GroupDetailPage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
+            <Button
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />

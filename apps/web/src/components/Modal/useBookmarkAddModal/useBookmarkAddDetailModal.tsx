@@ -8,9 +8,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import useACToast from "@arcave/components/ACToast/useACToast";
-import { BaseButton } from "@arcave/components/common/button";
-import { HStack } from "@arcave/components/common/Stack/HStack";
-import { VStack } from "@arcave/components/common/Stack/VStack";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
 import ACSelect from "@arcave/components/Select";
 import { GROUP_VALUE } from "@arcave/components/Select/types";
 import { BookmarkTab } from "@arcave/pages/mycave";
@@ -197,7 +197,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                     />
                     <VStack gap="4">
                       <Flex direction="column" gap="3">
-                        <HStack width={"100%"} justify={"between"}>
+                        <HStack justify={"space-between"}>
                           <Text>그룹</Text>
                           <Text
                             onClick={handleClickAddGroup}
@@ -277,17 +277,17 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                 </Form.Root>
                 <Flex gap="3" mt="4" justify="end">
                   <Dialog.Close>
-                    <BaseButton
+                    <Button
                       size={"2"}
                       className="w-fit"
                       onClick={resetModal}
                       backgroundColor={PaletteColor.Gray[200]}
                     >
                       취소
-                    </BaseButton>
+                    </Button>
                   </Dialog.Close>
                   <Dialog.Close>
-                    <BaseButton
+                    <Button
                       size={"2"}
                       className="w-fit"
                       onClick={handleSubmit(submit)}
@@ -298,7 +298,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       }
                     >
                       확인
-                    </BaseButton>
+                    </Button>
                   </Dialog.Close>
                 </Flex>
               </Dialog.Content>

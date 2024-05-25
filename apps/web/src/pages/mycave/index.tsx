@@ -8,9 +8,9 @@ import { useRouter } from "next/router";
 
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import Chip from "@arcave/components/Chip";
-import { BaseButton } from "@arcave/components/common/button";
-import { HStack } from "@arcave/components/common/Stack/HStack";
-import { VStack } from "@arcave/components/common/Stack/VStack";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
 import Layout from "@arcave/components/Layout";
 import { NavigationBar } from "@arcave/components/NavigationBar";
 import ACTabs from "@arcave/components/Tabs/ACTabs";
@@ -71,13 +71,13 @@ const MycavePage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
+            <Button
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />
@@ -92,9 +92,9 @@ const MycavePage = () => {
             radius="full"
             size="7"
           />
-          <VStack className={"my-4"} gap="1">
+          <VStack className={"my-4"} spacing={4}>
             <Heading size="5">{currentUser.nickname}</Heading>
-            <HStack gap="2">
+            <HStack spacing={8}>
               {currentUser.categories.map((category) => (
                 <Chip key={category}>{category}</Chip>
               ))}
