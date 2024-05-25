@@ -1,35 +1,17 @@
-import { Tooltip as RadixTooltip } from "@radix-ui/themes";
-import { PropsWithChildren, useState } from "react";
-
-import * as S from "./styles";
+// NOTE: 전환 완료
+import { Tooltip as AntdTooltip, TooltipProps } from "antd";
+import { PropsWithChildren } from "react";
 
 type Props = PropsWithChildren<{
   text: string;
-  side: RadixTooltip.PopperContentProps["side"];
-  open?: boolean;
+  placement: TooltipProps["placement"];
 }>;
 
-const Tooltip = ({ text, children, open, side }: Props) => {
-  const [isOpen, setIsOpen] = useState(open ?? false);
-
-  const handleClick = () => {
-    setIsOpen(false);
-  };
-
+const Tooltip = ({ text, children, placement }: Props) => {
   return (
-    <RadixTooltip.Provider>
-      <RadixTooltip.Root open={isOpen}>
-        <RadixTooltip.Trigger onClick={handleClick}>
-          {children}
-        </RadixTooltip.Trigger>
-        <RadixTooltip.Portal>
-          <RadixTooltip.Content side={side} css={S.tooltipContent}>
-            {text}
-            <RadixTooltip.Arrow css={S.tooltipArrow} />
-          </RadixTooltip.Content>
-        </RadixTooltip.Portal>
-      </RadixTooltip.Root>
-    </RadixTooltip.Provider>
+    <AntdTooltip placement={placement} title={text} arrow>
+      {children}
+    </AntdTooltip>
   );
 };
 
