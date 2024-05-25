@@ -1,7 +1,17 @@
-import { Flex } from "@radix-ui/themes";
-import { FlexProps } from "@radix-ui/themes/dist/cjs/components/flex";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, forwardRef } from "react";
 
-export const HStack = ({ children, ...rest }: PropsWithChildren<FlexProps>) => {
-  return <Flex {...rest}>{children}</Flex>;
-};
+import Stack, { StackProps } from ".";
+
+const HStack = forwardRef(
+  ({ children, ...restProps }: PropsWithChildren<StackProps>, ref) => {
+    return (
+      <Stack {...restProps} ref={ref} direction="row">
+        {children}
+      </Stack>
+    );
+  },
+);
+
+HStack.displayName = "HStack";
+
+export default HStack;
