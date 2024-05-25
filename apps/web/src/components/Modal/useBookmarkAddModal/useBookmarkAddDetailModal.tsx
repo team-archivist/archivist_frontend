@@ -2,12 +2,12 @@ import { css } from "@emotion/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Form from "@radix-ui/react-form";
 import { Box, Dialog, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
+import { message } from "antd";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import useACToast from "@arcave/components/ACToast/useACToast";
 import Button from "@arcave/components/common/Button/Button";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";
@@ -61,8 +61,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const { executeFetch: executeFetchScrape } = useAPIScrape(linkDto?.linkUrl);
 
-  const toast = useACToast();
-
   const {
     register,
     getValues,
@@ -101,12 +99,10 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
       }
 
       await executePostLink({ ...linkDto, ...getValues() }, imgRef.current);
-      toast.show({
-        title: "링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!",
-      });
+      message.success("링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!");
     } catch (e) {
       console.error(e);
-      toast.show({ title: "오류가 발생했습니다" });
+      message.error("오류가 발생했습니다");
     } finally {
       resetModal();
     }
@@ -303,7 +299,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                 </Flex>
               </Dialog.Content>
             </Dialog.Root>
-            {toast.render()}
           </>
         )
       : () => <></>,
