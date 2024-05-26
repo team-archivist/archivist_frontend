@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { Grid } from "@radix-ui/themes";
+import { Select } from "antd";
 import { useState } from "react";
 
 import ACCheckbox from "@arcave/components/ACCheckbox";
@@ -30,6 +31,53 @@ const DropdownCheckbox = ({
   const handleClickCheckbox = (category: string, checked: boolean) => {
     onChange(category, checked);
   };
+
+  return (
+    <Select
+      mode="multiple"
+      allowClear
+      style={{ width: "100%" }}
+      dropdownStyle={{ zIndex: 999 }}
+      placeholder="카테고리 선택"
+      options={categories.map((item) => ({ label: item, value: item }))}
+    />
+  );
+
+  return (
+    <Select
+      css={selectLayout}
+      placeholder="카테고리 선택"
+      open
+      dropdownRender={(menu) => {
+        console.log("menu", menu);
+        return (
+          <div style={{ zIndex: 2 }}>
+            {/* {menu} */}
+            <Grid
+              columns="2"
+              gap="3"
+              css={css`
+                width: 258px;
+              `}
+            >
+              {categories.map((category) => (
+                <HStack key={category} spacing={8} alignItems={"center"}>
+                  <ACCheckbox
+                    onClick={(checked: boolean) =>
+                      handleClickCheckbox(category, checked)
+                    }
+                    checked={selectedCategories.includes(category)}
+                  />
+                  {category}
+                </HStack>
+              ))}
+            </Grid>
+          </div>
+        );
+      }}
+      options={categories.map((item) => ({ label: item, value: item }))}
+    />
+  );
 
   return (
     <VStack>
@@ -65,6 +113,19 @@ const DropdownCheckbox = ({
 };
 
 const SelectLayout = styled(HStack)`
+  width: 100%;
+  height: 48px;
+  padding: 0px 16px;
+
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid var(--Gray900, #1a1a1a);
+  background: var(--Gray100, #f5f5f5);
+`;
+
+const selectLayout = css`
   width: 100%;
   height: 48px;
   padding: 0px 16px;
