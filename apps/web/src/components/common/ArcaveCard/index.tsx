@@ -65,7 +65,7 @@ export const ArcaveCard = ({
 
   return (
     <VStack
-      gap={"2"}
+      spacing={16}
       onClick={handleClickCard}
       className="w-72"
       css={css`
@@ -88,7 +88,7 @@ export const ArcaveCard = ({
         onMouseLeave={handleMouseLeave}
       >
         {isHovered && (
-          <HStack className="m-2 h-fit" gap={"1"}>
+          <HStack className="m-2 h-fit" spacing={8}>
             <Button
               radius="full"
               className="h-8 w-8 p-0"

@@ -124,7 +124,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
         <Dialog.Content style={{ maxWidth: 348 }}>
           <Dialog.Title>{!!id ? "그룹 수정" : "그룹 추가"}</Dialog.Title>
           <Form.Root className="FormRoot">
-            <VStack gap="6">
+            <VStack spacing={16}>
               <Box
                 width={"100%"}
                 className="h-52 rounded-lg"
@@ -136,13 +136,15 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 `}
                 onClick={handleClickUploadPanel}
               />
-              <VStack gap="1">
+              <VStack spacing={8}>
                 <Text>카테고리</Text>
-                <HStack gap="2" wrap={"wrap"}>
-                  {selectedCategories.map((category) => (
-                    <Chip key={`chip-${category}`}>{category}</Chip>
-                  ))}
-                </HStack>
+                {selectedCategories.length !== 0 && (
+                  <HStack spacing={16} wrap={"wrap"}>
+                    {selectedCategories.map((category) => (
+                      <Chip key={`chip-${category}`}>{category}</Chip>
+                    ))}
+                  </HStack>
+                )}
                 <Form.Field className="FormField" name="group">
                   <DropdownCheckbox
                     categories={categories}
@@ -151,7 +153,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                   />
                 </Form.Field>
               </VStack>
-              <VStack gap="1">
+              <VStack spacing={8}>
                 <Text>그룹 이름</Text>
                 <TextField.Input
                   size="3"
@@ -160,7 +162,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                   value={name}
                 />
               </VStack>
-              <VStack gap="1">
+              <VStack spacing={8}>
                 <Text>그룹 설명</Text>
                 <TextArea
                   size="3"
@@ -171,14 +173,14 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 {description.length}/400
               </VStack>
               <VStack>
-                <HStack gap={"2"} alignItems={"center"}>
+                <HStack spacing={16} alignItems={"center"}>
                   <ACCheckbox
                     checked={isPrivate}
                     onClick={handleClickIsPrivate}
                   />
                   <span>그룹 비공개로 설정하기</span>
                 </HStack>
-                <HStack gap={"2"}>
+                <HStack spacing={16}>
                   <div
                     css={css`
                       width: 18px;

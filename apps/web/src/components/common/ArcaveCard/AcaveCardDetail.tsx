@@ -46,7 +46,7 @@ export const ArcaveCardDetail = ({
   },
 }: Props) => {
   return (
-    <HStack gap={"2"}>
+    <HStack spacing={16}>
       <Thumbnail className="mr-5 h-[240px] w-[360px] rounded-lg">
         {thumbnail && <img src={thumbnail.imgUrl} />}
         {thumbnail && thumbnail.isVisibleIcon && (
