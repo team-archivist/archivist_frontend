@@ -24,6 +24,10 @@ const UserLayout = ({ children }: PropsWithChildren) => {
       {isUseFooter && (
         <Box
           css={css`
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+
             margin-top: 80px;
             background-color: #f5f5f5;
           `}
