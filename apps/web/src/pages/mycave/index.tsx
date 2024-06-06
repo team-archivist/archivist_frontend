@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import Chip from "@arcave/components/Chip";
 import Button from "@arcave/components/common/Button/Button";
+import ACSkeleton from "@arcave/components/common/Skeleton";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";
 import Layout from "@arcave/components/Layout";
@@ -43,7 +44,15 @@ const MycavePage = () => {
   const router = useRouter();
 
   if (!currentUser) {
-    return "로딩 중";
+    return (
+      <div
+        css={css`
+          padding: 12px;
+        `}
+      >
+        <ACSkeleton count={3} />
+      </div>
+    );
   }
 
   return (

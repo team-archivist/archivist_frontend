@@ -7,6 +7,7 @@ import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
 import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
 import Button from "@arcave/components/common/Button/Button";
+import ACSkeleton from "@arcave/components/common/Skeleton";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";
 import Layout from "@arcave/components/Layout";
@@ -59,7 +60,7 @@ const GroupDetailPage = () => {
   }, [currentPathname]);
 
   if (!currentUser) {
-    return "로딩 중";
+    return <ACSkeleton count={3} />;
   }
 
   return (
