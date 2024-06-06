@@ -1,13 +1,14 @@
 import { css } from "@emotion/react";
 import { Select } from "@radix-ui/themes";
 import { useState } from "react";
-import useAPIGroup from "../../services/external/useAPIGroup";
-import { GROUP_VALUE } from "./types";
+
 import {
   GroupSelectItemImg,
   GroupSelectItemText,
   groupSelectItemStyle,
 } from "./styles";
+import { GROUP_VALUE } from "./types";
+import useAPIGroup from "../../services/external/useAPIGroup";
 
 type Props = {
   onChange: (value: string) => void;
@@ -16,7 +17,7 @@ type Props = {
 const ACSelect = ({ onChange }: Props) => {
   const { groups } = useAPIGroup();
   const [selectedValue, setSelectedValue] = useState<string>(
-    GROUP_VALUE.UNDESIGNATED
+    GROUP_VALUE.UNDESIGNATED,
   );
 
   // 선택값이 변경될때 호출되는 함수입니다
