@@ -1,8 +1,10 @@
+import { css } from "@emotion/react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import axiosInstance from "src/services/requests";
 
+import ACSkeleton from "@arcave/components/common/Skeleton";
 import USER_CONSTANTS from "@arcave/constants/userStorageConstants";
 import { deletePreviousTokenInCookie } from "@arcave/utils/cookie";
 
@@ -85,6 +87,14 @@ const SigninCallback = () => {
     }
   };
 
-  return <div>로그인중입니다</div>;
+  return (
+    <div
+      css={css`
+        padding: 12px;
+      `}
+    >
+      <ACSkeleton count={3} />
+    </div>
+  );
 };
 export default SigninCallback;
