@@ -6,7 +6,6 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ACInput from "@arcave/components/common/Input";
 import ACModal from "@arcave/components/common/Modal";
 import VStack from "@arcave/components/common/Stack/VStack";
 import LinkModalAtom from "@arcave/store/LinkModalAtom";
@@ -14,6 +13,7 @@ import { SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
 
 import useBookmarkAddDetailModal from "./useBookmarkAddDetailModal";
+import Input from "../common/Input";
 
 const URL_REGEX =
   /^(https?|ftp):\/\/([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+\.[a-zA-Z]{2,9}(:\d{1,5})?(\/[^\s]*)?(\?[^\s]*)?(#\w*)?$/;
@@ -87,7 +87,7 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
             <form onSubmit={handleSubmit((data) => console.log(data))}>
               <VStack spacing={8}>
                 <label css={Typography.Label2[14].Regular}>URL</label>
-                <ACInput
+                <Input
                   name="linkUrl"
                   size="large"
                   placeholder="URL 주소를 입력해주세요"
@@ -106,7 +106,7 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
             </form>
           </FormProvider>
         </ACModal>
-        {detailModal.render()}
+        {detailModal.render2()}
       </>
     ),
   };
