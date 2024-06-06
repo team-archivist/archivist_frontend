@@ -84,7 +84,7 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
           onCancel={handleModalClose}
         >
           <FormProvider {...formMethods}>
-            <form onSubmit={handleSubmit((data) => console.log(data))}>
+            <form>
               <VStack spacing={8}>
                 <label css={Typography.Label2[14].Regular}>URL</label>
                 <Input

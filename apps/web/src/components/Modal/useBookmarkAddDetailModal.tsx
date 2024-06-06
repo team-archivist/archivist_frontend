@@ -163,8 +163,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     })();
   }, [linkDto?.linkUrl]);
 
-  console.log("isImageReady", isImageReady);
-
   return {
     show: handleShow,
     close: () => {
@@ -185,7 +183,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
             <ACSkeleton count={3} />
           ) : (
             <FormProvider {...formMethods}>
-              <form onSubmit={handleSubmit((data) => console.log(data))}>
+              <form>
                 <VStack spacing={8}>
                   {previewImageUrl ? (
                     <img
