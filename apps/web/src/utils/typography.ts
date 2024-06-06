@@ -1,17 +1,20 @@
 export const Typography = {
   Title1: {
-    ["20"]() {
-      const Default = {
+    ["20"]: {
+      Regular: {
         fontSize: "20px",
         fontStyle: "normal",
         fontWeight: 400,
         lineHeight: "26px" /* 130% */,
         letterSpacing: "-0.24px",
-      };
-      return {
-        Regular: { ...Default },
-        SemiBold: { ...Default, fontWeight: 500 },
-      };
+      },
+      SemiBold: {
+        fontSize: "20px",
+        fontStyle: "normal",
+        fontWeight: 500,
+        lineHeight: "26px" /* 130% */,
+        letterSpacing: "-0.24px",
+      },
     },
   },
   Title2: {
