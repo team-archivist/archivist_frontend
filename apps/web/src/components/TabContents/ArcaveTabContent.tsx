@@ -6,8 +6,8 @@ import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
 import Button from "@arcave/components/common/Button/Button";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";
+import useBookmarkAddDetailModal from "@arcave/components/Modal/useBookmarkAddDetailModal";
 import useBookmarkAddModal from "@arcave/components/Modal/useBookmarkAddModal";
-import useBookmarkAddDetailModal from "@arcave/components/Modal/useBookmarkAddModal/useBookmarkAddDetailModal";
 import useGroupAddModal from "@arcave/components/Modal/useGroupAddModal";
 import Tooltip from "@arcave/components/Tooltip";
 import useArcaveLink from "@arcave/hooks/useArcaveLink";
@@ -15,6 +15,8 @@ import useAPIGroup from "@arcave/services/external/useAPIGroup";
 import useAPIGroupLink from "@arcave/services/external/useAPIGroupLink";
 import { SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
+
+import ACSkeleton from "../common/Skeleton";
 
 type Props = {
   currentUser: any; // 현재 user 정보
@@ -53,7 +55,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
   };
 
   if (isLinksWithGroupIdLoading) {
-    return <>로딩중 입니다</>;
+    return <ACSkeleton count={3} />;
   }
   return (
     <>
@@ -81,7 +83,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
       </HStack>
       {hasLink ? (
         <HStack
-          gap={"5"}
+          spacing={20}
           className={"flex-wrap"}
           css={css`
             width: 1224px;

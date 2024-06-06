@@ -106,7 +106,7 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
             </form>
           </FormProvider>
         </ACModal>
-        {detailModal.render2()}
+        {detailModal.render()}
       </>
     ),
   };
