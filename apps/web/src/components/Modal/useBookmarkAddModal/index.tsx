@@ -1,14 +1,17 @@
 import { css } from "@emotion/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dialog, Flex, Text, TextField } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import Button from "@arcave/components/common/Button/Button";
+import ACInput from "@arcave/components/common/Input";
+import ACModal from "@arcave/components/common/Modal";
+import VStack from "@arcave/components/common/Stack/VStack";
 import LinkModalAtom from "@arcave/store/LinkModalAtom";
-import { PaletteColor, SemanticColor } from "@arcave/utils/color";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
 
 import useBookmarkAddDetailModal from "./useBookmarkAddDetailModal";
 
@@ -18,7 +21,9 @@ const URL_REGEX =
 const schema = z
   .object({
     linkUrl: z
-      .string()
+      .string({
+        required_error: "링크 입력은 필수입니다.",
+      })
       .refine(
         (value) => URL_REGEX.test(value ?? ""),
         "잘못된 형식의 링크입니다.",
@@ -30,15 +35,18 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
   const [, setLinkDTO] = useAtom(LinkModalAtom);
   const [open, setOpen] = useState(false);
 
+  const formMethods = useForm({
+    mode: "all",
+    resolver: zodResolver(schema),
+  });
+
   const {
     register,
     getValues,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
-  } = useForm({
-    mode: "all",
-    resolver: zodResolver(schema),
-  });
+  } = formMethods;
 
   const detailModal = useBookmarkAddDetailModal({ handleOpenGroupAddModal });
 
@@ -50,62 +58,53 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
     const linkUrl = getValues("linkUrl");
     setLinkDTO((prevDTO) => ({ ...prevDTO, linkUrl: linkUrl }));
     detailModal.show();
+    handleModalClose();
+  };
+
+  const handleModalClose = () => {
     handleChangeOpen(false);
+    reset();
   };
 
   return {
     show: () => handleChangeOpen(true),
-    close: () => handleChangeOpen(false),
+    close: handleModalClose,
     render: () => (
-      <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
-        <Dialog.Content style={{ maxWidth: 450 }}>
-          <Dialog.Title>URL 입력</Dialog.Title>
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
-            <TextField.Input
-              size="3"
-              placeholder="URL 주소를 입력해주세요"
-              {...register("linkUrl")}
-            />
-            {errors.linkUrl && (
-              <Text
-                css={css`
-                  font-size: 14px;
-                  color: ${SemanticColor.Status.Alert};
-                `}
-              >
-                {errors.linkUrl.message as string}
-              </Text>
-            )}
-          </form>
-          <Flex gap="3" mt="4" justify="end">
-            <Dialog.Close>
-              <Button
-                size={"2"}
-                className="w-fit"
-                backgroundColor={PaletteColor.Gray[200]}
-                onClick={() => handleChangeOpen(false)}
-              >
-                취소
-              </Button>
-            </Dialog.Close>
-            <Dialog.Close>
-              <Button
-                size={"2"}
-                className="w-fit"
-                onClick={handleSubmit(handleClickNext)}
-                backgroundColor={
-                  isValid
-                    ? SemanticColor.Primary.Default
-                    : PaletteColor.Gray[200]
-                }
-              >
-                다음
-              </Button>
-            </Dialog.Close>
-          </Flex>
-        </Dialog.Content>
+      <>
+        <ACModal
+          title="URL 입력"
+          open={open}
+          okText="다음"
+          onOk={handleSubmit(handleClickNext)}
+          okButtonProps={{ disabled: !isValid }}
+          cancelText="취소"
+          onCancel={handleModalClose}
+        >
+          <FormProvider {...formMethods}>
+            <form onSubmit={handleSubmit((data) => console.log(data))}>
+              <VStack spacing={8}>
+                <label css={Typography.Label2[14].Regular}>URL</label>
+                <ACInput
+                  name="linkUrl"
+                  size="large"
+                  placeholder="URL 주소를 입력해주세요"
+                />
+                {errors.linkUrl && (
+                  <Text
+                    css={css`
+                      font-size: 14px;
+                      color: ${SemanticColor.Status.Alert};
+                    `}
+                  >
+                    {errors.linkUrl.message as string}
+                  </Text>
+                )}
+              </VStack>
+            </form>
+          </FormProvider>
+        </ACModal>
         {detailModal.render()}
-      </Dialog.Root>
+      </>
     ),
   };
 };
