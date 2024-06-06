@@ -31,7 +31,11 @@ const schema = z
   })
   .required();
 
-const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
+type Props = {
+  handleOpenGroupAddModal: () => void;
+};
+
+const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
   const [, setLinkDTO] = useAtom(LinkModalAtom);
   const [open, setOpen] = useState(false);
 
@@ -41,7 +45,6 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }) => {
   });
 
   const {
-    register,
     getValues,
     handleSubmit,
     reset,
