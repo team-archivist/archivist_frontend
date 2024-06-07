@@ -1,11 +1,12 @@
 import { css } from "@emotion/react";
-import * as Form from "@radix-ui/react-form";
-import { Box, Dialog, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
+import { Box, Text } from "@radix-ui/themes";
+import { Input } from "antd";
 import { useState } from "react";
 
 import ACCheckbox from "@arcave/components/ACCheckbox";
 import Chip from "@arcave/components/Chip";
-import Button from "@arcave/components/common/Button/Button";
+import ACModal from "@arcave/components/common/Modal";
+import ACSkeleton from "@arcave/components/common/Skeleton";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";
 import useAPICategory from "@arcave/services/external/useAPICategory";
@@ -13,7 +14,7 @@ import {
   executeGroupPatch,
   executeGroupPost,
 } from "@arcave/services/external/useAPIGroup";
-import { PaletteColor, SemanticColor } from "@arcave/utils/color";
+import { PaletteColor } from "@arcave/utils/color";
 
 import DropdownCheckbox from "./DropdownCheckbox";
 import useUploadImage from "../common/useUploadImage";
@@ -120,10 +121,20 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
   return {
     show: (params = {}) => handleShow(params),
     render: () => (
-      <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
-        <Dialog.Content style={{ maxWidth: 348 }}>
-          <Dialog.Title>{!!id ? "그룹 수정" : "그룹 추가"}</Dialog.Title>
-          <Form.Root className="FormRoot">
+      <ACModal
+        title={!!id ? "그룹 수정" : "그룹 추가"}
+        open={open}
+        okText="확인"
+        onOk={() => save()}
+        // okButtonProps={{ disabled: !isValid }}
+        cancelText="취소"
+        onCancel={() => handleChangeOpen(false)}
+      >
+        {false ? (
+          <ACSkeleton count={3} />
+        ) : (
+          // <FormProvider {...formMethods}>
+          <form>
             <VStack spacing={16}>
               <Box
                 width={"100%"}
@@ -139,24 +150,23 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
               <VStack spacing={8}>
                 <Text>카테고리</Text>
                 {selectedCategories.length !== 0 && (
-                  <HStack spacing={16} wrap={"wrap"}>
+                  <HStack spacing={16}>
                     {selectedCategories.map((category) => (
                       <Chip key={`chip-${category}`}>{category}</Chip>
                     ))}
                   </HStack>
                 )}
-                <Form.Field className="FormField" name="group">
-                  <DropdownCheckbox
-                    categories={categories}
-                    selectedCategories={selectedCategories}
-                    onChange={handleSelectCategories}
-                  />
-                </Form.Field>
+                <DropdownCheckbox
+                  categories={categories}
+                  selectedCategories={selectedCategories}
+                  onChange={handleSelectCategories}
+                />
               </VStack>
               <VStack spacing={8}>
                 <Text>그룹 이름</Text>
-                <TextField.Input
-                  size="3"
+                {/* FIXME: rhf 전환 */}
+                <Input
+                  size="large"
                   placeholder="그룹 이름을 입력해주세요"
                   onChange={handleChangeName}
                   value={name}
@@ -164,8 +174,8 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
               </VStack>
               <VStack spacing={8}>
                 <Text>그룹 설명</Text>
-                <TextArea
-                  size="3"
+                <Input.TextArea
+                  size="large"
                   placeholder="그룹 설명을 입력해주세요"
                   onChange={handleChangeDescription}
                   value={description}
@@ -190,32 +200,10 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 </HStack>
               </VStack>
             </VStack>
-
-            <Flex gap="3" mt="4" justify="end">
-              <Dialog.Close>
-                <Button
-                  size={"2"}
-                  className="w-fit"
-                  onClick={() => {}}
-                  backgroundColor={PaletteColor.Gray[200]}
-                >
-                  취소
-                </Button>
-              </Dialog.Close>
-              <Dialog.Close>
-                <Button
-                  size={"2"}
-                  className="w-fit"
-                  onClick={() => save()}
-                  backgroundColor={SemanticColor.Primary.Default}
-                >
-                  확인
-                </Button>
-              </Dialog.Close>
-            </Flex>
-          </Form.Root>
-        </Dialog.Content>
-      </Dialog.Root>
+          </form>
+          // </FormProvider>
+        )}
+      </ACModal>
     ),
   };
 };
