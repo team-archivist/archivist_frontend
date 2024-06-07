@@ -31,6 +31,13 @@ export const GroupSelectItemImg = styled("img")`
   margin-right: 10px;
 `;
 
+export const GroupSelectItemImgDisabled = styled("div")`
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  margin-right: 10px;
+`;
+
 export const GroupSelectItemText = styled(Text)`
   display: inline-block;
 `;
