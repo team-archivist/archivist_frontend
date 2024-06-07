@@ -11,13 +11,18 @@ const useAPIGroup = () => {
         data: { userId },
       } = await axiosInstance.get(`/api/user`);
 
-      const { data: groupsByUser } = await axiosInstance.get(
+      const { data: groupsData } = await axiosInstance.get(
         `/api/user/group/${userId}`,
       );
-      if (!groupsByUser || 0 === groupsByUser.length) {
+      if (!groupsData || 0 === groupsData.length) {
         return;
       }
-      groupsByUser.forEach((groupItem) => resolveGroupImagePath(groupItem));
+
+      const groupsByUser = groupsData.map((groupItem) => ({
+        ...groupItem,
+        imgUrl: resolveGroupImagePath(groupItem),
+      }));
+
       setGroups(groupsByUser);
     })();
   }, []);
@@ -64,11 +69,9 @@ export const executeGroupPatch = async ({ groupDto, fileImageBlob }) => {
 };
 
 const resolveGroupImagePath = (groupItem: { imgUrl: string }) => {
-  if (!groupItem.imgUrl) {
-    return groupItem;
-  }
-  groupItem.imgUrl = `${process.env.NEXT_PUBLIC_API_URL}${groupItem.imgUrl}`;
-  return groupItem;
+  return groupItem.imgUrl
+    ? `${process.env.NEXT_PUBLIC_API_URL}${groupItem.imgUrl}`
+    : null;
 };
 
 export default useAPIGroup;
