@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Select as AntdSelect } from "antd";
 import { useState } from "react";
 
 import {
@@ -14,11 +14,19 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-const ACSelect = ({ onChange }: Props) => {
+const Select = ({ onChange }: Props) => {
   const { groups } = useAPIGroup();
   const [selectedValue, setSelectedValue] = useState<string>(
     GROUP_VALUE.UNDESIGNATED,
   );
+
+  const options = [
+    { value: GROUP_VALUE.UNDESIGNATED, label: "그룹 미지정" },
+    ...(groups?.map((group) => ({
+      value: group?.groupId.toString(),
+      label: group?.groupName,
+    })) ?? []),
+  ];
 
   // 선택값이 변경될때 호출되는 함수입니다
   const handleSelectValueChange = (value: string) => {
@@ -26,46 +34,29 @@ const ACSelect = ({ onChange }: Props) => {
     onChange(value);
   };
 
+  const selectItemRender = (option: any) => {
+    const imgUrl = groups?.find((group) => !!group.imgUrl).imgUrl;
+
+    return (
+      <HStack alignItems="center">
+        {imgUrl ? (
+          <GroupSelectItemImg src={imgUrl} />
+        ) : (
+          <GroupSelectItemImgDisabled />
+        )}
+        <GroupSelectItemText> {option.label} </GroupSelectItemText>
+      </HStack>
+    );
+  };
+
   return (
-    <Select
+    <AntdSelect
       value={selectedValue}
       onChange={handleSelectValueChange}
       size="large"
-      options={[
-        { value: GROUP_VALUE.UNDESIGNATED, label: "그룹 미지정" },
-        ...(groups?.map((group) => ({
-          value: group?.groupId.toString(),
-          label: group?.groupName,
-        })) ?? []),
-      ]}
-      optionRender={(option) => {
-        const imgUrl = groups?.find((group) => !!group.imgUrl).imgUrl;
-        console.log("imgUrl", imgUrl);
-        return (
-          <HStack>
-            {imgUrl ? (
-              <GroupSelectItemImg src={imgUrl} />
-            ) : (
-              <GroupSelectItemImgDisabled />
-            )}
-            <GroupSelectItemText> {option.label} </GroupSelectItemText>
-          </HStack>
-        );
-      }}
-      labelRender={({ label }) => {
-        const imgUrl = groups?.find((group) => !!group.imgUrl).imgUrl;
-        console.log("imgUrl", imgUrl);
-        return (
-          <HStack alignItems="center">
-            {imgUrl ? (
-              <GroupSelectItemImg src={imgUrl} />
-            ) : (
-              <GroupSelectItemImgDisabled />
-            )}
-            <GroupSelectItemText> {label} </GroupSelectItemText>
-          </HStack>
-        );
-      }}
+      options={options}
+      optionRender={selectItemRender}
+      labelRender={selectItemRender}
     />
   );
 
@@ -105,4 +96,4 @@ const ACSelect = ({ onChange }: Props) => {
   // );
 };
 
-export default ACSelect;
+export default Select;

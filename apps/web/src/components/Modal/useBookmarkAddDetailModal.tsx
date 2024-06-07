@@ -10,7 +10,7 @@ import { z } from "zod";
 import ACModal from "@arcave/components/common/Modal";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";
-import ACSelect from "@arcave/components/Select";
+import Select from "@arcave/components/Select";
 import { GROUP_VALUE } from "@arcave/components/Select/types";
 import { BookmarkTab } from "@arcave/pages/mycave";
 import useAPILink from "@arcave/services/external/useAPILink";
@@ -226,7 +226,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                           그룹 추가하기 {">"}
                         </Text>
                       </HStack>
-                      <ACSelect // FIXME: rhf으로 전환 예정
+                      <Select // FIXME: rhf으로 전환 예정
                         onChange={(value: string): void => {
                           setLinkDto((prevLinkDto) => ({
                             ...prevLinkDto,
