@@ -169,131 +169,125 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
       resetModal();
     },
     render: () => (
-      <>
-        <ACModal
-          title="링크 담기"
-          open={open}
-          okText="확인"
-          onOk={handleSubmit(submit)}
-          okButtonProps={{ disabled: !isValid }}
-          cancelText="취소"
-          onCancel={handleModalClose}
-        >
-          {isLoading && !isImageReady ? (
-            <ACSkeleton count={3} />
-          ) : (
-            <FormProvider {...formMethods}>
-              <form>
-                <VStack spacing={8}>
-                  {previewImageUrl ? (
-                    <img
-                      ref={imgRef}
-                      src={previewImageUrl}
-                      onClick={handleClickUploadPanel}
-                      onError={resetUploadField}
-                    />
-                  ) : (
-                    <Box
-                      width={"100%"}
-                      className="h-52 rounded-lg"
-                      css={css`
-                        background-color: ${PaletteColor.Gray[300]};
-                        :hover {
-                          cursor: pointer;
-                        }
-                      `}
-                      onClick={handleClickUploadPanel}
-                    />
-                  )}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/gif,image/jpeg,image/jpg,image/png"
-                    name="linkImgFile"
-                    hidden
-                    onChange={handleChangeFileInput}
+      <ACModal
+        title="링크 담기"
+        open={open}
+        okText="확인"
+        onOk={handleSubmit(submit)}
+        okButtonProps={{ disabled: !isValid }}
+        cancelText="취소"
+        onCancel={handleModalClose}
+      >
+        {isLoading && !isImageReady ? (
+          <ACSkeleton count={3} />
+        ) : (
+          <FormProvider {...formMethods}>
+            <form>
+              <VStack spacing={8}>
+                {previewImageUrl ? (
+                  <img
+                    ref={imgRef}
+                    src={previewImageUrl}
+                    onClick={handleClickUploadPanel}
+                    onError={resetUploadField}
                   />
-                  <VStack spacing={16}>
-                    <VStack>
-                      <HStack spacing={12} justify="space-between">
-                        <label css={Typography.Label2[14].Regular}>그룹</label>
-                        <Text
-                          onClick={handleClickAddGroup}
-                          css={css`
-                            cursor: pointer;
-                          `}
-                        >
-                          그룹 추가하기 {">"}
-                        </Text>
-                      </HStack>
-                      <Select // FIXME: rhf으로 전환 예정
-                        onChange={(value: string): void => {
-                          setLinkDto((prevLinkDto) => ({
-                            ...prevLinkDto,
-                            ...(value !== GROUP_VALUE.UNDESIGNATED && {
-                              groupId: value,
-                            }),
-                          }));
-                        }}
-                      />
-                    </VStack>
-                    <VStack spacing={12}>
-                      <label css={Typography.Label2[14].Regular}>
-                        링크 이름
-                      </label>
-                      {/* linkDto.linkName */}
-                      <Input
-                        size="large"
-                        name="linkName"
-                        placeholder="링크 이름을 입력해주세요"
-                      />
-                      {errors.linkName && (
-                        <Text
-                          css={css`
-                            font-size: 14px;
-                            color: ${SemanticColor.Status.Alert};
-                          `}
-                        >
-                          {errors.linkName.message as string}
-                        </Text>
-                      )}
-                    </VStack>
-                    <VStack spacing={12}>
-                      <label css={Typography.Label2[14].Regular}>
-                        링크 설명
-                      </label>
-                      {/* linkDto.linkDesc */}
-                      <TextArea
-                        size="large"
-                        name="linkDesc"
-                        placeholder="링크 설명을 입력해주세요"
-                      />
-                      {errors.linkDesc && (
-                        <Text
-                          css={css`
-                            font-size: 14px;
-                            color: ${SemanticColor.Status.Alert};
-                          `}
-                        >
-                          {errors.linkDesc.message as string}
-                        </Text>
-                      )}
+                ) : (
+                  <Box
+                    width={"100%"}
+                    className="h-52 rounded-lg"
+                    css={css`
+                      background-color: ${PaletteColor.Gray[300]};
+                      :hover {
+                        cursor: pointer;
+                      }
+                    `}
+                    onClick={handleClickUploadPanel}
+                  />
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                  name="linkImgFile"
+                  hidden
+                  onChange={handleChangeFileInput}
+                />
+                <VStack spacing={16}>
+                  <VStack>
+                    <HStack spacing={12} justify="space-between">
+                      <label css={Typography.Label2[14].Regular}>그룹</label>
+                      <Text
+                        onClick={handleClickAddGroup}
+                        css={css`
+                          cursor: pointer;
+                        `}
+                      >
+                        그룹 추가하기 {">"}
+                      </Text>
+                    </HStack>
+                    <Select // FIXME: rhf으로 전환 예정
+                      onChange={(value: string): void => {
+                        setLinkDto((prevLinkDto) => ({
+                          ...prevLinkDto,
+                          ...(value !== GROUP_VALUE.UNDESIGNATED && {
+                            groupId: value,
+                          }),
+                        }));
+                      }}
+                    />
+                  </VStack>
+                  <VStack spacing={12}>
+                    <label css={Typography.Label2[14].Regular}>링크 이름</label>
+                    {/* linkDto.linkName */}
+                    <Input
+                      size="large"
+                      name="linkName"
+                      placeholder="링크 이름을 입력해주세요"
+                    />
+                    {errors.linkName && (
                       <Text
                         css={css`
                           font-size: 14px;
+                          color: ${SemanticColor.Status.Alert};
                         `}
-                        align={"right"}
                       >
-                        {watchLinkDesc?.length ?? 0}/400
+                        {errors.linkName.message as string}
                       </Text>
-                    </VStack>
+                    )}
+                  </VStack>
+                  <VStack spacing={12}>
+                    <label css={Typography.Label2[14].Regular}>링크 설명</label>
+                    {/* linkDto.linkDesc */}
+                    <TextArea
+                      size="large"
+                      name="linkDesc"
+                      placeholder="링크 설명을 입력해주세요"
+                    />
+                    {errors.linkDesc && (
+                      <Text
+                        css={css`
+                          font-size: 14px;
+                          color: ${SemanticColor.Status.Alert};
+                        `}
+                      >
+                        {errors.linkDesc.message as string}
+                      </Text>
+                    )}
+                    <Text
+                      css={css`
+                        font-size: 14px;
+                      `}
+                      align={"right"}
+                    >
+                      {watchLinkDesc?.length ?? 0}/400
+                    </Text>
                   </VStack>
                 </VStack>
-              </form>
-            </FormProvider>
-          )}
-        </ACModal>
-      </>
+              </VStack>
+            </form>
+          </FormProvider>
+        )}
+      </ACModal>
     ),
     // render: isFetched
     //   ? () => (
