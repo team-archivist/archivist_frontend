@@ -4,6 +4,10 @@ import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
+import HoverCard from "@arcave/components/common/ArcaveCard/HoverCard";
+import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
+import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
+import HomeFeedCard from "@arcave/components/Card/HomeFeedCard";
 
 interface HomeFeedViewProps {}
 
@@ -42,6 +46,17 @@ export default function HomeFeedView({
           </div>
 
           <CatHand clsasName="w-[322px] aspect-[322/250]" />
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center">
+        <div className="max-w-[970px] px-8 w-full flex flex-col">
+          <div className="flex flex-col">
+            <div className="flex flex-row items-start space-x-6">
+              <HomeFeedCard imageContainerClassName="h-[300px]" />
+              <HomeFeedCard imageContainerClassName="h-[300px]" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

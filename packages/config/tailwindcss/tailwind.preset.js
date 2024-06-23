@@ -29,6 +29,20 @@ module.exports = {
         "label2-14": "14px",
         "caption1-12": "12px",
         "caption2-11": "11px",
+        12: [
+          "12px",
+          {
+            lineHeight: "1.333333em",
+            letterSpacing: "-0.024em",
+          },
+        ],
+        16: [
+          "16px",
+          {
+            lineHeight: "1.5em",
+            letterSpacing: "-0.01em",
+          },
+        ],
         20: [
           "20px",
           {
