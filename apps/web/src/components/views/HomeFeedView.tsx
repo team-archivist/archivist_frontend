@@ -2,6 +2,7 @@ import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import CatHand from "@arcave/assets/images/cat-hand.svg";
 import HomeFeedCard from "@arcave/components/Card/HomeFeedCard";
 import { NavigationBar } from "@arcave/components/NavigationBar";
+import Footer from "@arcave/layout/Footer";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
@@ -119,6 +120,8 @@ export default function HomeFeedView({
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
