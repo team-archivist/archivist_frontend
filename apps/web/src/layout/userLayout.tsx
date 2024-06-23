@@ -10,11 +10,7 @@ import { Typography } from "@arcave/utils/typography";
 
 const UserLayout = ({ children }: PropsWithChildren) => {
   const currentPathname = usePathname();
-  if (!currentPathname) {
-    return <></>;
-  }
-
-  const [_, currentPath] = currentPathname?.split("/");
+  const [_, currentPath] = currentPathname?.split("/") || ["", ""];
   const isUseFooter =
     currentPath && currentPath !== "login" && currentPath !== "landing";
 

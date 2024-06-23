@@ -1,3 +1,5 @@
+import React from "react";
+
 import "@arcave/assets/style/common.css";
 import "@arcave/assets/style/radix.primitives.css";
 import "@arcave/assets/style/reset.css";
@@ -6,7 +8,9 @@ import "@radix-ui/themes/styles.css";
 
 import type { Preview } from "@storybook/react";
 
+import { Theme } from "@radix-ui/themes";
 import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
+import { StoryContext } from "@storybook/react";
 
 const preview: Preview = {
   parameters: {
@@ -25,6 +29,15 @@ const preview: Preview = {
     },
   },
   globalTypes: {},
+  decorators: [
+    (Story: any, context: StoryContext) => {
+      return (
+        <Theme style={{ height: "100vh" }}>
+          <Story />
+        </Theme>
+      );
+    },
+  ],
 };
 
 export default preview;
