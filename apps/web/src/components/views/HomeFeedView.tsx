@@ -1,13 +1,10 @@
-import CatHand from "@arcave/assets/images/cat-hand.svg";
-import { NavigationBar } from "@arcave/components/NavigationBar";
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import CatHand from "@arcave/assets/images/cat-hand.svg";
+import HomeFeedCard from "@arcave/components/Card/HomeFeedCard";
+import { NavigationBar } from "@arcave/components/NavigationBar";
 import Link from "next/link";
 import { HTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
-import HoverCard from "@arcave/components/common/ArcaveCard/HoverCard";
-import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
-import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
-import HomeFeedCard from "@arcave/components/Card/HomeFeedCard";
 
 interface HomeFeedViewProps {}
 
@@ -50,11 +47,74 @@ export default function HomeFeedView({
       </div>
 
       <div className="flex flex-col items-center">
-        <div className="max-w-[970px] px-8 w-full flex flex-col">
-          <div className="flex flex-col">
-            <div className="flex flex-row items-start space-x-6">
+        <div className="max-w-[970px] px-8 w-full flex flex-col py-6 space-y-6">
+          <div className="flex flex-col pb-9">
+            <div className="py-6 text-32 font-bold text-text-normal">
+              Group Section Title
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <HomeFeedCard imageContainerClassName="h-[300px]" />
               <HomeFeedCard imageContainerClassName="h-[300px]" />
+            </div>
+          </div>
+
+          <div className="flex flex-col pb-9">
+            <div className="py-6 text-32 font-bold text-text-normal">
+              Group Section Title
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <HomeFeedCard imageContainerClassName="h-[200px]" />
+              <HomeFeedCard imageContainerClassName="h-[200px]" />
+              <HomeFeedCard imageContainerClassName="h-[200px]" />
+            </div>
+          </div>
+
+          <div className="flex flex-col pb-9">
+            <div className="py-6 text-32 font-bold text-text-normal">
+              Group Section Title
+            </div>
+            <div className="gap-6 grid grid-cols-1">
+              <HomeFeedCard imageContainerClassName="lg:w-[447px]" horizontal />
+              <HomeFeedCard imageContainerClassName="lg:w-[447px]" horizontal />
+              <HomeFeedCard imageContainerClassName="lg:w-[447px]" horizontal />
+            </div>
+          </div>
+
+          <div className="flex flex-col pb-9">
+            <div className="py-6 text-32 font-bold text-text-normal">
+              Group Section Title
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+              <HomeFeedCard
+                imageContainerClassName="h-[200px]"
+                withCategory={false}
+                withProfile={false}
+              />
+              <HomeFeedCard
+                imageContainerClassName="h-[200px]"
+                withCategory={false}
+                withProfile={false}
+              />
+              <HomeFeedCard
+                imageContainerClassName="h-[200px]"
+                withCategory={false}
+                withProfile={false}
+              />
+              <HomeFeedCard
+                imageContainerClassName="h-[200px]"
+                withCategory={false}
+                withProfile={false}
+              />
+              <HomeFeedCard
+                imageContainerClassName="h-[200px]"
+                withCategory={false}
+                withProfile={false}
+              />
+              <HomeFeedCard
+                imageContainerClassName="h-[200px]"
+                withCategory={false}
+                withProfile={false}
+              />
             </div>
           </div>
         </div>
