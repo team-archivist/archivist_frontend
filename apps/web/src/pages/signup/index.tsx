@@ -29,7 +29,7 @@ enum NavigationBarRightItem {
 /**
  * - 회원가입 관련 페이지입니다
  */
-const SignupPage = (props) => {
+const SignupPage = (props: any) => {
   // FIXME 회원가입 화면에서 유저 정보 조회 API가 필요한가..
   // const { currentUser } = useCurrentUser();
   const [_, currentPath] = usePathname();
@@ -140,7 +140,7 @@ const SignupPage = (props) => {
           ),
         }}
       />
-      <SignupLayout justify="center" className="mt-2">
+      <SignupLayout justify="center" className="">
         <SignupView
           step={signupStep}
           chipList={categories}

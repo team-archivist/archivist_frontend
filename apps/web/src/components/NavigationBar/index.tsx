@@ -1,21 +1,28 @@
 import { css } from "@emotion/react";
 import { Avatar, Box, Flex } from "@radix-ui/themes";
 
+interface NavigationBarProps {
+  leftItems?: any;
+  rightItems?: any;
+  currentPath?: string;
+  currentUser?: any;
+}
+
 export const NavigationBar = ({
-  leftItems,
+  currentUser,
   rightItems,
   currentPath,
-  currentUser,
-}) => {
+  leftItems,
+}: NavigationBarProps) => {
   return (
     <Flex
-      className="h-14 w-full justify-between bg-gray-800 px-8 text-white"
+      className="h-14 w-full items-center bg-gray-800 px-8 text-white flex flex-row"
       align="center"
     >
-      <ul>
+      <ul className="flex-1">
         <Flex gap="4">
           {leftItems &&
-            Object.entries(leftItems).map(([path, component]) => {
+            Object.entries(leftItems).map(([path, component]: any[]) => {
               const isCurrentPath = currentPath === path;
               return (
                 <li

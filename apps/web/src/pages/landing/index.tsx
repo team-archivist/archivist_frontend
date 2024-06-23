@@ -1,15 +1,12 @@
-import { css } from "@emotion/react";
-import { Box, Text } from "@radix-ui/themes";
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import Button from "@arcave/components/common/Button/Button";
+import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
+import LandingImage from "@arcave/images/landing.png";
+import { Text } from "@radix-ui/themes";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
-import Button from "@arcave/components/common/Button/Button";
-import HStack from "@arcave/components/common/Stack/HStack";
-import { NavigationBar } from "@arcave/components/NavigationBar";
-import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
-import { SemanticColor } from "@arcave/utils/color";
-import { Typography } from "@arcave/utils/typography";
 
 enum NavigationBarLeftItem {
   LOGO = "logo",
@@ -28,87 +25,37 @@ const LandingPage = () => {
         currentPath={currentPathname.slice(1)}
         leftItems={{
           [NavigationBarLeftItem.LOGO]: (
-            <Link
-              href={"/feed"}
-              css={css`
-                display: flex;
-                align-items: center;
-                height: 100%;
-              `}
-            >
-              <ARCAVE_LOGO />
+            <Link href={"/"}>
+              <ARCAVE_LOGO className="w-14 h-3 object-contain" />
             </Link>
           ),
         }}
         rightItems={{}}
       />
-      <HStack
-        width={"100%"}
-        css={css`
-          justify-content: center;
-          align-items: center;
-          background-color: #f6f6f4;
-          height: calc(100% - 56px);
-
-          @media screen and (max-width: 1280px) {
-            justify-content: space-between;
-            padding: 20px;
-          }
-        `}
-      >
-        <Box>
-          <Text
-            as="h1"
-            css={css`
-              color: ${SemanticColor.Text.Normal};
-              font-size: 58px;
-              line-height: 1;
-              letter-spacing: -0.24px;
-            `}
-          >
+      <div className="justify-center items-center bg-[#f6f6f4] xl:h-[calc(100vh-56px)] xl:space-x-[102px] xl:flex-row flex flex-col xl:space-y-0 space-y-8 xl:py-0 py-16">
+        <div className="flex flex-col space-y-6 mx-4">
+          <Text className="text-text-normal text-58">
             관심가는 순간 <br />
-            조각조각 모음,{" "}
-            <Text
-              css={css`
-                font-weight: bold;
-              `}
-            >
-              아케이브
-            </Text>
+            조각조각 모음, <strong>아케이브</strong>
           </Text>
-          <Text
-            css={css`
-            color : ${SemanticColor.Text.Alternative};
-            font-size : ${Typography.Title1[20].Regular}
-            margin-top : 20px;
-          `}
-          >
+          <Text className="text-20 text-text-alternative">
             관심가는 페이지, 놓치지 말고 아케이브 하세요.
             <br />
             좋아하는것을 조각조각 모아 내 취향을 찾아보세요.
           </Text>
-          <Box
-            css={css`
-              margin-top: 20px;
-            `}
+          <Button
+            size="large"
+            onClick={onLogin}
+            className="px-6 py-3 self-start"
           >
-            <Button size="4" onClick={onLogin}>
-              카카오톡 계정으로 시작하기
-            </Button>
-          </Box>
-        </Box>
-        <Box
-          css={css`
-            margin-left: 30px;
+            카카오톡 계정으로 시작하기
+          </Button>
+        </div>
 
-            @media screen and (max-width: 1280px) {
-              max-width: 600px;
-            }
-          `}
-        >
-          <img src="/images/landing.png" alt="랜딩페이지 이미지" />
-        </Box>
-      </HStack>
+        <div className="object-contain xl:w-[572px] xl:h-[630px] relative aspect-[572/630] w-full max-w-[480px] xl:max-w-none">
+          <Image src={LandingImage} alt="landing" fill className="" />
+        </div>
+      </div>
     </>
   );
 };

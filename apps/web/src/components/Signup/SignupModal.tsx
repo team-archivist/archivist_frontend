@@ -3,14 +3,14 @@ import * as Dialog from "@radix-ui/react-dialog";
 /**
  * - 회원가입 모달입니다
  */
-export const SignupModal = ({ open, setOpen, onClickByStart }) => {
+export const SignupModal = ({ open, setOpen, onClickByStart }: any) => {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Portal>
         <Dialog.Overlay
           className="DialogOverlay"
           style={{
-            backgroundColor: `var(--black-a9)`,
+            backgroundColor: `rgba(16, 16, 16, 0.2)`,
             position: `fixed`,
             inset: 0,
           }}
@@ -19,8 +19,8 @@ export const SignupModal = ({ open, setOpen, onClickByStart }) => {
           className="DialogContent focus:outline-none"
           style={{
             backgroundColor: "white",
-            borderRadius: "6px",
-            boxShadow: `hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px`,
+            borderRadius: "8px",
+            boxShadow: `0 0 12px 4px rgba(0, 0, 0, 0.12)`,
             position: `fixed`,
             top: `50%`,
             left: `50%`,
@@ -28,7 +28,7 @@ export const SignupModal = ({ open, setOpen, onClickByStart }) => {
             width: `90vw`,
             maxWidth: `408px`,
             maxHeight: `85vh`,
-            padding: `40px`,
+            padding: `32px 24px`,
           }}
           onPointerDownOutside={(e) => e.preventDefault()}
         >
@@ -36,7 +36,6 @@ export const SignupModal = ({ open, setOpen, onClickByStart }) => {
             className="DialogTitle"
             align="center"
             style={{
-              marginTop: `10px`,
               fontWeight: `bold`,
               color: `#222222`,
               fontSize: `24px`,
@@ -48,16 +47,22 @@ export const SignupModal = ({ open, setOpen, onClickByStart }) => {
             className="DialogDescription"
             align="center"
             style={{
-              margin: `10px 0 20px`,
-              color: `#595959`,
+              color: `#666666`,
               fontSize: `16px`,
-              lineHeight: `2.6`,
+              lineHeight: `1.625em`,
+              marginTop: `8px`,
             }}
           >
             회원가입이 완료되었습니다! <br />
             북마크를 모으고 나의 취향을 찾아보세요.
           </Dialog.Description>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "24px",
+            }}
+          >
             <button
               className="Button bg-primary-default text-white"
               style={{

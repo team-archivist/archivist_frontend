@@ -13,7 +13,7 @@ const validateSignup = ({
   setIsEnableNextStep,
   setNickName,
   validateNickName,
-}) => {
+}: any) => {
   return {
     async matchNickname(inputValue: string, formData: FormData) {
       let isValid = false;
@@ -95,7 +95,7 @@ export const SignupViewStep1 = ({
   setNickName,
   setIsEnableNextStep,
   validateNickName,
-}): React.JSX.Element => {
+}: any): React.JSX.Element => {
   const [statusByValidate, setStatusByValidate] = useState({
     message: "",
     className: "",
@@ -110,20 +110,19 @@ export const SignupViewStep1 = ({
   });
 
   return (
-    <>
-      <Text
-        as="h2"
-        className="font-pretendard font-bold leading-headline2-24 text-headline2-24 text-text-normal"
-      >
-        닉네임을 입력해주세요
-      </Text>
-      <Text
-        as="p"
-        className="font-pretendard font-normal leading-body1-16 text-body1-16 text-text-alternative"
-      >
-        닉네임은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다
-      </Text>
-      <Form.Field className="mt-5" name="question">
+    <div className="flex-col flex space-y-12">
+      <div className="flex flex-col space-y-1">
+        <Text className="font-pretendard font-bold leading-headline2-24 text-headline2-24 text-text-normal">
+          닉네임을 입력해주세요
+        </Text>
+        <Text
+          as="p"
+          className="font-pretendard font-normal leading-body1-16 text-body1-16 text-text-alternative"
+        >
+          닉네임은 띄어쓰기 없이 한글, 영문, 숫자만 가능합니다
+        </Text>
+      </div>
+      <Form.Field className="space-y-2" name="question">
         <div className="flex items-baseline justify-between">
           <Form.Label className="text-label2-14 leading-label2-14 text-text-normal">
             닉네임({statusByValidate.nickNameLength}/8)
@@ -143,6 +142,6 @@ export const SignupViewStep1 = ({
           />
         </Form.Control>
       </Form.Field>
-    </>
+    </div>
   );
 };
