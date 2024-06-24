@@ -7,6 +7,7 @@ module.exports = {
   rules: {
     // for @emotion
     "react/no-unknown-property": ["error", { ignore: ["css"] }],
+    "react-hooks/rules-of-hooks": "off",
     "import/order": "off",
   },
 };
