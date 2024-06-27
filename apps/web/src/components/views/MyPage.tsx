@@ -3,6 +3,8 @@ import Link from "next/link";
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import { HTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
+import TitleContainer from "@arcave/components/common/TitleContainer";
+import UserProfileImage from "@arcave/components/common/UserProfileImage";
 
 interface MyPageProps {}
 
@@ -30,7 +32,16 @@ export default function MyPage({
           <div className="text-28 font-bold text-text-normal text-center">
             나의 프로필
           </div>
-          <div className=""></div>
+          <div className="flex flex-col space-y-6">
+            <TitleContainer title="프로필 사진">
+              <div className="flex flex-row items-center justify-center">
+                <UserProfileImage
+                  containerClassName="w-24 h-24"
+                  src="https://cached-resizable-images.orangefield.co.kr/20240623120225_4d313137-ff75-48b7-b49f-bf9702e96a8b.jpg"
+                />
+              </div>
+            </TitleContainer>
+          </div>
           <div className="flex flex-row justify-center space-x-2">
             <button
               type="button"
