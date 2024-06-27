@@ -57,6 +57,13 @@ module.exports = {
             letterSpacing: "-0.012em",
           },
         ],
+        28: [
+          "28px",
+          {
+            lineHeight: "1.357143em",
+            letterSpacing: "-0.024em",
+          },
+        ],
         32: [
           "32px",
           {
