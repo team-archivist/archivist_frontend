@@ -23,18 +23,7 @@ export default function MyPage({
   return (
     <FormProvider {...methods}>
       <div className={twMerge("flex flex-col", className)} {...props}>
-        <NavigationBar
-          leftItems={{
-            logo: (
-              <Link href={"/"}>
-                <ARCAVE_LOGO className="w-14 h-3 object-contain" />
-              </Link>
-            ),
-            home: <Link href="">홈피드</Link>,
-            mycave: <Link href="">마이케이브</Link>,
-          }}
-          rightItems={{}}
-        />
+        <NavigationBar />
 
         <div className="flex flex-col items-center">
           <div className="max-w-[360px] w-full flex flex-col py-8 mx-6 space-y-8">
