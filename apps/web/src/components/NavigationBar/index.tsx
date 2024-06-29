@@ -1,24 +1,17 @@
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
-import { css } from "@emotion/react";
-import { Avatar, Box, Flex } from "@radix-ui/themes";
+import UserProfileImage from "@arcave/components/common/UserProfileImage";
+import LoginUserModel from "@arcave/model/LoginUserModel";
+import { Box, Flex } from "@radix-ui/themes";
 import Link from "next/link";
+import { useMemo } from "react";
+import { PlusIcon } from "@heroicons/react/20/solid";
 
 interface NavigationBarProps {
   leftItems?: any;
   rightItems?: any;
   currentPath?: string;
-  currentUser?: any;
+  currentUser?: LoginUserModel;
 }
-
-const DEFAULT_LEFT_ITEMS = {
-  LOGO: (
-    <Link href={"/"}>
-      <ARCAVE_LOGO className="w-14 h-3 object-contain" />
-    </Link>
-  ),
-  "": <Link href="/">홈피드</Link>,
-  mycave: <Link href="/mycave">마이케이브</Link>,
-};
 
 export const NavigationBar = ({
   currentUser,
@@ -26,11 +19,35 @@ export const NavigationBar = ({
   currentPath,
   leftItems,
 }: NavigationBarProps) => {
+  const DEFAULT_LEFT_ITEMS = useMemo<any>(
+    () => ({
+      LOGO: (
+        <Link href={"/"}>
+          <ARCAVE_LOGO className="w-14 h-3 object-contain" />
+        </Link>
+      ),
+      "": <Link href="/">홈피드</Link>,
+      mycave: <Link href="/mycave">마이케이브</Link>,
+    }),
+    [],
+  );
+
+  const DEFAULT_RIGHT_ITEMS_NO_USER = useMemo<any>(
+    () => ({
+      LOGIN: (
+        <button className="rounded-full h-[36px] bg-primary-default text-white text-14 px-4">
+          로그인
+        </button>
+      ),
+    }),
+    [],
+  );
+
   if (!leftItems) {
     leftItems = DEFAULT_LEFT_ITEMS;
   }
 
-  const renderItem = (items: any[]) => {
+  const renderLeftItem = (items: any[]) => {
     return Object.entries(items).map(([path, component]: any[]) => {
       console.log(path, component);
       const isCurrentPath = currentPath === path;
@@ -45,42 +62,36 @@ export const NavigationBar = ({
     });
   };
 
+  const renderRightItem = (items: any[]) => {
+    return Object.entries(items).map(([key, component]) => {
+      return <li key={key}>{component}</li>;
+    });
+  };
+
   return (
     <Flex
       className="h-14 w-full items-center bg-gray-800 px-8 text-white flex flex-row"
       align="center"
     >
       <ul className="flex-1">
-        <Flex gap="4">{leftItems && renderItem(leftItems)}</Flex>
+        <Flex gap="4">{leftItems && renderLeftItem(leftItems)}</Flex>
       </ul>
       <Box>
         <Flex gap="4">
           {currentUser ? (
-            <span>
-              <span
-                css={css`
-                  display: inline-block;
-                  margin-right: 20px;
-                `}
-              >
-                +
-              </span>
-              <Avatar
-                src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop"
-                fallback="A"
-                radius="full"
-                css={css`
-                  width: 36px;
-                  height: 36px;
-                  margin-right: 5px;
-                `}
+            <button className="flex flex-row items-center space-x-4">
+              <div className="p-2">
+                <PlusIcon className="w-4 h-4 text-white" />
+              </div>
+              <UserProfileImage
+                containerClassName="w-9 h-9"
+                src={currentUser.imgUrl}
               />
-            </span>
+            </button>
+          ) : rightItems ? (
+            renderRightItem(rightItems)
           ) : (
-            rightItems &&
-            Object.entries(rightItems).map(([key, component]) => {
-              return <li key={key}>{component}</li>;
-            })
+            renderRightItem(DEFAULT_RIGHT_ITEMS_NO_USER)
           )}
         </Flex>
       </Box>

@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 /** 전역 style file import */
 import "@radix-ui/themes/styles.css";
 import "@arcave/assets/style/reset.css";
