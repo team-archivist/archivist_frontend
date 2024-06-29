@@ -1,5 +1,7 @@
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import { css } from "@emotion/react";
 import { Avatar, Box, Flex } from "@radix-ui/themes";
+import Link from "next/link";
 
 interface NavigationBarProps {
   leftItems?: any;
@@ -8,34 +10,48 @@ interface NavigationBarProps {
   currentUser?: any;
 }
 
+const DEFAULT_LEFT_ITEMS = {
+  LOGO: (
+    <Link href={"/"}>
+      <ARCAVE_LOGO className="w-14 h-3 object-contain" />
+    </Link>
+  ),
+  "": <Link href="/">홈피드</Link>,
+  mycave: <Link href="/mycave">마이케이브</Link>,
+};
+
 export const NavigationBar = ({
   currentUser,
   rightItems,
   currentPath,
   leftItems,
 }: NavigationBarProps) => {
+  if (!leftItems) {
+    leftItems = DEFAULT_LEFT_ITEMS;
+  }
+
+  const renderItem = (items: any[]) => {
+    return Object.entries(items).map(([path, component]: any[]) => {
+      console.log(path, component);
+      const isCurrentPath = currentPath === path;
+      return (
+        <li
+          key={path}
+          className={`${isCurrentPath ? "text-white" : "text-gray-600"}`}
+        >
+          {component}
+        </li>
+      );
+    });
+  };
+
   return (
     <Flex
       className="h-14 w-full items-center bg-gray-800 px-8 text-white flex flex-row"
       align="center"
     >
       <ul className="flex-1">
-        <Flex gap="4">
-          {leftItems &&
-            Object.entries(leftItems).map(([path, component]: any[]) => {
-              const isCurrentPath = currentPath === path;
-              return (
-                <li
-                  key={path}
-                  className={`${
-                    isCurrentPath ? "text-white" : "text-gray-600"
-                  }`}
-                >
-                  {component}
-                </li>
-              );
-            })}
-        </Flex>
+        <Flex gap="4">{leftItems && renderItem(leftItems)}</Flex>
       </ul>
       <Box>
         <Flex gap="4">
