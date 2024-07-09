@@ -1,21 +1,21 @@
+import CategoryChip from "@arcave/components/Chip/CategoryChip";
 import { NavigationBar } from "@arcave/components/NavigationBar";
-import Link from "next/link";
-import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
-import { HTMLAttributes } from "react";
-import { twMerge } from "tailwind-merge";
+import Input from "@arcave/components/common/Input";
 import TitleContainer from "@arcave/components/common/TitleContainer";
 import UserProfileImage from "@arcave/components/common/UserProfileImage";
-import Input from "@arcave/components/common/Input";
+import { HTMLAttributes } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import CategoryChip from "@arcave/components/Chip/CategoryChip";
+import { twMerge } from "tailwind-merge";
 
 interface MyPageProps {
   categories?: string[];
+  userProfileImageUrl?: string;
 }
 
 export default function MyPage({
   className,
   categories,
+  userProfileImageUrl,
   ...props
 }: HTMLAttributes<HTMLDivElement> & MyPageProps) {
   const methods = useForm({});
@@ -35,7 +35,7 @@ export default function MyPage({
                 <div className="flex flex-row items-center justify-center">
                   <UserProfileImage
                     containerClassName="w-24 h-24"
-                    src="https://cached-resizable-images.orangefield.co.kr/20240623120225_4d313137-ff75-48b7-b49f-bf9702e96a8b.jpg"
+                    src={userProfileImageUrl || ""}
                   />
                 </div>
               </TitleContainer>

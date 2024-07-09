@@ -7,6 +7,8 @@ interface HomeFeedCardProps {
   withProfile?: boolean;
   horizontal?: boolean;
   withCategory?: boolean;
+  imageUrl?: string;
+  userProfileImageUrl?: string;
 }
 
 export default function HomeFeedCard({
@@ -15,6 +17,8 @@ export default function HomeFeedCard({
   withProfile = true,
   horizontal = false,
   withCategory = true,
+  imageUrl,
+  userProfileImageUrl,
   ...props
 }: HTMLAttributes<HTMLDivElement> & HomeFeedCardProps) {
   return (
@@ -34,12 +38,7 @@ export default function HomeFeedCard({
           imageContainerClassName,
         )}
       >
-        <Image
-          src="https://cached-resizable-images.orangefield.co.kr/20240623120225_4d313137-ff75-48b7-b49f-bf9702e96a8b.jpg"
-          alt=""
-          fill
-          className="object-cover"
-        />
+        <Image src={imageUrl || ""} alt="" fill className="object-cover" />
 
         {withProfile && (
           <div className="h-[21.3%] absolute inset-x-0 bottom-0 bg-gradient-to-b from-[rgba(0,0,0,0)] to-[#000]" />
@@ -49,7 +48,7 @@ export default function HomeFeedCard({
           <div className="absolute bottom-0 inset-x-0 px-4 pt-3 pb-4 flex flex-row space-x-2 items-center">
             <div className="rounded-full bg-gray-300 relative w-9 h-9 overflow-hidden">
               <Image
-                src="https://cached-resizable-images.orangefield.co.kr/20240623120225_4d313137-ff75-48b7-b49f-bf9702e96a8b.jpg"
+                src={userProfileImageUrl || ""}
                 alt=""
                 fill
                 className="object-cover"
