@@ -49,7 +49,6 @@ export const NavigationBar = ({
 
   const renderLeftItem = (items: any[]) => {
     return Object.entries(items).map(([path, component]: any[]) => {
-      console.log(path, component);
       const isCurrentPath = currentPath === path;
       return (
         <li
