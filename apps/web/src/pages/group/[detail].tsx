@@ -19,6 +19,7 @@ import { Typography } from "@arcave/utils/typography";
 import useArcaveGroup from "../../hooks/useArcaveGroup";
 import useArcaveGroupLink from "../../hooks/useArcaveGroupLink";
 import useCurrentUser from "../../hooks/useCurrentUser";
+import { usePathname } from "next/navigation";
 
 enum BookmarkTab {
   ALL = "전체",
