@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 
 const useAPIUser = ({ required = false }: { required?: boolean } = {}) => {
   const router = useRouter();
-  const [loginUser, setLoginUser] = useState<LoginUserModel>();
+  const [loginUser, setLoginUser] = useState<LoginUserModel | undefined | null>(
+    undefined,
+  );
 
   useEffect(() => {
     (async () => {
@@ -20,6 +22,7 @@ const useAPIUser = ({ required = false }: { required?: boolean } = {}) => {
             await router.replace("/login");
           }
         }
+        setLoginUser(null);
       }
     })();
   }, []);
