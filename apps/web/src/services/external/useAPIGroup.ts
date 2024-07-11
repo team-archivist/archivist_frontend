@@ -66,7 +66,7 @@ const resolveGroupImagePath = (groupItem: { imgUrl: string }) => {
   if (!groupItem.imgUrl) {
     return groupItem;
   }
-  groupItem.imgUrl = `${process.env.NEXT_PUBLIC_API_URL}${groupItem.imgUrl}`;
+  groupItem.imgUrl = `${groupItem.imgUrl}`;
   return groupItem;
 };
 

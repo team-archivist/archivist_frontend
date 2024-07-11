@@ -140,7 +140,7 @@ const UserGroupDetailPage = () => {
         <Flex gap="4" className="my-8">
           <ArcaveCardDetail
             title={currentGroup?.groupName || ""}
-            groupTitle={currentGroup?.categories.join(" ")}
+            groupTitle={currentGroup?.categories?.join(" ")}
             description={currentGroup?.groupDesc || ""}
             avatar={{ isVisible: false }}
             thumbnail={{
@@ -165,7 +165,7 @@ const UserGroupDetailPage = () => {
                   ${Typography.Title2[17].Regular}
                 `}
               >
-                총
+                총&nbsp;
                 <Text
                   css={css`
                     color: ${SemanticColor.Primary.Default};

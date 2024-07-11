@@ -10,6 +10,7 @@ import PencilIcon from "../../../assets/icons/pencil.svg?react";
 import LinkIcon from "../../../assets/icons/link.svg?react";
 import { useState } from "react";
 import HoverCard from "../HoverCard";
+import Link from 'next/link'
 
 type Props = {
   title?: string;
@@ -48,12 +49,8 @@ export const ArcaveCard = ({
     if (!url) {
       return;
     }
-    let _url = url
-    if ( !_url.includes( 'https://' ) ){
-      _url = `https://${url}`
-    }
-    window.open(_url);
   };
+
 
   const renderGroupTitle = () => {
     if (groupTitle instanceof Array) {
@@ -71,47 +68,49 @@ export const ArcaveCard = ({
         cursor: pointer;
       `}
     >
-      <Box
-        className="flex h-52 w-72 items-end justify-end rounded-lg"
-        css={css`
+      <Link href={url}>
+        <Box
+          className="flex h-52 w-72 items-end justify-end rounded-lg"
+          css={css`
           background-color: ${PaletteColor.Gray[300]};
           ${imgSrc &&
-          css`
+            css`
             background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
           `};
         `}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {isHovered && (
-          <HStack className="m-2 h-fit" gap={"1"}>
-            <Button
-              radius="full"
-              className="h-8 w-8 p-0"
-              css={css`
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {isHovered && (
+            <HStack className="m-2 h-fit" gap={"1"}>
+              <Button
+                radius="full"
+                className="h-8 w-8 p-0"
+                css={css`
                 background-color: ${PaletteColor.Gray[200]};
                 cursor: pointer;
               `}
-              onClick={withStopPropagation(onClickModify)}
-            >
-              <PencilIcon />
-            </Button>
-            <Button
-              radius="full"
-              className="h-8 w-8 p-0"
-              css={css`
+                onClick={withStopPropagation(onClickModify)}
+              >
+                <PencilIcon />
+              </Button>
+              <Button
+                radius="full"
+                className="h-8 w-8 p-0"
+                css={css`
                 background-color: ${PaletteColor.Gray[200]};
                 cursor: pointer;
               `}
-            >
-              <LinkIcon />
-            </Button>
-          </HStack>
-        )}
-      </Box>
+              >
+                <LinkIcon />
+              </Button>
+            </HStack>
+          )}
+        </Box>
+      </Link>
       <VStack>
         <Title>{title}</Title>
         <HoverCard value={description}>
