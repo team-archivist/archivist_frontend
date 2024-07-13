@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const PROXY_AP_DESTINATION =
-  process.env.PROXY_AP_DESTINATION || "http://localhost:8080";
+const PROXY_API = process.env.PROXY_API || "http://localhost:8080";
 
 const nextConfig = {
   reactStrictMode: false,
@@ -16,7 +15,7 @@ const nextConfig = {
     return [
       {
         source: "/backend-api/:path*",
-        destination: `${PROXY_AP_DESTINATION}/:path*`,
+        destination: `${PROXY_API}/:path*`,
       },
     ];
   },

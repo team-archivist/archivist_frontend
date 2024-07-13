@@ -71,23 +71,16 @@ const SignupPage = (props: any) => {
   // ( 회원가입 프로세스 )
   const signupProcess = {
     /** 가입하기 클릭시 */
-    async onSignup({ nickName, chipListByActive }) {
+    async onSignup({ nickName, chipListByActive }: any) {
       const param = {
         email: userEmail,
         nickname: nickName,
         categories: chipListByActive,
       };
       try {
-        const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-        const res = await axiosInstance.post(`/api/user`, param, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
-          },
-        });
+        await axiosInstance.post(`/api/user`, param);
         setOpenBySignupEnd(true);
-      } catch (e) {
+      } catch (e: any) {
         console.log("<error>", e);
         const errorData = e.response?.data;
         // 이미 등록된 회원인 경우

@@ -37,7 +37,7 @@ const onRequestKaKaoLogin = async (
   } catch (e: any) {
     if (e instanceof AxiosError) {
       const data = e.response?.data;
-      if (404 === e.status) {
+      if (404 === e.response?.status) {
         return {
           key: USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL,
           value: data?.email || "",
@@ -93,23 +93,36 @@ export const getServerSideProps: GetServerSideProps = async ({
       expires: expiresDate,
     });
 
-    const cookieValue =
-      userInfo.key === USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID
-        ? userInfo.userId
-        : userInfo.value;
-    setCookie(userInfo?.key, cookieValue, {
-      req,
-      res,
-      httpOnly: false,
-      secure: false,
-      expires: expiresDate,
-    });
+    if (userInfo.key === USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID) {
+      setCookie(userInfo?.key, userInfo.userId, {
+        req,
+        res,
+        httpOnly: false,
+        secure: false,
+        expires: expiresDate,
+      });
 
-    return {
-      props: {},
-    };
+      return {
+        props: {},
+      };
+    } else {
+      setCookie(userInfo?.key, userInfo.value, {
+        req,
+        res,
+        httpOnly: false,
+        secure: false,
+        expires: expiresDate,
+      });
+
+      return {
+        redirect: {
+          destination: "/signup",
+          permanent: false,
+        },
+      };
+    }
   } catch (e) {
-    console.log(e);
+    console.log("error:", e);
     deletePreviousTokenInCookie();
     return {
       redirect: {
