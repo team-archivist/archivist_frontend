@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
@@ -78,7 +78,9 @@ const SignupPage = (props: any) => {
         categories: chipListByActive,
       };
       try {
-        await axiosInstance.post(`/api/user`, param);
+        const { data } = await axiosInstance.post(`/api/user`, param);
+        deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL);
+        setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID, data.userId);
         setOpenBySignupEnd(true);
       } catch (e: any) {
         console.log("<error>", e);
