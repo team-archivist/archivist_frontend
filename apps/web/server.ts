@@ -72,8 +72,9 @@ app.prepare().then(() => {
       const linkUrlResponse = await fetch(addProtocol(req.body.linkUrl));
       const domString = await linkUrlResponse.text();
       const parsedDocument = new jsdom.JSDOM(domString).window.document;
-      const ogImage = parsedDocument.querySelector("meta[property='og:image']")
-        ?.content;
+      const ogImage = parsedDocument.querySelector(
+        "meta[property='og:image']",
+      )?.content;
       const ogDescription = parsedDocument.querySelector(
         "meta[property='og:description']",
       )?.content;
