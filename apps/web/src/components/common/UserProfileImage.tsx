@@ -1,4 +1,5 @@
 import Image, { ImageProps } from "next/image";
+import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface UserProfileImageProps {
@@ -10,8 +11,18 @@ export default function UserProfileImage({
   className,
   containerClassName,
   onClick,
+  src,
   ...props
 }: UserProfileImageProps & Partial<ImageProps>) {
+  const resolvedSrc = useMemo(() => {
+    if (typeof src === "string") {
+      if (src.startsWith("/image")) {
+        return `${process.env.NEXT_PUBLIC_IMAGE_HOST}${src}`;
+      }
+    }
+    return src;
+  }, [src]);
+
   return (
     <div
       className={twMerge(
@@ -26,6 +37,7 @@ export default function UserProfileImage({
         fill
         className={twMerge("object-cover", className)}
         alt="profile image"
+        src={resolvedSrc}
         {...(props as any)}
       />
     </div>

@@ -2,10 +2,11 @@ import { Input as AntdInput, InputProps } from "antd";
 import { Controller, ControllerProps, useFormContext } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
-type Props = { name: string; inputClassName?: string } & Pick<
-  InputProps,
-  "size" | "placeholder"
-> &
+type Props = {
+  maxLength?: number;
+  name: string;
+  inputClassName?: string;
+} & Pick<InputProps, "size" | "placeholder"> &
   Partial<ControllerProps>;
 
 const Input = ({
@@ -13,6 +14,7 @@ const Input = ({
   size = "large",
   placeholder,
   inputClassName,
+  maxLength,
   ...props
 }: Props) => {
   const { control } = useFormContext();
@@ -23,6 +25,7 @@ const Input = ({
       control={control}
       render={({ field }) => (
         <AntdInput
+          maxLength={maxLength}
           size={size}
           placeholder={placeholder}
           className={twMerge("", inputClassName)}

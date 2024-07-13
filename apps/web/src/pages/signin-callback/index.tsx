@@ -26,7 +26,7 @@ const onRequestKaKaoLogin = async (
       value: string;
       token: string;
     }>(
-      `/login/kakao`,
+      `/api/login/kakao`,
       { code },
       { headers: { "Content-Type": "multipart/form-data" } },
     );
