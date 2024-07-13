@@ -5,6 +5,8 @@ import { Box, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import { useMemo } from "react";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
+import useAPIUser from "@arcave/services/external/useAPIUser";
 
 interface NavigationBarProps {
   leftItems?: any;
@@ -16,9 +18,12 @@ interface NavigationBarProps {
 export const NavigationBar = ({
   currentUser,
   rightItems,
-  currentPath,
+  currentPath = "",
   leftItems,
 }: NavigationBarProps) => {
+  const { onLogin } = useKakaoLogin();
+  const { loginUser } = useAPIUser();
+
   const DEFAULT_LEFT_ITEMS = useMemo<any>(
     () => ({
       LOGO: (
@@ -27,7 +32,7 @@ export const NavigationBar = ({
         </Link>
       ),
       "": <Link href="/">홈피드</Link>,
-      mycave: <Link href="/mycave">마이케이브</Link>,
+      mycave: loginUser ? <Link href="/mycave">마이케이브</Link> : null,
     }),
     [],
   );
@@ -35,12 +40,15 @@ export const NavigationBar = ({
   const DEFAULT_RIGHT_ITEMS_NO_USER = useMemo<any>(
     () => ({
       LOGIN: (
-        <button className="rounded-full h-[36px] bg-primary-default text-white text-14 px-4">
+        <button
+          className="rounded-full h-[36px] bg-primary-default text-white text-14 px-4 cursor-pointer"
+          onClick={onLogin}
+        >
           로그인
         </button>
       ),
     }),
-    [],
+    [onLogin],
   );
 
   if (!leftItems) {

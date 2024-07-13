@@ -1,37 +1,19 @@
-import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import { NavigationBar } from "@arcave/components/NavigationBar";
 import Button from "@arcave/components/common/Button/Button";
 import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
 import LandingImage from "@arcave/images/landing.png";
 import { Text } from "@radix-ui/themes";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-enum NavigationBarLeftItem {
-  LOGO = "logo",
-}
 
 /**
  * - Landing 페이지입니다
  */
 const LandingPage = () => {
   const { onLogin } = useKakaoLogin();
-  const currentPathname = usePathname();
 
   return (
     <>
-      <NavigationBar
-        currentPath={currentPathname.slice(1)}
-        leftItems={{
-          [NavigationBarLeftItem.LOGO]: (
-            <Link href={"/"}>
-              <ARCAVE_LOGO className="w-14 h-3 object-contain" />
-            </Link>
-          ),
-        }}
-        rightItems={{}}
-      />
+      <NavigationBar />
       <div className="justify-center items-center bg-[#f6f6f4] xl:h-[calc(100vh-56px)] xl:space-x-[102px] xl:flex-row flex flex-col xl:space-y-0 space-y-8 xl:py-0 py-16">
         <div className="flex flex-col space-y-6 mx-4">
           <Text className="text-text-normal text-58">
