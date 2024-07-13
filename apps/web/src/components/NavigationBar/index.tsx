@@ -1,22 +1,19 @@
 import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import UserProfileImage from "@arcave/components/common/UserProfileImage";
-import LoginUserModel from "@arcave/model/LoginUserModel";
+import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
+import useAPIUser from "@arcave/services/external/useAPIUser";
+import { PlusIcon } from "@heroicons/react/20/solid";
 import { Box, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import { useMemo } from "react";
-import { PlusIcon } from "@heroicons/react/20/solid";
-import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
-import useAPIUser from "@arcave/services/external/useAPIUser";
 
 interface NavigationBarProps {
   leftItems?: any;
   rightItems?: any;
   currentPath?: string;
-  currentUser?: LoginUserModel;
 }
 
 export const NavigationBar = ({
-  currentUser,
   rightItems,
   currentPath = "",
   leftItems,
@@ -34,7 +31,7 @@ export const NavigationBar = ({
       "": <Link href="/">홈피드</Link>,
       mycave: loginUser ? <Link href="/mycave">마이케이브</Link> : null,
     }),
-    [],
+    [loginUser],
   );
 
   const DEFAULT_RIGHT_ITEMS_NO_USER = useMemo<any>(
@@ -85,21 +82,23 @@ export const NavigationBar = ({
       </ul>
       <Box>
         <Flex gap="4">
-          {currentUser ? (
-            <button className="flex flex-row items-center space-x-4">
-              <div className="p-2">
+          {loginUser !== undefined &&
+            (loginUser ? (
+              <Link
+                href="/myprofile"
+                className="flex flex-row items-center space-x-4 cursor-pointer"
+              >
                 <PlusIcon className="w-4 h-4 text-white" />
-              </div>
-              <UserProfileImage
-                containerClassName="w-9 h-9"
-                src={currentUser.imgUrl}
-              />
-            </button>
-          ) : rightItems ? (
-            renderRightItem(rightItems)
-          ) : (
-            renderRightItem(DEFAULT_RIGHT_ITEMS_NO_USER)
-          )}
+                <UserProfileImage
+                  containerClassName="w-9 h-9"
+                  src={loginUser.imgUrl}
+                />
+              </Link>
+            ) : rightItems ? (
+              renderRightItem(rightItems)
+            ) : (
+              renderRightItem(DEFAULT_RIGHT_ITEMS_NO_USER)
+            ))}
         </Flex>
       </Box>
     </Flex>
