@@ -10,7 +10,6 @@ import { PaletteColor, SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
 
 import HoverCard from "./HoverCard";
-import HoverCard from "../HoverCard";
 import HStack from "../Stack/HStack";
 import VStack from "../Stack/VStack";
 
