@@ -69,9 +69,11 @@ export const executeGroupPatch = async ({ groupDto, fileImageBlob }) => {
 };
 
 const resolveGroupImagePath = (groupItem: { imgUrl: string }) => {
-  return groupItem.imgUrl
-    ? `${process.env.NEXT_PUBLIC_API_URL}${groupItem.imgUrl}`
-    : null;
+  if (!groupItem.imgUrl) {
+    return groupItem;
+  }
+  groupItem.imgUrl = `${groupItem.imgUrl}`;
+  return groupItem;
 };
 
 export default useAPIGroup;

@@ -147,6 +147,14 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 `}
                 onClick={handleClickUploadPanel}
               />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/gif,image/jpeg,image/jpg,image/png"
+                name="linkImgFile"
+                hidden
+                onChange={handleChangeFileInput}
+              />
               <VStack spacing={8}>
                 <Text>카테고리</Text>
                 {selectedCategories.length !== 0 && (

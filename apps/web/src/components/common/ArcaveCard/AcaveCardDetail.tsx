@@ -48,7 +48,7 @@ export const ArcaveCardDetail = ({
   return (
     <HStack spacing={16}>
       <Thumbnail className="mr-5 h-[240px] w-[360px] rounded-lg">
-        {thumbnail && <img src={thumbnail.imgUrl} />}
+        {thumbnail && <img src={thumbnail.imgUrl} style={{ width: '360px', height: '240px' }} />}
         {thumbnail && thumbnail.isVisibleIcon && (
           <ThumbnailIcon
             className="rounded-full"
@@ -113,6 +113,8 @@ const AvatarCaption = styled(Text)`
 // thumbnail
 const Thumbnail = styled(Flex)`
   background-color: ${PaletteColor.Gray[300]};
+  width: 360px;
+  height: 240px;
   position: relative;
 `;
 
