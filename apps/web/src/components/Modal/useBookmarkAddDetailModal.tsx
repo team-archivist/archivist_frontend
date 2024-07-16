@@ -75,7 +75,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleSubmit,
     setValue,
     watch,
-    reset,
+    reset: resetFormState,
     formState: { errors, isValid },
   } = formMethods;
 
@@ -87,7 +87,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const resetModal = () => {
     resetUploadField();
-    reset();
+    resetFormState();
     setLinkDto({});
     setIsLoading(false);
     setIsFetched(false);
@@ -106,11 +106,10 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
       await executePostLink({ ...linkDto, ...getValues() }, imgRef.current);
       message.success("링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!");
+      handleModalClose();
     } catch (e) {
       console.error(e);
       message.error("오류가 발생했습니다");
-    } finally {
-      resetModal();
     }
   };
 
