@@ -1,5 +1,6 @@
-import axiosInstance from "src/services/requests";
 import { useEffect, useState } from "react";
+
+import axiosInstance from "@arcave/services/requests";
 
 type Props = {
   groupId: number | undefined;

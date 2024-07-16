@@ -3,19 +3,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "lib": ["DOM", "DOM.Iterable", "ESNext", "webworker"],
+    "moduleResolution": "node",
     "paths": {
-      "@components*": ["src/components*"],
-      "@lib*": ["src/lib*"],
-      "@assets*": ["src/assets*"],
-      "@archivist/ui": ["packages/ui/src"],
-      "@constants*": ["src/constants*"],
-      "@hooks*": ["src/hooks*"],
-      "@store*": ["src/store*"],
-      "@model*": ["src/model*"],
-      "@public*": ["public*"],
-      "@utils*": ["src/utils*"]
+      "@arcave*":["src*"],
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
 }

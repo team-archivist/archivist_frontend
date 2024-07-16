@@ -1,10 +1,12 @@
-import { PropsWithChildren } from "react";
-import ARCAVE_LOGO from "@assets/icons/logo_black.svg";
-import { usePathname } from "next/navigation";
-import { Box, Flex, Text } from "@radix-ui/themes";
 import { css } from "@emotion/react";
-import { SemanticColor, Typography } from "@archivist/ui";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { PropsWithChildren } from "react";
+
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_black.svg";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
 
 const UserLayout = ({ children }: PropsWithChildren) => {
   const currentPathname = usePathname();
@@ -13,7 +15,8 @@ const UserLayout = ({ children }: PropsWithChildren) => {
   }
 
   const [_, currentPath] = currentPathname?.split("/");
-  const isUseFooter = currentPath && currentPath !== "login" && currentPath !== "landing" ;
+  const isUseFooter =
+    currentPath && currentPath !== "login" && currentPath !== "landing";
 
   return (
     <>
@@ -21,6 +24,10 @@ const UserLayout = ({ children }: PropsWithChildren) => {
       {isUseFooter && (
         <Box
           css={css`
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+
             margin-top: 80px;
             background-color: #f5f5f5;
           `}

@@ -1,25 +1,30 @@
-import { Checkbox } from "@radix-ui/themes";
 import { css } from "@emotion/react";
-import { SemanticColor } from "@archivist/ui";
+import { Checkbox, CheckboxProps } from "antd";
+
+type Props = {};
 
 const ACCheckbox = ({ onClick, checked, ...rest }) => {
+  const handleClick: CheckboxProps["onChange"] = (event) => {
+    onClick(event.target.checked);
+  };
+
   return (
     <Checkbox
-      color="orange"
-      onClick={(e) => onClick(e.target.dataset.state === "unchecked")}
-      checked={checked}
+      onChange={handleClick}
+      value={checked}
       css={css`
-        button {
-          width: 18px;
-          height: 18px;
-          border: 2px solid #4d4d4d;
-          border-radius: 2px;
-          box-shadow: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #4d4d4d;
+        border-radius: 2px;
+        box-shadow: none;
+        box-sizing: border-box;
 
-          &:where([data-state="checked"]) {
-            border-color: ${SemanticColor.Primary.Default};
-            background-color: ${SemanticColor.Primary.Default};
-          }
+        .ant-checkbox-inner {
+          width: 14px;
+          height: 14px;
+          border-radius: 0;
+          border: none;
         }
       `}
     />

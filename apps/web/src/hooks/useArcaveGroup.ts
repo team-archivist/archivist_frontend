@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
-import axiosInstance from "src/services/requests";
-import CommonUtils from "../utils/commonUtils";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+import axiosInstance from "@arcave/services/requests";
+
+import CommonUtils from "../utils/commonUtils";
 
 type Props =
   | {
@@ -33,7 +35,7 @@ const useArcaveGroup = ({ isUser, userId, groupId }: Props) => {
       };
       try {
         response = await axiosInstance.get(
-          isUser ? `/api/user/group/${userId}` : `/api/group/${groupId}`
+          isUser ? `/api/user/group/${userId}` : `/api/group/${groupId}`,
         );
       } catch (e) {
         window.alert("존재하지 않는 그룹입니다");

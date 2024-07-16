@@ -1,6 +1,7 @@
-import USER_CONSTANTS from "@constants/userStorageConstants";
 import axios from "axios";
 import { getCookie } from "cookies-next";
+
+import USER_CONSTANTS from "@arcave/constants/userStorageConstants";
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/`,

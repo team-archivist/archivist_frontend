@@ -1,26 +1,25 @@
-import { BaseButton, HStack, NavigationBar, VStack } from "@archivist/ui";
-
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import Layout from "@components/Layout";
 import { Avatar, Flex, Heading, Tabs } from "@radix-ui/themes";
-
-import ACTabs from "@components/Tabs/ACTabs";
-
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { css } from "@emotion/react";
+import { useRouter } from "next/router";
 
-import Chip from "@components/Chip";
-
-import useCurrentUser from "src/hooks/useCurrentUser";
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import Chip from "@arcave/components/Chip";
+import Button from "@arcave/components/common/Button/Button";
+import ACSkeleton from "@arcave/components/common/Skeleton";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
+import Layout from "@arcave/components/Layout";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import ACTabs from "@arcave/components/Tabs/ACTabs";
+import useCurrentUser from "@arcave/hooks/useCurrentUser";
+import BookmarkTabAtom from "@arcave/store/BookmarkTabAtom";
 
 import ArcaveTabContent from "../../components/TabContents/ArcaveTabContent";
 import GroupTabContent from "../../components/TabContents/GroupTabContent";
-import { useAtom } from "jotai";
-import BookmarkTabAtom from "@store/BookmarkTabAtom";
-
-import { useRouter } from "next/router";
 
 export enum BookmarkTab {
   ALL = "아케이브",
@@ -45,7 +44,15 @@ const MycavePage = () => {
   const router = useRouter();
 
   if (!currentUser) {
-    return "로딩 중";
+    return (
+      <div
+        css={css`
+          padding: 12px;
+        `}
+      >
+        <ACSkeleton count={3} />
+      </div>
+    );
   }
 
   return (
@@ -73,13 +80,13 @@ const MycavePage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
+            <Button
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />
@@ -94,9 +101,9 @@ const MycavePage = () => {
             radius="full"
             size="7"
           />
-          <VStack className={"my-4"} gap="1">
+          <VStack className={"my-4"} spacing={4}>
             <Heading size="5">{currentUser.nickname}</Heading>
-            <HStack gap="2">
+            <HStack spacing={8}>
               {currentUser.categories.map((category) => (
                 <Chip key={category}>{category}</Chip>
               ))}

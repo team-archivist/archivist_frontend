@@ -1,10 +1,13 @@
-import { HStack, SemanticColor, VStack } from "@archivist/ui";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Button, Checkbox, DropdownMenu, Flex, Grid } from "@radix-ui/themes";
-import React, { Fragment, useState } from "react";
-import { ChevronDownIcon, PlusIcon } from "@radix-ui/react-icons";
-import ACCheckbox from "@components/ACCheckbox";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { Grid } from "@radix-ui/themes";
+import { useState } from "react";
+
+import ACCheckbox from "@arcave/components/ACCheckbox";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
+import Dropdown from "@arcave/components/Dropdown";
 
 type Props = {
   categories: string[];
@@ -29,13 +32,13 @@ const DropdownCheckbox = ({
   };
 
   return (
-    <VStack gap={"4"}>
+    <VStack>
       <SelectLayout onClick={handleChangeOpen}>
         카테고리 선택
         <ChevronDownIcon />
       </SelectLayout>
       {open && (
-        <DropdownLayout>
+        <Dropdown>
           <Grid
             columns="2"
             gap="3"
@@ -44,7 +47,7 @@ const DropdownCheckbox = ({
             `}
           >
             {categories.map((category) => (
-              <HStack key={category} height={"6"} gap={"2"} align={"center"}>
+              <HStack key={category} spacing={8} alignItems={"center"}>
                 <ACCheckbox
                   onClick={(checked: boolean) =>
                     handleClickCheckbox(category, checked)
@@ -55,29 +58,11 @@ const DropdownCheckbox = ({
               </HStack>
             ))}
           </Grid>
-        </DropdownLayout>
+        </Dropdown>
       )}
     </VStack>
   );
 };
-
-const DropdownLayout = styled.div`
-  position: absolute;
-  z-index: 2;
-  transform: translateY(60px);
-
-  width: 300px;
-  height: 232px;
-  padding: 16px;
-  box-sizing: border-box;
-
-  overflow-y: scroll;
-  overflow-x: hidden;
-
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.08);
-`;
 
 const SelectLayout = styled(HStack)`
   width: 100%;

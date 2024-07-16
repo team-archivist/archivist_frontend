@@ -1,5 +1,6 @@
-import { VStack } from "@archivist/ui";
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
+
+import VStack from "./common/Stack/VStack";
 
 const Layout = ({ children }: PropsWithChildren) => {
   return <VStack className="w-full px-8">{children}</VStack>;

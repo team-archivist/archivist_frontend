@@ -1,27 +1,24 @@
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import styled from "@emotion/styled";
-import Layout from "@components/Layout";
-import {
-  BaseButton,
-  NavigationBar,
-  VStack,
-  HStack,
-  ArcaveCard,
-  ArcaveCardDetail,
-  SemanticColor,
-  Typography,
-} from "@archivist/ui";
-import { usePathname } from "next/navigation";
-import { Avatar, Flex, Heading, Tabs, Text } from "@radix-ui/themes";
-import Chip from "@components/Chip";
-import { PlusIcon } from "@radix-ui/react-icons";
-import ACTabs from "@components/Tabs/ACTabs";
-import useCurrentUser from "../../hooks/useCurrentUser";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
+import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
+import Button from "@arcave/components/common/Button/Button";
+import ACSkeleton from "@arcave/components/common/Skeleton";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
+import Layout from "@arcave/components/Layout";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import ACTabs from "@arcave/components/Tabs/ACTabs";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
+
 import useArcaveGroup from "../../hooks/useArcaveGroup";
 import useArcaveGroupLink from "../../hooks/useArcaveGroupLink";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 enum BookmarkTab {
   ALL = "전체",
@@ -63,7 +60,7 @@ const GroupDetailPage = () => {
   }, [currentPathname]);
 
   if (!currentUser) {
-    return "로딩 중";
+    return <ACSkeleton count={3} />;
   }
 
   return (
@@ -91,13 +88,13 @@ const GroupDetailPage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
+            <Button
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />

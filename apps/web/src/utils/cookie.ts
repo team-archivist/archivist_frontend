@@ -1,4 +1,4 @@
-import USER_CONSTANTS from "@constants/userStorageConstants";
+import USER_CONSTANTS from "@arcave/constants/userStorageConstants";
 import { deleteCookie } from "cookies-next";
 
 export const deletePreviousTokenInCookie = async () => {

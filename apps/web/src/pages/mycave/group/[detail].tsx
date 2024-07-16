@@ -1,29 +1,30 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
 import styled from "@emotion/styled";
-import Layout from "@components/Layout";
-import {
-  BaseButton,
-  NavigationBar,
-  VStack,
-  HStack,
-  ArcaveCard,
-  ArcaveCardDetail,
-  SemanticColor,
-  Typography,
-} from "@archivist/ui";
-import { usePathname } from "next/navigation";
-import { Flex, Tabs, Text } from "@radix-ui/themes";
 import { PlusIcon } from "@radix-ui/react-icons";
-import ACTabs from "@components/Tabs/ACTabs";
-import useCurrentUser from "../../../hooks/useCurrentUser";
-import useArcaveGroup from "../../../hooks/useArcaveGroup";
-import useArcaveGroupLink from "../../../hooks/useArcaveGroupLink";
-import useBookmarkAddModal from "@components/Modal/useBookmarkAddModal";
+import { Flex, Tabs, Text } from "@radix-ui/themes";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
-import useGroupAddModal from "@components/Modal/useGroupAddModal";
+import { useEffect, useState } from "react";
+
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import { ArcaveCard } from "@arcave/components/common/ArcaveCard";
+import { ArcaveCardDetail } from "@arcave/components/common/ArcaveCard/AcaveCardDetail";
+import Button from "@arcave/components/common/Button/Button";
+import ACSkeleton from "@arcave/components/common/Skeleton";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
+import Layout from "@arcave/components/Layout";
+import useBookmarkAddModal from "@arcave/components/Modal/useBookmarkAddModal";
+import useGroupAddModal from "@arcave/components/Modal/useGroupAddModal";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import ACTabs from "@arcave/components/Tabs/ACTabs";
+import useArcaveGroup from "@arcave/hooks/useArcaveGroup";
+import useArcaveGroupLink from "@arcave/hooks/useArcaveGroupLink";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
+
+import useCurrentUser from "../../../hooks/useCurrentUser";
 
 enum BookmarkTab {
   ALL = "전체",
@@ -73,7 +74,15 @@ const UserGroupDetailPage = () => {
   }, [group]);
 
   if (!currentUser) {
-    return "로딩 중";
+    return (
+      <div
+        css={css`
+          padding: 12px;
+        `}
+      >
+        <ACSkeleton count={3} />
+      </div>
+    );
   }
 
   // 그룹 수정하기 클릭시
@@ -82,15 +91,8 @@ const UserGroupDetailPage = () => {
       window.alert("현재 그룹이 없습니다");
       return;
     }
-    const {
-      categories,
-      groupDesc,
-      groupId,
-      groupName,
-      imgUrl,
-      linkCount,
-      isGroupPublic,
-    } = currentGroup;
+    const { categories, groupDesc, groupId, groupName, isGroupPublic } =
+      currentGroup;
 
     groupAddModal.show({
       groupName,
@@ -126,13 +128,13 @@ const UserGroupDetailPage = () => {
         currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
+            <Button
               size={"2"}
               className="w-fit"
               onClick={() => router.push("/")}
             >
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />
@@ -175,13 +177,13 @@ const UserGroupDetailPage = () => {
                 </Text>
                 개의 링크
               </div>
-              <BaseButton
+              <Button
                 size={"2"}
                 className="w-fit"
                 onClick={bookmarkAddModal.show}
               >
                 링크 담기 {<PlusIcon />}
-              </BaseButton>
+              </Button>
             </Flex>
             {hasLink ? (
               <HStack gap={"5"}>

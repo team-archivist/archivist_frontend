@@ -8,11 +8,8 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "dev": "pnpm run build:ui && turbo run dev --parallel",
-    "build:ui": "pnpm run -F @archivist/ui build",
-    "watch:ui": "pnpm run -F @archivist/ui watch",
-    "dev:ui": "pnpm run -F @archivist/ui dev",
-    "start:web": "pnpm run -F @archivist/web start"
+    "dev": "turbo run dev",
+    "start": "pnpm run -F @archivist/web start"
   },
   "packageManager": "pnpm@8.10.2",
   "eslintConfig": {

@@ -1,4 +1,5 @@
-import { LinkModel } from "@store/LinkModalAtom";
+import { LinkModel } from "@arcave/store/LinkModalAtom";
+
 import axiosInstance from "../requests";
 import { imageToBlob } from "../utils";
 
@@ -26,7 +27,7 @@ const useAPILink = ({
         [JSON.stringify([linkDtoFromForm.groupId])],
         {
           type: "application/json",
-        }
+        },
       );
       formData.append("groupId", groupIdBlob);
     }
@@ -39,13 +40,13 @@ const useAPILink = ({
       const imgBlob = await imageToBlob(
         response.data.blob,
         imgElement.naturalWidth,
-        imgElement.naturalHeight
+        imgElement.naturalHeight,
       );
 
       formData.append(
         "linkImgFile",
         imgBlob,
-        `${Number(new Date())}.${response.data.contentType.split("/")[1]}`
+        `${Number(new Date())}.${response.data.contentType.split("/")[1]}`,
       );
     }
 
@@ -69,7 +70,7 @@ const useAPILink = ({
 
         return { ...acc, [key]: value };
       },
-      {}
+      {},
     );
 
     const linkDtoBlob = new Blob([JSON.stringify(patchedLinkDto)], {
@@ -103,7 +104,7 @@ const useAPILink = ({
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
-      }
+      },
     );
   };
 

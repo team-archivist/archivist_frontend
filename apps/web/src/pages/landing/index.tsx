@@ -1,17 +1,15 @@
-import Link from "next/link";
-import React from "react";
 import { css } from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
-import {
-  NavigationBar,
-  HStack,
-  BaseButton,
-  Typography,
-  SemanticColor,
-} from "@archivist/ui";
-import { usePathname } from "next/navigation";
 import { Box, Text } from "@radix-ui/themes";
-import useKakaoLogin from "@hooks/useKakaoLogin";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
+import { SemanticColor } from "@arcave/utils/color";
+import { Typography } from "@arcave/utils/typography";
 
 enum NavigationBarLeftItem {
   LOGO = "logo",
@@ -94,9 +92,9 @@ const LandingPage = () => {
               margin-top: 20px;
             `}
           >
-            <BaseButton size="4" onClick={onLogin}>
+            <Button size="4" onClick={onLogin}>
               카카오톡 계정으로 시작하기
-            </BaseButton>
+            </Button>
           </Box>
         </Box>
         <Box

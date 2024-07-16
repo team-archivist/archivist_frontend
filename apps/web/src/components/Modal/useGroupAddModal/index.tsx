@@ -1,26 +1,23 @@
-import {
-  BaseButton,
-  HStack,
-  PaletteColor,
-  SemanticColor,
-  VStack,
-} from "@archivist/ui";
-
-import { Box, Dialog, Flex, Text, TextArea, TextField } from "@radix-ui/themes";
-
+import { css } from "@emotion/react";
+import { Box, Text } from "@radix-ui/themes";
+import { Input } from "antd";
 import { useState } from "react";
 
-import * as Form from "@radix-ui/react-form";
-import { css } from "@emotion/react";
-import useAPICategory from "src/services/external/useAPICategory";
-import DropdownCheckbox from "./DropdownCheckbox";
-import ACCheckbox from "@components/ACCheckbox";
-import Chip from "@components/Chip";
-import useUploadImage from "../common/useUploadImage";
+import ACCheckbox from "@arcave/components/ACCheckbox";
+import Chip from "@arcave/components/Chip";
+import ACModal from "@arcave/components/common/Modal";
+import ACSkeleton from "@arcave/components/common/Skeleton";
+import HStack from "@arcave/components/common/Stack/HStack";
+import VStack from "@arcave/components/common/Stack/VStack";
+import useAPICategory from "@arcave/services/external/useAPICategory";
 import {
-  executeGroupPost,
   executeGroupPatch,
-} from "src/services/external/useAPIGroup";
+  executeGroupPost,
+} from "@arcave/services/external/useAPIGroup";
+import { PaletteColor } from "@arcave/utils/color";
+
+import DropdownCheckbox from "./DropdownCheckbox";
+import useUploadImage from "../common/useUploadImage";
 
 const useGroupAddModal = ({ onSuccess } = {}) => {
   const [open, setOpen] = useState(false);
@@ -62,7 +59,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
     }
 
     setSelectedCategories((prev) =>
-      prev.filter((category) => category !== value)
+      prev.filter((category) => category !== value),
     );
   };
 
@@ -88,7 +85,7 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
         setDescription(!!groupDescription ? groupDescription : description);
         setIsPrivate(groupIsPrivate);
         setSelectedCategories(
-          groupCategories.length !== 0 ? groupCategories : categories
+          groupCategories.length !== 0 ? groupCategories : categories,
         );
         setId(groupId);
       } else {
@@ -124,11 +121,21 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
   return {
     show: (params = {}) => handleShow(params),
     render: () => (
-      <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
-        <Dialog.Content style={{ maxWidth: 348 }}>
-          <Dialog.Title>{!!id ? "그룹 수정" : "그룹 추가"}</Dialog.Title>
-          <Form.Root className="FormRoot">
-            <VStack gap="6">
+      <ACModal
+        title={!!id ? "그룹 수정" : "그룹 추가"}
+        open={open}
+        okText="확인"
+        onOk={() => save()}
+        // okButtonProps={{ disabled: !isValid }}
+        cancelText="취소"
+        onCancel={() => handleChangeOpen(false)}
+      >
+        {false ? (
+          <ACSkeleton count={3} />
+        ) : (
+          // <FormProvider {...formMethods}>
+          <form>
+            <VStack spacing={16}>
               <Box
                 width={"100%"}
                 className="h-52 rounded-lg"
@@ -148,34 +155,35 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 hidden
                 onChange={handleChangeFileInput}
               />
-              <VStack gap="1">
+              <VStack spacing={8}>
                 <Text>카테고리</Text>
-                <HStack gap="2" wrap={"wrap"}>
-                  {selectedCategories.map((category) => (
-                    <Chip key={`chip-${category}`}>{category}</Chip>
-                  ))}
-                </HStack>
-                <Form.Field className="FormField" name="group">
-                  <DropdownCheckbox
-                    categories={categories}
-                    selectedCategories={selectedCategories}
-                    onChange={handleSelectCategories}
-                  />
-                </Form.Field>
+                {selectedCategories.length !== 0 && (
+                  <HStack spacing={16}>
+                    {selectedCategories.map((category) => (
+                      <Chip key={`chip-${category}`}>{category}</Chip>
+                    ))}
+                  </HStack>
+                )}
+                <DropdownCheckbox
+                  categories={categories}
+                  selectedCategories={selectedCategories}
+                  onChange={handleSelectCategories}
+                />
               </VStack>
-              <VStack gap="1">
+              <VStack spacing={8}>
                 <Text>그룹 이름</Text>
-                <TextField.Input
-                  size="3"
+                {/* FIXME: rhf 전환 */}
+                <Input
+                  size="large"
                   placeholder="그룹 이름을 입력해주세요"
                   onChange={handleChangeName}
                   value={name}
                 />
               </VStack>
-              <VStack gap="1">
+              <VStack spacing={8}>
                 <Text>그룹 설명</Text>
-                <TextArea
-                  size="3"
+                <Input.TextArea
+                  size="large"
                   placeholder="그룹 설명을 입력해주세요"
                   onChange={handleChangeDescription}
                   value={description}
@@ -183,14 +191,14 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 {description.length}/400
               </VStack>
               <VStack>
-                <HStack gap={"2"} align={"center"}>
+                <HStack spacing={16} alignItems={"center"}>
                   <ACCheckbox
                     checked={isPrivate}
                     onClick={handleClickIsPrivate}
                   />
                   <span>그룹 비공개로 설정하기</span>
                 </HStack>
-                <HStack gap={"2"}>
+                <HStack spacing={16}>
                   <div
                     css={css`
                       width: 18px;
@@ -200,32 +208,10 @@ const useGroupAddModal = ({ onSuccess } = {}) => {
                 </HStack>
               </VStack>
             </VStack>
-
-            <Flex gap="3" mt="4" justify="end">
-              <Dialog.Close>
-                <BaseButton
-                  size={"2"}
-                  className="w-fit"
-                  onClick={() => {}}
-                  backgroundColor={PaletteColor.Gray[200]}
-                >
-                  취소
-                </BaseButton>
-              </Dialog.Close>
-              <Dialog.Close>
-                <BaseButton
-                  size={"2"}
-                  className="w-fit"
-                  onClick={() => save()}
-                  backgroundColor={SemanticColor.Primary.Default}
-                >
-                  확인
-                </BaseButton>
-              </Dialog.Close>
-            </Flex>
-          </Form.Root>
-        </Dialog.Content>
-      </Dialog.Root>
+          </form>
+          // </FormProvider>
+        )}
+      </ACModal>
     ),
   };
 };

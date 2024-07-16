@@ -10,8 +10,8 @@
     "start": "NODE_ENV=production node server.ts"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.20.0",
     "@archivist/config": "workspace:*",
-    "@archivist/ui": "workspace:*",
     "@emotion/babel-plugin": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -28,10 +28,9 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
-    "@radix-ui/react-toast": "^1.1.5",
-    "@radix-ui/react-tooltip": "^1.0.7",
     "@radix-ui/themes": "2.0.0",
     "@svgr/webpack": "^8.1.0",
+    "antd": "^5.17.3",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.5",
     "cookies-next": "^4.1.0",

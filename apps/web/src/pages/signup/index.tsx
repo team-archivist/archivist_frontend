@@ -1,26 +1,20 @@
-/**
- * - 회원가입 관련 페이지입니다
- */
-import {
-  NavigationBar,
-  LoginView,
-  SignupView,
-  HStack,
-  BaseButton,
-} from "@archivist/ui";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import { css } from "@emotion/react";
-import ARCAVE_LOGO from "@assets/icons/logo_white.svg";
-import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import LoginUserModel from "@model/LoginUserModel";
-import CategoriesModel from "@model/CategoriesModel";
 import { getCookie } from "cookies-next";
-import USER_CONSTANTS from "@constants/userStorageConstants";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import Button from "@arcave/components/common/Button/Button";
+import HStack from "@arcave/components/common/Stack/HStack";
+import { NavigationBar } from "@arcave/components/NavigationBar";
+import { SignupView } from "@arcave/components/Signup/SignupView";
+import USER_CONSTANTS from "@arcave/constants/userStorageConstants";
+import CategoriesModel from "@arcave/model/CategoriesModel";
+
 import axiosInstance from "../../services/requests";
-import useCurrentUser from "@hooks/useCurrentUser";
 
 /** NavigationBar 위치 관련 */
 enum NavigationBarLeftItem {
@@ -36,7 +30,8 @@ enum NavigationBarRightItem {
  * - 회원가입 관련 페이지입니다
  */
 const SignupPage = (props) => {
-  const { currentUser } = useCurrentUser();
+  // FIXME 회원가입 화면에서 유저 정보 조회 API가 필요한가..
+  // const { currentUser } = useCurrentUser();
   const [_, currentPath] = usePathname();
   const [signupStep, setSignupStep] = useState<number>(1);
   const [openBySignupEnd, setOpenBySignupEnd] = useState(false);
@@ -49,9 +44,11 @@ const SignupPage = (props) => {
     if (!userEmail) {
       router.push("/login");
     }
-    if (currentUser) {
-      router.push("/mycave");
-    }
+
+    // NOTE: 해당 로직 정리 필요
+    // if (currentUser) {
+    //   router.push("/mycave");
+    // }
 
     (async () => {
       try {
@@ -69,7 +66,7 @@ const SignupPage = (props) => {
         console.log("<< categories >> 목록을 가져오는데 실패했습니다");
       }
     })();
-  }, [currentUser]);
+  }, []);
 
   // ( 회원가입 프로세스 )
   const signupProcess = {
@@ -135,16 +132,11 @@ const SignupPage = (props) => {
             </Link>
           ),
         }}
-        currentUser={currentUser}
         rightItems={{
           [NavigationBarRightItem.Login]: (
-            <BaseButton
-              size={"2"}
-              className="w-fit"
-              onClick={() => router.push("/")}
-            >
+            <Button className="w-fit" onClick={() => router.push("/")}>
               로그인
-            </BaseButton>
+            </Button>
           ),
         }}
       />

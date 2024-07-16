@@ -1,19 +1,6 @@
-/**
- * - Next 의 Home 컴포넌트입니다
- */
-import { useEffect , useState } from "react";
-import {useRouter} from "next/router";
-
+// NOTE: next.config.js 에서 redirect 처리하여 노출되지 않음
 const Home = () => {
-  const router = useRouter();
-  useEffect( () => {
-    router.replace( '/landing' );
-  } , [] );
-
-  return (
-    <div>
-      index 페이지
-    </div>)
-}
+  return <div></div>;
+};
 
 export default Home;

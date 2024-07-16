@@ -1,8 +1,6 @@
-import USER_CONSTANTS from "@constants/userStorageConstants";
-import axios from "axios";
-import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
-import axiosInstance from "src/services/requests";
+
+import axiosInstance from "@arcave/services/requests";
 
 type Props =
   | {
@@ -27,7 +25,7 @@ const useArcaveLink = ({ isUser, userId, linkId }: Props) => {
 
     const fetchLink = async () => {
       const response = await axiosInstance.get(
-        isUser ? `/api/user/link/${userId}` : `/api/link/${linkId}`
+        isUser ? `/api/user/link/${userId}` : `/api/link/${linkId}`,
       );
       setLinks(response.data);
     };

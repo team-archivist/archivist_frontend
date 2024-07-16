@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axiosInstance from "src/services/requests";
+
+import axiosInstance from "../requests";
 
 const useAPIGroup = () => {
   const [groups, setGroups] = useState();
@@ -10,13 +11,18 @@ const useAPIGroup = () => {
         data: { userId },
       } = await axiosInstance.get(`/api/user`);
 
-      const { data: groupsByUser } = await axiosInstance.get(
-        `/api/user/group/${userId}`
+      const { data: groupsData } = await axiosInstance.get(
+        `/api/user/group/${userId}`,
       );
-      if (!groupsByUser || 0 === groupsByUser.length) {
+      if (!groupsData || 0 === groupsData.length) {
         return;
       }
-      groupsByUser.forEach((groupItem) => resolveGroupImagePath(groupItem));
+
+      const groupsByUser = groupsData.map((groupItem) => ({
+        ...groupItem,
+        imgUrl: resolveGroupImagePath(groupItem),
+      }));
+
       setGroups(groupsByUser);
     })();
   }, []);
@@ -58,7 +64,7 @@ export const executeGroupPatch = async ({ groupDto, fileImageBlob }) => {
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
-    }
+    },
   );
 };
 
