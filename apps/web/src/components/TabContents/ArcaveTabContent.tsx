@@ -57,6 +57,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
   if (isLinksWithGroupIdLoading) {
     return <ACSkeleton count={3} />;
   }
+
   return (
     <>
       <HStack justify={"space-between"} className="my-5">
@@ -103,15 +104,17 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
               };
 
               return (
-                <ArcaveCard
-                  key={linkId}
-                  title={linkName}
-                  description={linkDesc}
-                  groupTitle={findGroupName(linkId)}
-                  url={linkUrl}
-                  imgSrc={imgUrl}
-                  onClickModify={handleClickModify}
-                />
+                linkUrl && (
+                  <ArcaveCard
+                    key={linkId}
+                    title={linkName}
+                    description={linkDesc}
+                    groupTitle={findGroupName(linkId)}
+                    url={linkUrl}
+                    imgSrc={imgUrl}
+                    onClickModify={handleClickModify}
+                  />
+                )
               );
             },
           )}

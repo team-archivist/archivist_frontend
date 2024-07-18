@@ -35,7 +35,7 @@ const Select = ({ onChange }: Props) => {
   };
 
   const selectItemRender = (option: any) => {
-    const imgUrl = groups?.find((group) => !!group.imgUrl).imgUrl;
+    const imgUrl = groups?.find((group) => !!group.imgUrl)?.imgUrl;
 
     return (
       <HStack alignItems="center">
