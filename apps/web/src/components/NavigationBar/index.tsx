@@ -1,64 +1,104 @@
-import { css } from "@emotion/react";
-import { Avatar, Box, Flex } from "@radix-ui/themes";
+import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
+import UserProfileImage from "@arcave/components/common/UserProfileImage";
+import useKakaoLogin from "@arcave/hooks/useKakaoLogin";
+import useAPIUser from "@arcave/services/external/useAPIUser";
+import { PlusIcon } from "@heroicons/react/20/solid";
+import { Box, Flex } from "@radix-ui/themes";
+import Link from "next/link";
+import { useMemo } from "react";
+
+interface NavigationBarProps {
+  leftItems?: any;
+  rightItems?: any;
+  currentPath?: string;
+}
 
 export const NavigationBar = ({
-  leftItems,
   rightItems,
-  currentPath,
-  currentUser,
-}) => {
+  currentPath = "",
+  leftItems,
+}: NavigationBarProps) => {
+  const { onLogin } = useKakaoLogin();
+  const { loginUser } = useAPIUser();
+
+  const DEFAULT_LEFT_ITEMS = useMemo<any>(
+    () => ({
+      LOGO: (
+        <Link href={"/"}>
+          <ARCAVE_LOGO className="w-14 h-3 object-contain" />
+        </Link>
+      ),
+      "": <Link href="/">홈피드</Link>,
+      mycave: loginUser ? <Link href="/mycave">마이케이브</Link> : null,
+    }),
+    [loginUser],
+  );
+
+  const DEFAULT_RIGHT_ITEMS_NO_USER = useMemo<any>(
+    () => ({
+      LOGIN: (
+        <button
+          className="rounded-full h-[36px] bg-primary-default text-white text-14 px-4 cursor-pointer"
+          onClick={onLogin}
+        >
+          로그인
+        </button>
+      ),
+    }),
+    [onLogin],
+  );
+
+  if (!leftItems) {
+    leftItems = DEFAULT_LEFT_ITEMS;
+  }
+
+  const renderLeftItem = (items: any[]) => {
+    return Object.entries(items).map(([path, component]: any[]) => {
+      const isCurrentPath = currentPath === path;
+      return (
+        <li
+          key={path}
+          className={`${isCurrentPath ? "text-white" : "text-gray-600"}`}
+        >
+          {component}
+        </li>
+      );
+    });
+  };
+
+  const renderRightItem = (items: any[]) => {
+    return Object.entries(items).map(([key, component]) => {
+      return <li key={key}>{component}</li>;
+    });
+  };
+
   return (
     <Flex
-      className="h-14 w-full justify-between bg-gray-800 px-8 text-white"
+      className="h-14 w-full items-center bg-gray-800 px-8 text-white flex flex-row"
       align="center"
     >
-      <ul>
-        <Flex gap="4">
-          {leftItems &&
-            Object.entries(leftItems).map(([path, component]) => {
-              const isCurrentPath = currentPath === path;
-              return (
-                <li
-                  key={path}
-                  className={`${
-                    isCurrentPath ? "text-white" : "text-gray-600"
-                  }`}
-                >
-                  {component}
-                </li>
-              );
-            })}
-        </Flex>
+      <ul className="flex-1">
+        <Flex gap="4">{leftItems && renderLeftItem(leftItems)}</Flex>
       </ul>
       <Box>
         <Flex gap="4">
-          {currentUser ? (
-            <span>
-              <span
-                css={css`
-                  display: inline-block;
-                  margin-right: 20px;
-                `}
+          {loginUser !== undefined &&
+            (loginUser ? (
+              <Link
+                href="/myprofile"
+                className="flex flex-row items-center space-x-4 cursor-pointer"
               >
-                +
-              </span>
-              <Avatar
-                src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?&w=256&h=256&q=70&crop=focalpoint&fp-x=0.5&fp-y=0.3&fp-z=1&fit=crop"
-                fallback="A"
-                radius="full"
-                css={css`
-                  width: 36px;
-                  height: 36px;
-                  margin-right: 5px;
-                `}
-              />
-            </span>
-          ) : (
-            rightItems &&
-            Object.entries(rightItems).map(([key, component]) => {
-              return <li key={key}>{component}</li>;
-            })
-          )}
+                <PlusIcon className="w-4 h-4 text-white" />
+                <UserProfileImage
+                  containerClassName="w-9 h-9"
+                  src={loginUser.imgUrl}
+                />
+              </Link>
+            ) : rightItems ? (
+              renderRightItem(rightItems)
+            ) : (
+              renderRightItem(DEFAULT_RIGHT_ITEMS_NO_USER)
+            ))}
         </Flex>
       </Box>
     </Flex>

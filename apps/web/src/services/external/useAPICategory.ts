@@ -1,5 +1,5 @@
+import axiosInstance from "@arcave/services/requests";
 import { useEffect, useState } from "react";
-import axiosInstance from "src/services/requests";
 
 const useAPICategory = () => {
   const [categories, setCategories] = useState([]);

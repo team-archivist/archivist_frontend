@@ -23,7 +23,7 @@ export const SignupView = ({
   onSignup,
   validateNickName,
   chipList,
-}) => {
+}: any) => {
   // 사용자들이 선택한 chipList 상태값입니다
   const [chipListByActive, setChipListByActive] = useState([]);
   // 닉네임 상태값입니다
@@ -56,28 +56,30 @@ export const SignupView = ({
   };
 
   return (
-    <Form.Root className="w-[360px]">
-      <Text
-        as="p"
-        className="font-pretendard font-medium leading-body1-16 text-body1-16 text-primary-default"
-      >
-        {step}/2
-      </Text>
-      {/* step 에 따라, 하위 조건부 렌더링을 합니다 */}
-      {1 === step ? (
-        <SignupViewStep1
-          setNickName={setNickName}
-          setIsEnableNextStep={setIsEnableNextStep}
-          validateNickName={validateNickName}
-        />
-      ) : (
-        <SignupViewStep2
-          chipList={chipList}
-          chipListByActive={chipListByActive}
-          onClickByChip={onClickByChip}
-          setIsEnableNextStep={setIsEnableNextStep}
-        />
-      )}
+    <Form.Root className="w-full max-w-[360px] pt-12 space-y-12 mx-4">
+      <div className="flex flex-col space-y-1">
+        <Text
+          as="p"
+          className="font-pretendard font-medium leading-body1-16 text-body1-16 text-primary-default"
+        >
+          {step}/2
+        </Text>
+        {/* step 에 따라, 하위 조건부 렌더링을 합니다 */}
+        {1 === step ? (
+          <SignupViewStep1
+            setNickName={setNickName}
+            setIsEnableNextStep={setIsEnableNextStep}
+            validateNickName={validateNickName}
+          />
+        ) : (
+          <SignupViewStep2
+            chipList={chipList}
+            chipListByActive={chipListByActive}
+            onClickByChip={onClickByChip}
+            setIsEnableNextStep={setIsEnableNextStep}
+          />
+        )}
+      </div>
       <Form.Submit asChild>
         <button
           className="leading-label1-16 text-label1-16 text-center text-white rounded-3xl w-full h-[48px] mt-10 bg-primary-default disabled:bg-gray-100 disabled:text-text-disable"

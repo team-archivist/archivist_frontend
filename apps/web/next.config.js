@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+const PROXY_API = process.env.PROXY_API || "http://localhost:8080";
+
 const nextConfig = {
   reactStrictMode: false,
   productionBrowserSourceMaps: true,
@@ -8,25 +11,18 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/backend-api/:path*",
+        destination: `${PROXY_API}/:path*`,
+      },
+    ];
+  },
   /**
    * - next-js 에서 CORS 이슈를 해결하기 위해 Proxy 설정을 사용합니다
    */
   distDir: "dist",
-  async redirects() {
-    return [{ source: "/", destination: "/landing", permanent: true }];
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          { key: "Access-Control-Max-Age", value: "1728000" },
-          { key: "Access-Control-Allow-Headers", value: "Content-Type" },
-        ],
-      },
-    ];
-  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
@@ -34,6 +30,15 @@ const nextConfig = {
     });
 
     return config;
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8080",
+      },
+    ],
   },
 };
 

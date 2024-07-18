@@ -14,7 +14,7 @@ const useUploadImage = () => {
     setIsImageReady(true);
   };
 
-  const handleChangeFileInput = (event) => {
+  const handleChangeFileInput = (event: any) => {
     if (!event.target.files) {
       return;
     }

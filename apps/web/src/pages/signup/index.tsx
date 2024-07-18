@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
@@ -29,7 +29,7 @@ enum NavigationBarRightItem {
 /**
  * - 회원가입 관련 페이지입니다
  */
-const SignupPage = (props) => {
+const SignupPage = (props: any) => {
   // FIXME 회원가입 화면에서 유저 정보 조회 API가 필요한가..
   // const { currentUser } = useCurrentUser();
   const [_, currentPath] = usePathname();
@@ -71,23 +71,18 @@ const SignupPage = (props) => {
   // ( 회원가입 프로세스 )
   const signupProcess = {
     /** 가입하기 클릭시 */
-    async onSignup({ nickName, chipListByActive }) {
+    async onSignup({ nickName, chipListByActive }: any) {
       const param = {
         email: userEmail,
         nickname: nickName,
         categories: chipListByActive,
       };
       try {
-        const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
-        const res = await axiosInstance.post(`/api/user`, param, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
-          },
-        });
+        const { data } = await axiosInstance.post(`/api/user`, param);
+        deleteCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_EMAIL);
+        setCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_ID, data.userId);
         setOpenBySignupEnd(true);
-      } catch (e) {
+      } catch (e: any) {
         console.log("<error>", e);
         const errorData = e.response?.data;
         // 이미 등록된 회원인 경우
@@ -140,7 +135,7 @@ const SignupPage = (props) => {
           ),
         }}
       />
-      <SignupLayout justify="center" className="mt-2">
+      <SignupLayout justify="center" className="">
         <SignupView
           step={signupStep}
           chipList={categories}
