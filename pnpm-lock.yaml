@@ -80,9 +80,6 @@ importers:
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0(typescript@5.3.3)
-      '@types/mixpanel-browser':
-        specifier: ^2.49.1
-        version: 2.49.1
       antd:
         specifier: ^5.17.3
         version: 5.17.3(react-dom@18.2.0)(react@18.2.0)
@@ -183,6 +180,9 @@ importers:
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.7(tailwindcss@3.4.1)
+      '@types/mixpanel-browser':
+        specifier: ^2.49.1
+        version: 2.49.1
       '@types/node':
         specifier: ^20.10.6
         version: 20.10.6
@@ -5748,7 +5748,7 @@ packages:
 
   /@types/mixpanel-browser@2.49.1:
     resolution: {integrity: sha512-W9VZxD7haNMenkRwXxPZBJLhED7Sx1l89nZsGcWi3WzdIk417k/KnpmfDFn2sEyL31G/h0rY1E6erAny+8ItOw==}
-    dev: false
+    dev: true
 
   /@types/ms@0.7.34:
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
