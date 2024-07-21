@@ -7,6 +7,7 @@ export type LinkModel = {
   linkDesc?: string;
   imgUrl?: string;
   linkImgFile?: string;
+  groupId?: string;
 };
 
 const LinkModalAtom = atom<LinkModel | undefined>(undefined);

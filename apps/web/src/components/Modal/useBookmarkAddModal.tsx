@@ -60,7 +60,7 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
   const handleClickNext = () => {
     const linkUrl = getValues("linkUrl");
     setLinkDTO((prevDTO) => ({ ...prevDTO, linkUrl: linkUrl }));
-    detailModal.show();
+    detailModal.show(undefined, "CREATE");
     handleModalClose();
   };
 

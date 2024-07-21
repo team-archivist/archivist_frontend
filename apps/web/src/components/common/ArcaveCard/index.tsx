@@ -25,7 +25,14 @@ type Props = {
 const withStopPropagation = (callback) => {
   return (event: React.MouseEvent) => {
     event.stopPropagation();
-    callback();
+    callback(event);
+  };
+};
+
+const withPreventDefault = (callback) => {
+  return (event: React.MouseEvent) => {
+    event.preventDefault();
+    callback(event);
   };
 };
 
@@ -81,8 +88,7 @@ export const ArcaveCard = ({
             background-color: ${PaletteColor.Gray[300]};
             ${imgSrc &&
             css`
-              background-image: url(${process.env
-                .NEXT_PUBLIC_API_URL}${imgSrc});
+              background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
               background-size: cover;
               background-repeat: no-repeat;
               background-position: center;
@@ -100,7 +106,7 @@ export const ArcaveCard = ({
                   background-color: ${PaletteColor.Gray[200]};
                   cursor: pointer;
                 `}
-                onClick={withStopPropagation(onClickModify)}
+                onClick={withPreventDefault(withStopPropagation(onClickModify))}
               >
                 <PencilIcon />
               </Button>

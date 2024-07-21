@@ -11,7 +11,6 @@ import ACModal from "@arcave/components/common/Modal";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";
 import Select from "@arcave/components/Select";
-import { GROUP_VALUE } from "@arcave/components/Select/types";
 import { BookmarkTab } from "@arcave/pages/mycave";
 import useAPILink from "@arcave/services/external/useAPILink";
 import useAPIScrape from "@arcave/services/internal/useAPIScrape";
@@ -24,6 +23,7 @@ import useUploadImage from "./common/useUploadImage";
 import Input from "../common/Input";
 import ACSkeleton from "../common/Skeleton";
 import TextArea from "../common/TextArea";
+import { GROUP_VALUE } from "../Select/types";
 
 const schema = z
   .object({
@@ -42,9 +42,9 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
 
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const [isFetched, setIsFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<"CREATE" | "MODIFY">();
 
   const [, setBookmarkTabValue] = useAtom(BookmarkTabAtom);
 
@@ -57,6 +57,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     resetUploadField,
     isImageReady,
   } = useUploadImage();
+
   const { executePost: executePostLink, executePatch: executePatchLink } =
     useAPILink({
       linkDto: linkDto as LinkModel,
@@ -89,8 +90,8 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     resetUploadField();
     resetFormState();
     setLinkDto({});
+    setMode(undefined);
     setIsLoading(false);
-    setIsFetched(false);
   };
 
   const handleClickUploadPanel = () => {
@@ -98,9 +99,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   };
 
   const submit = async () => {
+    const isModify = !!linkDto?.linkId;
     try {
-      if (!!linkDto?.linkId) {
-        await executePatchLink(linkDto);
+      if (isModify) {
+        await executePatchLink({ ...linkDto, ...getValues() });
+        message.success("링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!");
+        handleModalClose();
         return;
       }
 
@@ -119,19 +123,24 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     handleOpenGroupAddModal();
   };
 
-  const handleShow = (params) => {
+  const handleShow = (params, mode: "CREATE" | "MODIFY") => {
     if (params) {
-      const { linkId, linkName, linkDesc, groupId, linkUrl } = params;
+      const { linkId, linkName, linkDesc, groupList, linkUrl, imgUrl } = params;
       setLinkDto({
         linkId,
         linkName,
         linkDesc,
         linkUrl,
-        ...(groupId ? { groupId } : {}),
+        // TODO: groupList가 복수로 내려오는 경우 처리 여부 결정 필요
+        groupId: groupList?.[0] ?? GROUP_VALUE.DEFAULT,
+        // TODO: 이미지영역 오류 체크 필요.
+        ...(imgUrl
+          ? { imgUrl: `${process.env.NEXT_PUBLIC_IMAGE_HOST}${imgUrl}` }
+          : {}),
       });
     }
     handleChangeOpen(true);
-    // setIsFetched(true);
+    setMode(mode);
   };
 
   const handleModalClose = () => {
@@ -140,19 +149,39 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
   };
 
   useEffect(() => {
+    if (!mode) {
+      return;
+    }
+
     (async () => {
+      if (mode === "MODIFY") {
+        setValue("linkName", linkDto?.linkName, { shouldValidate: true });
+        setValue("linkDesc", linkDto?.linkDesc, { shouldValidate: true });
+        if (linkDto.imgUrl) {
+          handleChangePreviewImageUrl(linkDto.imgUrl);
+        }
+        setIsLoading(false);
+        return;
+      }
+
       if (!!linkDto?.linkUrl) {
         try {
           setIsLoading(true);
           const { title, ogDescription, ogImage } = await executeFetchScrape();
-          setLinkDto({ ...linkDto, linkName: title, linkDesc: ogDescription });
+
+          // TODO: 이 분리성을 어떻게 해결해야 하지..
+          setLinkDto({
+            ...linkDto,
+            linkName: title,
+            linkDesc: ogDescription,
+            groupId: GROUP_VALUE.DEFAULT,
+          });
           setValue("linkName", title, { shouldValidate: true });
           setValue("linkDesc", ogDescription, { shouldValidate: true });
           if (ogImage) {
             handleChangePreviewImageUrl(ogImage);
           }
 
-          setIsFetched(true);
           setIsLoading(false);
         } catch (e) {
           window.alert("해당 링크의 메타정보를 가져올 수 없습니다");
@@ -160,7 +189,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         }
       }
     })();
-  }, [linkDto?.linkUrl]);
+  }, [mode, linkDto?.linkUrl]);
 
   return {
     show: handleShow,
@@ -228,9 +257,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       onChange={(value: string): void => {
                         setLinkDto((prevLinkDto) => ({
                           ...prevLinkDto,
-                          ...(value !== GROUP_VALUE.UNDESIGNATED && {
-                            groupId: value,
-                          }),
+                          groupId: value,
                         }));
                       }}
                     />
@@ -288,153 +315,6 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         )}
       </ACModal>
     ),
-    // render: isFetched
-    //   ? () => (
-    //       <>
-    //         <Dialog.Root open={open} onOpenChange={handleChangeOpen}>
-    //           <Dialog.Content style={{ maxWidth: 450 }}>
-    //             <Dialog.Title>링크 담기</Dialog.Title>
-    //             <Form.Root className="FormRoot">
-    //               <VStack gap="6">
-    //                 {previewImageUrl ? (
-    //                   <img
-    //                     ref={imgRef}
-    //                     src={previewImageUrl}
-    //                     onClick={handleClickUploadPanel}
-    //                     onError={resetUploadField}
-    //                   />
-    //                 ) : (
-    //                   <Box
-    //                     width={"100%"}
-    //                     className="h-52 rounded-lg"
-    //                     css={css`
-    //                       background-color: ${PaletteColor.Gray[300]};
-    //                       :hover {
-    //                         cursor: pointer;
-    //                       }
-    //                     `}
-    //                     onClick={handleClickUploadPanel}
-    //                   />
-    //                 )}
-    //                 <input
-    //                   ref={fileInputRef}
-    //                   type="file"
-    //                   accept="image/gif,image/jpeg,image/jpg,image/png"
-    //                   name="linkImgFile"
-    //                   hidden
-    //                   onChange={handleChangeFileInput}
-    //                 />
-    //                 <VStack gap="4">
-    //                   <Flex direction="column" gap="3">
-    //                     <HStack justify={"space-between"}>
-    //                       <Text>그룹</Text>
-    //                       <Text
-    //                         onClick={handleClickAddGroup}
-    //                         css={css`
-    //                           cursor: pointer;
-    //                         `}
-    //                       >
-    //                         그룹 추가하기 {">"}
-    //                       </Text>
-    //                     </HStack>
-    //                     <Form.Field className="FormField" name="group">
-    //                       <ACSelect // FIXME: rhf으로 전환 예정
-    //                         onChange={(value: string): void => {
-    //                           setLinkDto((prevLinkDto) => ({
-    //                             ...prevLinkDto,
-    //                             ...(value !== GROUP_VALUE.UNDESIGNATED && {
-    //                               groupId: value,
-    //                             }),
-    //                             // groupId: [
-    //                             //   ...(value !== GROUP_VALUE.UNDESIGNATED
-    //                             //     ? [value]
-    //                             //     : []),
-    //                             // ],
-    //                           }));
-    //                         }}
-    //                       />
-    //                     </Form.Field>
-    //                   </Flex>
-    //                   <Flex direction="column" gap="3">
-    //                     <Text>링크 이름</Text>
-    //                     {/* linkDto.linkName */}
-    //                     <TextField.Input
-    //                       size="3"
-    //                       placeholder="링크 이름을 입력해주세요"
-    //                       {...register("linkName")}
-    //                     />
-    //                     {errors.linkName && (
-    //                       <Text
-    //                         css={css`
-    //                           font-size: 14px;
-    //                           color: ${SemanticColor.Status.Alert};
-    //                         `}
-    //                       >
-    //                         {errors.linkName.message as string}
-    //                       </Text>
-    //                     )}
-    //                   </Flex>
-    //                   <Flex direction="column" gap="3">
-    //                     <Text>링크 설명</Text>
-    //                     {/* linkDto.linkDesc */}
-    //                     <TextArea
-    //                       size="3"
-    //                       placeholder="링크 설명을 입력해주세요"
-    //                       {...register("linkDesc")}
-    //                     />
-    //                     {errors.linkDesc && (
-    //                       <Text
-    //                         css={css`
-    //                           font-size: 14px;
-    //                           color: ${SemanticColor.Status.Alert};
-    //                         `}
-    //                       >
-    //                         {errors.linkDesc.message as string}
-    //                       </Text>
-    //                     )}
-    //                     <Text
-    //                       css={css`
-    //                         font-size: 14px;
-    //                       `}
-    //                       align={"right"}
-    //                     >
-    //                       {watchLinkDesc?.length ?? 0}/400
-    //                     </Text>
-    //                   </Flex>
-    //                 </VStack>
-    //               </VStack>
-    //             </Form.Root>
-    //             <Flex gap="3" mt="4" justify="end">
-    //               <Dialog.Close>
-    //                 <Button
-    //                   size={"2"}
-    //                   className="w-fit"
-    //                   onClick={resetModal}
-    //                   backgroundColor={PaletteColor.Gray[200]}
-    //                 >
-    //                   취소
-    //                 </Button>
-    //               </Dialog.Close>
-    //               <Dialog.Close>
-    //                 <Button
-    //                   size={"2"}
-    //                   className="w-fit"
-    //                   onClick={handleSubmit(submit)}
-    //                   backgroundColor={
-    //                     isValid
-    //                       ? SemanticColor.Primary.Default
-    //                       : PaletteColor.Gray[200]
-    //                   }
-    //                 >
-    //                   확인
-    //                 </Button>
-    //               </Dialog.Close>
-    //             </Flex>
-    //           </Dialog.Content>
-    //         </Dialog.Root>
-    //       </>
-    //     )
-    //   : () => <></>,
   };
 };
 
