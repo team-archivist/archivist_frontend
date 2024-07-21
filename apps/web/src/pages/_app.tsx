@@ -14,12 +14,23 @@ import { AppProps } from "next/app";
 import { SemanticColor } from "@arcave/utils/color";
 
 import UserLayout from "../layout/userLayout";
+import { useEffect } from "react";
+import mixpanelBrowser from "mixpanel-browser";
 
 const theme: ThemeConfig = {
   token: { colorPrimary: SemanticColor.Primary.Default },
 };
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
+  // NOTE: 레퍼런스 - https://docs.mixpanel.com/docs/quickstart/install-mixpanel
+  useEffect(() => {
+    mixpanelBrowser.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN, {
+      debug: true,
+      track_pageview: true,
+      persistence: "localStorage",
+    });
+  }, []);
+
   return (
     <Theme style={{ height: "100vh" }}>
       <UserLayout>
