@@ -91,16 +91,19 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
           `}
         >
           {links?.map(
-            ({ linkId, linkUrl, linkName, linkDesc, imgUrl, groupId }) => {
+            ({ linkId, linkUrl, linkName, linkDesc, imgUrl, groupList }) => {
               const handleClickModify = () => {
-                linkDetailModal.show({
-                  linkId,
-                  linkUrl,
-                  linkName,
-                  linkDesc,
-                  groupId,
-                  // imgUrl,
-                });
+                linkDetailModal.show(
+                  {
+                    linkId,
+                    linkUrl,
+                    linkName,
+                    linkDesc,
+                    groupList,
+                    imgUrl,
+                  },
+                  "MODIFY",
+                );
               };
 
               return (

@@ -1,3 +1,4 @@
 export enum GROUP_VALUE {
   UNDESIGNATED = "UNDESIGNATED",
+  DEFAULT = "1",
 }

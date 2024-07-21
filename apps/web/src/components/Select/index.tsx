@@ -17,11 +17,10 @@ type Props = {
 const Select = ({ onChange }: Props) => {
   const { groups } = useAPIGroup();
   const [selectedValue, setSelectedValue] = useState<string>(
-    GROUP_VALUE.UNDESIGNATED,
+    GROUP_VALUE.DEFAULT,
   );
 
   const options = [
-    { value: GROUP_VALUE.UNDESIGNATED, label: "그룹 미지정" },
     ...(groups?.map((group) => ({
       value: group?.groupId.toString(),
       label: group?.groupName,
