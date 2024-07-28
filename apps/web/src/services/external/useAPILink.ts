@@ -33,7 +33,7 @@ const useAPILink = ({
     }
 
     if (!fileImageBlob && imgElement) {
-      const response = await axiosInstance.post(`/client-api/scrape/image`, {
+      const response = await axiosInstance.post(`/client/api/metainfo/image`, {
         src: imgElement.src,
       });
 

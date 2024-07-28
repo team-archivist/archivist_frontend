@@ -28,6 +28,13 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
   }
 
+  if (config.url?.startsWith("/client")) {
+    config.baseURL = `/`;
+    config.url = config.url.replace("/client", "");
+
+    return config;
+  }
+
   if (config.url?.startsWith("/client-api")) {
     config.baseURL = `/`;
     config.url = config.url.replace("/client-api", "");

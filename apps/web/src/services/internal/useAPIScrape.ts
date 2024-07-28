@@ -2,7 +2,7 @@ import axiosInstance from "../requests";
 
 const useAPIScrape = (linkUrl?: string) => {
   const executeFetch = async () => {
-    const response = await axiosInstance.post(`/client-api/scrape`, {
+    const response = await axiosInstance.post(`/client/api/metainfo`, {
       linkUrl,
     });
     return { ...response.data };
