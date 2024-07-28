@@ -11,13 +11,19 @@ const useHomeFeed = () => {
   const [middleLinks, setMiddleLinks] = useState<any[]>([]);
   const [bottomLinks, setBottomLinks] = useState<any[]>([]);
 
+  const [allLinks, setAllLinks] = useState<any[]>([]);
+
   useEffect(() => {
     (async () => {
-      const [{ data: groupSections }, { data: linkSections }] =
-        await Promise.all([
-          axiosInstance.get("/api/home-GROUP"),
-          axiosInstance.get("/api/home-LINK"),
-        ]);
+      const [
+        { data: groupSections },
+        { data: linkSections },
+        { data: allLinks },
+      ] = await Promise.all([
+        axiosInstance.get("/api/home-GROUP"),
+        axiosInstance.get("/api/home-LINK"),
+        axiosInstance.get("/api/links"),
+      ]);
 
       groupSections.forEach((groupSection: any) => {
         if (groupSection.section === "TOP") {
@@ -37,6 +43,8 @@ const useHomeFeed = () => {
           setBottomLinks((prev) => [...prev, linkSection.data]);
         }
       });
+
+      setAllLinks(allLinks);
     })();
   }, []);
 
@@ -47,6 +55,7 @@ const useHomeFeed = () => {
     topLinks,
     middleLinks,
     bottomLinks,
+    allLinks,
   };
 };
 
