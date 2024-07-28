@@ -5,9 +5,9 @@
   "scripts": {
     "build": "next build",
     "dev-origin": "next dev --port 5220",
-    "dev": "node server.ts",
+    "dev": "next dev --port 5220",
     "lint": "eslint  --ext .ts,.tsx",
-    "start": "NODE_ENV=production node server.ts",
+    "start": "NODE_ENV=production next start",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "serve-storybook": "pnpm dlx serve storybook-static"
