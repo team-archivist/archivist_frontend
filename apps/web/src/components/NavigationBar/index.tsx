@@ -5,19 +5,20 @@ import useAPIUser from "@arcave/services/external/useAPIUser";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { Box, Flex } from "@radix-ui/themes";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
 
 interface NavigationBarProps {
   leftItems?: any;
   rightItems?: any;
-  currentPath?: string;
 }
 
 export const NavigationBar = ({
   rightItems,
-  currentPath = "",
   leftItems,
 }: NavigationBarProps) => {
+  const router = useRouter();
+  const currentPath = router.pathname;
   const { onLogin } = useKakaoLogin();
   const { loginUser } = useAPIUser();
 
@@ -28,8 +29,8 @@ export const NavigationBar = ({
           <ARCAVE_LOGO className="w-14 h-3 object-contain" />
         </Link>
       ),
-      "": <Link href="/">홈피드</Link>,
-      mycave: loginUser ? <Link href="/mycave">마이케이브</Link> : null,
+      "/feed": <Link href="/feed">홈피드</Link>,
+      "/mycave": loginUser ? <Link href="/mycave">마이케이브</Link> : null,
     }),
     [loginUser],
   );

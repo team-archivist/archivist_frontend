@@ -109,7 +109,6 @@ const SignupPage = (props: any) => {
   return (
     <>
       <NavigationBar
-        currentPath={currentPath}
         leftItems={{
           [NavigationBarLeftItem.LOGO]: (
             <Link

@@ -106,7 +106,6 @@ const UserGroupDetailPage = () => {
   return (
     <>
       <NavigationBar
-        currentPath={"mycave"}
         leftItems={{
           [NavigationBarLeftItem.LOGO]: (
             <Link
