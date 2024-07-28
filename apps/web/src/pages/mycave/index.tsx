@@ -57,39 +57,7 @@ const MycavePage = () => {
 
   return (
     <>
-      <NavigationBar
-        currentPath={currentPathname.slice(1)}
-        leftItems={{
-          [NavigationBarLeftItem.LOGO]: (
-            <Link
-              href={"/feed"}
-              css={css`
-                display: flex;
-                align-items: center;
-                height: 100%;
-              `}
-            >
-              <ARCAVE_LOGO />
-            </Link>
-          ),
-          [NavigationBarLeftItem.FEED]: <Link href={"/feed"}>홈피드</Link>,
-          [NavigationBarLeftItem.MYCAVE]: (
-            <Link href={"/mycave"}>마이케이브</Link>
-          ),
-        }}
-        currentUser={currentUser}
-        rightItems={{
-          [NavigationBarRightItem.Login]: (
-            <Button
-              size={"2"}
-              className="w-fit"
-              onClick={() => router.push("/")}
-            >
-              로그인
-            </Button>
-          ),
-        }}
-      />
+      <NavigationBar />
       <BookmarkLayout>
         <Flex gap="4" className="my-8">
           <Avatar

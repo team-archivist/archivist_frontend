@@ -15,8 +15,11 @@ const validateSignup = ({
   validateNickName,
 }: any) => {
   return {
-    async matchNickname(inputValue: string, formData: FormData) {
+    async matchNickname(inputValue: string) {
       let isValid = false;
+
+      statusByValidate.nickNameLength = inputValue.length;
+
       // 글이 없을시
       if (0 === inputValue.length) {
         setStatusByValidate({
@@ -55,29 +58,21 @@ const validateSignup = ({
       }
       // 외부에서 nickName 체크를 합니다
       if (CommonUtils.isFunction(validateNickName)) {
-        const nickNameValid = await validateNickName(inputValue);
-
-        isValid = !nickNameValid?.isValid;
-        setStatusByValidate({
-          ...statusByValidate,
-          className: SIGNUP_CONSTANTS.VALIDATE.NICKNAME_BLANK.CLASS_NAME,
-          message: nickNameValid?.message || "",
-        });
+        const nickNameValid = await (validateNickName as any)?.(inputValue);
+        if (nickNameValid) {
+          isValid = nickNameValid?.isValid;
+          setStatusByValidate({
+            ...statusByValidate,
+            className: SIGNUP_CONSTANTS.VALIDATE.NICKNAME_BLANK.CLASS_NAME,
+            message: nickNameValid?.message || "",
+          });
+        }
       }
 
       // 다음단계로 넘어갈 수 있다는 사항을 전달합니다
       setIsEnableNextStep(!isValid);
-
       setNickName(inputValue);
-
       return isValid;
-    },
-    /** nickName 이 변경될때마다 호출됩니다 */
-    onChangeByNickname(e) {
-      setStatusByValidate({
-        ...statusByValidate,
-        nickNameLength: e.target.value?.length || 0,
-      });
     },
   };
 };
@@ -134,11 +129,17 @@ export const SignupViewStep1 = ({
             {statusByValidate.message}
           </Form.Message>
         </div>
-        <Form.Control asChild onChange={signupValidation.onChangeByNickname}>
+        <Form.Control
+          asChild
+          onChange={(e) => {
+            signupValidation.matchNickname(e.target.value);
+          }}
+        >
           <input
             className="border border-solid border-gray-500 leading-label1-16 text-label1-16 placeholder-text-alternative text-text-normal rounded-lg indent-3 h-[48px] w-full"
             placeholder="닉네임을 입력해주세요."
             required
+            maxLength={8}
           />
         </Form.Control>
       </Form.Field>

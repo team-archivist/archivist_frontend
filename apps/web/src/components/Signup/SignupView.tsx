@@ -56,7 +56,7 @@ export const SignupView = ({
   };
 
   return (
-    <Form.Root className="w-full max-w-[360px] pt-12 space-y-12 mx-4">
+    <Form.Root className="w-full max-w-[360px] py-12 space-y-12 mx-4">
       <div className="flex flex-col space-y-1">
         <Text
           as="p"
@@ -82,7 +82,7 @@ export const SignupView = ({
       </div>
       <Form.Submit asChild>
         <button
-          className="leading-label1-16 text-label1-16 text-center text-white rounded-3xl w-full h-[48px] mt-10 bg-primary-default disabled:bg-gray-100 disabled:text-text-disable"
+          className="leading-label1-16 text-label1-16 text-center text-white rounded-3xl w-full h-[48px] mt-10 bg-primary-default disabled:bg-gray-100 disabled:text-text-disable cursor-pointer disabled:cursor-auto"
           disabled={!isEnableNextStep}
           onClick={onClickByNext}
         >

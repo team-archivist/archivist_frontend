@@ -102,17 +102,13 @@ const SignupPage = (props: any) => {
      * - nickName validate 체크시
      */
     async onValidateNickname(inputValue: string) {
-      return {
-        message: "이미 등록된 닉네임입니다",
-        isValid: !nicknamesBySaved.includes(inputValue),
-      };
+      return null;
     },
   };
 
   return (
     <>
       <NavigationBar
-        currentPath={currentPath}
         leftItems={{
           [NavigationBarLeftItem.LOGO]: (
             <Link

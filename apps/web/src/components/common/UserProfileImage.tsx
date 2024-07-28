@@ -38,6 +38,7 @@ export default function UserProfileImage({
         className={twMerge("object-cover", className)}
         alt="profile image"
         src={resolvedSrc}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         {...(props as any)}
       />
     </div>

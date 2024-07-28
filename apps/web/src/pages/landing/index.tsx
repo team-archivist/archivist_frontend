@@ -35,7 +35,13 @@ const LandingPage = () => {
         </div>
 
         <div className="object-contain xl:w-[572px] xl:h-[630px] relative aspect-[572/630] w-full max-w-[480px] xl:max-w-none">
-          <Image src={LandingImage} alt="landing" fill className="" />
+          <Image
+            src={LandingImage}
+            alt="landing"
+            fill
+            className=""
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         </div>
       </div>
     </>
