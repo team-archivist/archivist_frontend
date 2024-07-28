@@ -82,7 +82,7 @@ export const SignupView = ({
       </div>
       <Form.Submit asChild>
         <button
-          className="leading-label1-16 text-label1-16 text-center text-white rounded-3xl w-full h-[48px] mt-10 bg-primary-default disabled:bg-gray-100 disabled:text-text-disable"
+          className="leading-label1-16 text-label1-16 text-center text-white rounded-3xl w-full h-[48px] mt-10 bg-primary-default disabled:bg-gray-100 disabled:text-text-disable cursor-pointer disabled:cursor-auto"
           disabled={!isEnableNextStep}
           onClick={onClickByNext}
         >
