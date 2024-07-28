@@ -53,7 +53,9 @@ export const ArcaveCard = ({
     setIsHovered(false);
   };
 
-  const handleClickCard = () => {
+  const handleClickCard = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!url) {
       return;
     }
@@ -88,7 +90,8 @@ export const ArcaveCard = ({
             background-color: ${PaletteColor.Gray[300]};
             ${imgSrc &&
             css`
-              background-image: url(${process.env.NEXT_PUBLIC_API_URL}${imgSrc});
+              background-image: url(${process.env
+                .NEXT_PUBLIC_API_URL}${imgSrc});
               background-size: cover;
               background-repeat: no-repeat;
               background-position: center;
