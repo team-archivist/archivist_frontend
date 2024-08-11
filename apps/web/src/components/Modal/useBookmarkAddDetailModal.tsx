@@ -211,9 +211,10 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         ) : (
           <FormProvider {...formMethods}>
             <form>
-              <VStack spacing={8}>
+              <VStack spacing={24}>
                 {previewImageUrl ? (
                   <img
+                    className="w-full h-auto aspect-[3/2] rounded-[8px] object-cover cursor-pointer"
                     ref={imgRef}
                     src={previewImageUrl}
                     onClick={handleClickUploadPanel}
@@ -221,8 +222,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                   />
                 ) : (
                   <Box
-                    width={"100%"}
-                    className="h-52 rounded-lg"
+                    className="w-full h-auto aspect-[3/2] rounded-[8px] object-cover cursor-pointer"
                     css={css`
                       background-color: ${PaletteColor.Gray[300]};
                       :hover {
@@ -241,17 +241,9 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                   onChange={handleChangeFileInput}
                 />
                 <VStack spacing={16}>
-                  <VStack>
+                  <VStack spacing={8}>
                     <HStack spacing={12} justify="space-between">
                       <label css={Typography.Label2[14].Regular}>그룹</label>
-                      <Text
-                        onClick={handleClickAddGroup}
-                        css={css`
-                          cursor: pointer;
-                        `}
-                      >
-                        그룹 추가하기 {">"}
-                      </Text>
                     </HStack>
                     <Select // FIXME: rhf으로 전환 예정
                       onChange={(value: string): void => {
@@ -262,8 +254,13 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       }}
                     />
                   </VStack>
-                  <VStack spacing={12}>
-                    <label css={Typography.Label2[14].Regular}>링크 이름</label>
+                  <VStack spacing={8}>
+                    <label css={Typography.Label2[14].Regular}>
+                      <span className="text-accent-red text-[14px] font-normal mr-[2px]">
+                        *
+                      </span>
+                      링크 이름
+                    </label>
                     {/* linkDto.linkName */}
                     <Input
                       size="large"
@@ -281,7 +278,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       </Text>
                     )}
                   </VStack>
-                  <VStack spacing={12}>
+                  <VStack spacing={8}>
                     <label css={Typography.Label2[14].Regular}>링크 설명</label>
                     {/* linkDto.linkDesc */}
                     <TextArea

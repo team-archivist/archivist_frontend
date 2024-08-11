@@ -42,6 +42,7 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
   const formMethods = useForm({
     mode: "all",
     resolver: zodResolver(schema),
+    values: { linkUrl: "https://www.naver.com" },
   });
 
   const {
