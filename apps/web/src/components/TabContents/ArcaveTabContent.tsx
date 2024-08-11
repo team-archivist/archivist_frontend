@@ -42,6 +42,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
 
   const linkDetailModal = useBookmarkAddDetailModal({
     handleOpenGroupAddModal,
+    groupList: groups,
   });
 
   const findGroupName = (linkId) => {

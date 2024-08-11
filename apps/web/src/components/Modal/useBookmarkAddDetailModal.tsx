@@ -23,7 +23,7 @@ import useUploadImage from "./common/useUploadImage";
 import Input from "../common/Input";
 import ACSkeleton from "../common/Skeleton";
 import TextArea from "../common/TextArea";
-import { GROUP_VALUE } from "../Select/types";
+import useAPIGroup from "@arcave/services/external/useAPIGroup";
 
 const schema = z
   .object({
@@ -37,8 +37,9 @@ const schema = z
   })
   .required();
 
-const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
+const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }: any) => {
   const [linkDto, setLinkDto] = useAtom(LinkModalAtom);
+  const { groups } = useAPIGroup();
 
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -132,7 +133,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         linkDesc,
         linkUrl,
         // TODO: groupList가 복수로 내려오는 경우 처리 여부 결정 필요
-        groupId: groupList?.[0] ?? GROUP_VALUE.DEFAULT,
+        groupId: groupList?.[0]?.groupId,
         // TODO: 이미지영역 오류 체크 필요.
         ...(imgUrl
           ? { imgUrl: `${process.env.NEXT_PUBLIC_IMAGE_HOST}${imgUrl}` }
@@ -157,7 +158,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
       if (mode === "MODIFY") {
         setValue("linkName", linkDto?.linkName, { shouldValidate: true });
         setValue("linkDesc", linkDto?.linkDesc, { shouldValidate: true });
-        if (linkDto.imgUrl) {
+        if (linkDto?.imgUrl) {
           handleChangePreviewImageUrl(linkDto.imgUrl);
         }
         setIsLoading(false);
@@ -174,7 +175,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
             ...linkDto,
             linkName: title,
             linkDesc: ogDescription,
-            groupId: GROUP_VALUE.DEFAULT,
+            groupId: groups?.[0]?.groupId,
           });
           setValue("linkName", title, { shouldValidate: true });
           setValue("linkDesc", ogDescription, { shouldValidate: true });
@@ -189,7 +190,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         }
       }
     })();
-  }, [mode, linkDto?.linkUrl]);
+  }, [mode, linkDto?.linkUrl, groups]);
 
   return {
     show: handleShow,
@@ -246,6 +247,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       <label css={Typography.Label2[14].Regular}>그룹</label>
                     </HStack>
                     <Select // FIXME: rhf으로 전환 예정
+                      value={`${linkDto?.groupId}`}
                       onChange={(value: string): void => {
                         setLinkDto((prevLinkDto) => ({
                           ...prevLinkDto,
