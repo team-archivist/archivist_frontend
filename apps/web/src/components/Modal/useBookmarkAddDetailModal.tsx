@@ -141,7 +141,7 @@ const useBookmarkAddDetailModal = ({
         linkDesc,
         linkUrl,
         // TODO: groupList가 복수로 내려오는 경우 처리 여부 결정 필요
-        groupId: groupList?.[0]?.groupId,
+        groupId: groupList?.[0],
         // TODO: 이미지영역 오류 체크 필요.
         ...(imgUrl
           ? { imgUrl: `${process.env.NEXT_PUBLIC_IMAGE_HOST}${imgUrl}` }
