@@ -76,9 +76,13 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
           </Text>
           개의 링크
         </div>
-        <Tooltip text={"링크를 추가해보세요"} placement="bottom">
-          <Button size={"2"} className="w-fit" onClick={bookmarkAddModal.show}>
-            링크 담기 {<PlusIcon />}
+        <Tooltip text={"링크를 추가해보세요"} placement="bottom" open>
+          <Button
+            className="w-fit flex flex-row items-center space-x-1"
+            onClick={bookmarkAddModal.show}
+          >
+            <span>링크 담기</span>
+            <PlusIcon />
           </Button>
         </Tooltip>
       </HStack>
