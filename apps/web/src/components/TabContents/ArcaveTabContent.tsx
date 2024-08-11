@@ -17,6 +17,7 @@ import { SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
 
 import ACSkeleton from "../common/Skeleton";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   currentUser: any; // 현재 user 정보
@@ -95,12 +96,10 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
         </Tooltip>
       </HStack>
       {hasLink ? (
-        <HStack
-          spacing={20}
-          className={"flex-wrap"}
-          css={css`
-            width: 1224px;
-          `}
+        <div
+          className={twMerge(
+            "gap-x-6 gap-y-8 grid 2xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 pb-[112px]",
+          )}
         >
           {links?.map(
             ({ linkId, linkUrl, linkName, linkDesc, imgUrl, groupList }) => {
@@ -121,6 +120,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
               return (
                 linkUrl && (
                   <ArcaveCard
+                    className="!w-auto"
                     key={linkId}
                     title={linkName}
                     description={linkDesc}
@@ -133,7 +133,7 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
               );
             },
           )}
-        </HStack>
+        </div>
       ) : (
         <VStack
           width={"100%"}

@@ -12,8 +12,10 @@ import { Typography } from "@arcave/utils/typography";
 import HoverCard from "./HoverCard";
 import HStack from "../Stack/HStack";
 import VStack from "../Stack/VStack";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
+  className?: string;
   title?: string;
   description?: string;
   groupTitle?: string | string[];
@@ -42,6 +44,7 @@ export const ArcaveCard = ({
   groupTitle,
   url,
   imgSrc,
+  className,
   onClickModify,
 }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -78,14 +81,14 @@ export const ArcaveCard = ({
     <VStack
       spacing={16}
       onClick={handleClickCard}
-      className="w-72"
+      className={twMerge("w-72 relative", className)}
       css={css`
         cursor: pointer;
       `}
     >
       <Link href={url}>
         <Box
-          className="flex h-52 w-72 items-end justify-end rounded-lg"
+          className="flex w-full aspect-[72/52] items-end justify-end rounded-lg"
           css={css`
             background-color: ${PaletteColor.Gray[300]};
             ${imgSrc &&
