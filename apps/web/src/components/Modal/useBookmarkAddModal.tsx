@@ -35,7 +35,7 @@ type Props = {
   handleOpenGroupAddModal: () => void;
 };
 
-const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
+const useBookmarkAddModal = ({ handleOpenGroupAddModal, onSubmit }: Props) => {
   const [, setLinkDTO] = useAtom(LinkModalAtom);
   const [open, setOpen] = useState(false);
 
@@ -52,7 +52,10 @@ const useBookmarkAddModal = ({ handleOpenGroupAddModal }: Props) => {
     formState: { errors, isValid },
   } = formMethods;
 
-  const detailModal = useBookmarkAddDetailModal({ handleOpenGroupAddModal });
+  const detailModal = useBookmarkAddDetailModal({
+    handleOpenGroupAddModal,
+    onSubmit,
+  });
 
   const handleChangeOpen = (isOpen: boolean) => {
     setOpen(isOpen);

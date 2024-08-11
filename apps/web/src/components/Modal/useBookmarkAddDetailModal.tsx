@@ -37,7 +37,10 @@ const schema = z
   })
   .required();
 
-const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }: any) => {
+const useBookmarkAddDetailModal = ({
+  handleOpenGroupAddModal,
+  onSubmit,
+}: any) => {
   const [linkDto, setLinkDto] = useAtom(LinkModalAtom);
   const { groups } = useAPIGroup();
 
@@ -103,13 +106,18 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }: any) => {
     const isModify = !!linkDto?.linkId;
     try {
       if (isModify) {
-        await executePatchLink({ ...linkDto, ...getValues() });
+        const link = await executePatchLink({ ...linkDto, ...getValues() });
+        onSubmit?.(link);
         message.success("링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!");
         handleModalClose();
         return;
       }
 
-      await executePostLink({ ...linkDto, ...getValues() }, imgRef.current);
+      const link = await executePostLink(
+        { ...linkDto, ...getValues() },
+        imgRef.current,
+      );
+      onSubmit?.(link);
       message.success("링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!");
       handleModalClose();
     } catch (e) {

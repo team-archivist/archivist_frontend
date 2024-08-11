@@ -29,11 +29,16 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
     groupAddModal.show();
   };
 
-  const bookmarkAddModal = useBookmarkAddModal({ handleOpenGroupAddModal });
-
-  const { links, hasLink } = useArcaveLink({
+  const { links, hasLink, updateLink } = useArcaveLink({
     isUser: true,
     userId: currentUser?.userId ?? 0,
+  });
+
+  const bookmarkAddModal = useBookmarkAddModal({
+    handleOpenGroupAddModal,
+    onSubmit: () => {
+      updateLink();
+    },
   });
 
   const { groups } = useAPIGroup();
@@ -42,7 +47,9 @@ const ArcaveTabContent = ({ currentUser }: Props) => {
 
   const linkDetailModal = useBookmarkAddDetailModal({
     handleOpenGroupAddModal,
-    groupList: groups,
+    onSubmit: () => {
+      updateLink();
+    },
   });
 
   const findGroupName = (linkId) => {

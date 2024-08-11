@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import axiosInstance from "@arcave/services/requests";
 
@@ -15,6 +15,13 @@ type Props =
 const useArcaveLink = ({ isUser, userId, linkId }: Props) => {
   const [links, setLinks] = useState<any[]>();
 
+  const fetchLink = async () => {
+    const response = await axiosInstance.get(
+      isUser ? `/api/user/link/${userId}` : `/api/link/${linkId}`,
+    );
+    setLinks(response.data);
+  };
+
   useEffect(() => {
     if (!userId) {
       return;
@@ -23,12 +30,15 @@ const useArcaveLink = ({ isUser, userId, linkId }: Props) => {
     // const token = getCookie(USER_CONSTANTS.STORAGE_SAVE_KEY.USER_TOKEN);
     // const AuthorizationToken = `Bearer ${token}`;
 
-    const fetchLink = async () => {
-      const response = await axiosInstance.get(
-        isUser ? `/api/user/link/${userId}` : `/api/link/${linkId}`,
-      );
-      setLinks(response.data);
-    };
+    fetchLink();
+  }, [userId]);
+
+  const updateLink = useCallback(() => {
+    setLinks([]);
+
+    if (!userId) {
+      return;
+    }
 
     fetchLink();
   }, [userId]);
@@ -36,6 +46,7 @@ const useArcaveLink = ({ isUser, userId, linkId }: Props) => {
   return {
     links,
     hasLink: !!links && links.length > 0,
+    updateLink,
   };
 };
 
