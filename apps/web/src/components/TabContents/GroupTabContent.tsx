@@ -11,17 +11,18 @@ import { SemanticColor } from "@arcave/utils/color";
 import { Typography } from "@arcave/utils/typography";
 
 import useGroupAddModal from "../Modal/useGroupAddModal";
+import { Fragment } from "react";
 
 type Props = {};
 
-const GroupTabContent = ({ currentUser }: Props) => {
+const GroupTabContent = ({}: Props) => {
   const groupAddModal = useGroupAddModal();
   const { groups } = useAPIGroup();
 
   const hasGroups = groups?.length > 0;
   return (
     <>
-      <HStack width="100%" justify={"space-between"} className="my-5">
+      <div className="w-full flex flex-row my-5 justify-between">
         <div
           css={css`
             ${Typography.Title2[17].Regular}
@@ -37,13 +38,12 @@ const GroupTabContent = ({ currentUser }: Props) => {
           </Text>
           개의 그룹
         </div>
-        <Button size={"2"} className="w-fit" onClick={groupAddModal.show}>
+        <Button size={"small"} className="w-fit" onClick={groupAddModal.show}>
           그룹 추가하기 {<PlusIcon />}
         </Button>
-      </HStack>
+      </div>
       {hasGroups ? (
         <HStack
-          gap={"5"}
           className={"flex-wrap"}
           css={css`
             width: 1224px;
@@ -83,12 +83,7 @@ const GroupTabContent = ({ currentUser }: Props) => {
           )}
         </HStack>
       ) : (
-        <VStack
-          width={"100%"}
-          align={"center"}
-          justify={"center"}
-          className="h-60"
-        >
+        <div className="w-full flex flex-col items-center justify-center h-60">
           <Text
             css={css`
               ${Typography.Title1[20].Regular}
@@ -98,7 +93,7 @@ const GroupTabContent = ({ currentUser }: Props) => {
             그룹이 없습니다. <br />
             우측 버튼을 눌러서 추가하세요
           </Text>
-        </VStack>
+        </div>
       )}
       {groupAddModal.render()}
     </>

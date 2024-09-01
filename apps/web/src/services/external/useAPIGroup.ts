@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../requests";
 
 const useAPIGroup = () => {
-  const [groups, setGroups] = useState();
+  const [groups, setGroups] = useState<any[]>([]);
 
   useEffect(() => {
     (async () => {
