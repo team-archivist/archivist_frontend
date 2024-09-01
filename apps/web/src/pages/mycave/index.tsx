@@ -2,13 +2,10 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Avatar, Flex, Heading, Tabs } from "@radix-ui/themes";
 import { useAtom } from "jotai";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 
-import ARCAVE_LOGO from "@arcave/assets/icons/logo_white.svg";
 import Chip from "@arcave/components/Chip";
-import Button from "@arcave/components/common/Button/Button";
 import ACSkeleton from "@arcave/components/common/Skeleton";
 import HStack from "@arcave/components/common/Stack/HStack";
 import VStack from "@arcave/components/common/Stack/VStack";

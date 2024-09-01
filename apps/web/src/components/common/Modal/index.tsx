@@ -41,10 +41,13 @@ const ACModal = ({
       open={open}
       onCancel={onCancel}
       footer={null}
-      bodyStyle={{ padding: "0" }}
       centered
       closable={false}
       destroyOnClose
+      styles={{
+        body: { padding: 0 },
+        content: { padding: "24px" },
+      }}
     >
       <VStack spacing={24}>
         <span css={modalTitle}>{title}</span>
@@ -52,6 +55,7 @@ const ACModal = ({
         <HStack spacing={8} justify="end">
           {onCancel && (
             <Button
+              className="!text-base !font-normal !px-6 !py-3 !flex !flex-row !items-center !justify-center !h-auto !rounded-full !text-text-normal"
               onClick={onCancel}
               backgroundColor={PaletteColor.Gray[200]}
               {...cancelButtonProps}
@@ -60,7 +64,11 @@ const ACModal = ({
             </Button>
           )}
           {onOk && (
-            <Button onClick={onOk} {...okButtonProps}>
+            <Button
+              className="!text-base !font-normal !px-6 !py-3 !flex !flex-row !items-center !justify-center !h-auto !rounded-full"
+              onClick={onOk}
+              {...okButtonProps}
+            >
               {okText}
             </Button>
           )}

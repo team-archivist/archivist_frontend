@@ -13,7 +13,13 @@ export default async function handler(
 
   const { linkUrl } = req.body;
 
-  const { data } = await axios.get(linkUrl);
+  let data = "";
+  try {
+    const { data: htmlData } = await axios.get(linkUrl);
+    data = htmlData;
+  } catch (error) {
+    data = "";
+  }
 
   const $ = cheerio.load(data);
 

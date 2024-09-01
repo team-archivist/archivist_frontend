@@ -54,9 +54,11 @@ const useAPILink = ({
       formData.append("linkImgFile", fileImageBlob);
     }
 
-    const response = await axiosInstance.post(`/api/link`, formData, {
+    const { data } = await axiosInstance.post(`/api/link`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+
+    return data;
   };
 
   const executePatch = async (patchableLinkDto) => {

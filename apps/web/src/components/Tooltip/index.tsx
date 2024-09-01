@@ -5,11 +5,12 @@ import { PropsWithChildren } from "react";
 type Props = PropsWithChildren<{
   text: string;
   placement: TooltipProps["placement"];
+  open?: boolean;
 }>;
 
-const Tooltip = ({ text, children, placement }: Props) => {
+const Tooltip = ({ text, children, placement, open }: Props) => {
   return (
-    <AntdTooltip placement={placement} title={text} arrow>
+    <AntdTooltip placement={placement} title={text} arrow open={open}>
       {children}
     </AntdTooltip>
   );

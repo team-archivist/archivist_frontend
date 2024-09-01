@@ -23,7 +23,7 @@ import useUploadImage from "./common/useUploadImage";
 import Input from "../common/Input";
 import ACSkeleton from "../common/Skeleton";
 import TextArea from "../common/TextArea";
-import { GROUP_VALUE } from "../Select/types";
+import useAPIGroup from "@arcave/services/external/useAPIGroup";
 
 const schema = z
   .object({
@@ -37,8 +37,12 @@ const schema = z
   })
   .required();
 
-const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
+const useBookmarkAddDetailModal = ({
+  handleOpenGroupAddModal,
+  onSubmit,
+}: any) => {
   const [linkDto, setLinkDto] = useAtom(LinkModalAtom);
+  const { groups } = useAPIGroup();
 
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -102,13 +106,18 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
     const isModify = !!linkDto?.linkId;
     try {
       if (isModify) {
-        await executePatchLink({ ...linkDto, ...getValues() });
+        const link = await executePatchLink({ ...linkDto, ...getValues() });
+        onSubmit?.(link);
         message.success("링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!");
         handleModalClose();
         return;
       }
 
-      await executePostLink({ ...linkDto, ...getValues() }, imgRef.current);
+      const link = await executePostLink(
+        { ...linkDto, ...getValues() },
+        imgRef.current,
+      );
+      onSubmit?.(link);
       message.success("링크를 케이브에 담았습니다! 다른 취향도 찾아보세요!");
       handleModalClose();
     } catch (e) {
@@ -132,7 +141,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         linkDesc,
         linkUrl,
         // TODO: groupList가 복수로 내려오는 경우 처리 여부 결정 필요
-        groupId: groupList?.[0] ?? GROUP_VALUE.DEFAULT,
+        groupId: groupList?.[0],
         // TODO: 이미지영역 오류 체크 필요.
         ...(imgUrl
           ? { imgUrl: `${process.env.NEXT_PUBLIC_IMAGE_HOST}${imgUrl}` }
@@ -157,7 +166,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
       if (mode === "MODIFY") {
         setValue("linkName", linkDto?.linkName, { shouldValidate: true });
         setValue("linkDesc", linkDto?.linkDesc, { shouldValidate: true });
-        if (linkDto.imgUrl) {
+        if (linkDto?.imgUrl) {
           handleChangePreviewImageUrl(linkDto.imgUrl);
         }
         setIsLoading(false);
@@ -174,7 +183,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
             ...linkDto,
             linkName: title,
             linkDesc: ogDescription,
-            groupId: GROUP_VALUE.DEFAULT,
+            groupId: groups?.[0]?.groupId,
           });
           setValue("linkName", title, { shouldValidate: true });
           setValue("linkDesc", ogDescription, { shouldValidate: true });
@@ -189,7 +198,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         }
       }
     })();
-  }, [mode, linkDto?.linkUrl]);
+  }, [mode, linkDto?.linkUrl, groups]);
 
   return {
     show: handleShow,
@@ -211,9 +220,10 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
         ) : (
           <FormProvider {...formMethods}>
             <form>
-              <VStack spacing={8}>
+              <VStack spacing={24}>
                 {previewImageUrl ? (
                   <img
+                    className="w-full h-auto aspect-[3/2] rounded-[8px] object-cover cursor-pointer"
                     ref={imgRef}
                     src={previewImageUrl}
                     onClick={handleClickUploadPanel}
@@ -221,8 +231,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                   />
                 ) : (
                   <Box
-                    width={"100%"}
-                    className="h-52 rounded-lg"
+                    className="w-full h-auto aspect-[3/2] rounded-[8px] object-cover cursor-pointer"
                     css={css`
                       background-color: ${PaletteColor.Gray[300]};
                       :hover {
@@ -241,19 +250,12 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                   onChange={handleChangeFileInput}
                 />
                 <VStack spacing={16}>
-                  <VStack>
+                  <VStack spacing={8}>
                     <HStack spacing={12} justify="space-between">
                       <label css={Typography.Label2[14].Regular}>그룹</label>
-                      <Text
-                        onClick={handleClickAddGroup}
-                        css={css`
-                          cursor: pointer;
-                        `}
-                      >
-                        그룹 추가하기 {">"}
-                      </Text>
                     </HStack>
                     <Select // FIXME: rhf으로 전환 예정
+                      value={`${linkDto?.groupId}`}
                       onChange={(value: string): void => {
                         setLinkDto((prevLinkDto) => ({
                           ...prevLinkDto,
@@ -262,8 +264,13 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       }}
                     />
                   </VStack>
-                  <VStack spacing={12}>
-                    <label css={Typography.Label2[14].Regular}>링크 이름</label>
+                  <VStack spacing={8}>
+                    <label css={Typography.Label2[14].Regular}>
+                      <span className="text-accent-red text-[14px] font-normal mr-[2px]">
+                        *
+                      </span>
+                      링크 이름
+                    </label>
                     {/* linkDto.linkName */}
                     <Input
                       size="large"
@@ -281,7 +288,7 @@ const useBookmarkAddDetailModal = ({ handleOpenGroupAddModal }) => {
                       </Text>
                     )}
                   </VStack>
-                  <VStack spacing={12}>
+                  <VStack spacing={8}>
                     <label css={Typography.Label2[14].Regular}>링크 설명</label>
                     {/* linkDto.linkDesc */}
                     <TextArea

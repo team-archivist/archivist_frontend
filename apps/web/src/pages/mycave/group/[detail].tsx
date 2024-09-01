@@ -58,7 +58,10 @@ const UserGroupDetailPage = () => {
 
   const groupAddModal = useGroupAddModal();
   const handleOpenGroupAddModal = () => {};
-  const bookmarkAddModal = useBookmarkAddModal({ handleOpenGroupAddModal });
+  const bookmarkAddModal = useBookmarkAddModal({
+    handleOpenGroupAddModal,
+    onSubmit: () => {},
+  });
 
   useEffect(() => {
     if (!currentPathname || !group) {
